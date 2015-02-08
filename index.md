@@ -1,7 +1,7 @@
 ---
 layout: archive
 permalink: /
-title: "루키 개발자의 블로그"
+title: "Rookie Blog"
 ---
 
 <div class="tiles">
