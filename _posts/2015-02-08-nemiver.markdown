@@ -1,0 +1,59 @@
+---
+layout: post
+title:  "nemiver에 모듈추가"
+date:   2015-02-08 15:52:13
+image: 
+  teaser: nemiver.jpg
+categories: book
+---
+<img src="https://farm9.staticflickr.com/8679/15535277554_d320f6692c_c.jpg">
+
+
+## nemiver를 사용하게 된 계기
+
+제가 학교에서 졸업프로젝트로 만들어 봤던 그래픽 디버거가 있습니다.
+
+초기 기획에서는 실제 컴파일러까지 만들어 보는 것이었지만 시작한 이후에는 1년안에는 불가능한 것을 알게 됬습니다.
+
+그래서 실제 사용되는 소프트웨어에서 저희가 만들고 싶었던 그래픽적인 부분을 추가하는 형식으로 만들게 되었습니다.
+
+그리고 여러 후보군들 중에 nemiver를 사용하여 그래픽 디버거를 만들게 되었습니다.
+
+
+## nemiver에 대한 간단한 설명
+
+nemiver는 linux의 Gnome기반의 오픈소스 프로그램으로 gdb를 그래픽적으로 보여주는 툴이라고 생각하시면 됩니다.
+
+실제로 nemiver는 내부적으로 gdb를 사용하고 그 결과들을 읽어서 그래픽으로 보여주는 형태로 동작합니다.
+
+nemiver는 signal과 그 signal이 발생했을 때 정해진 함수를 호출하게 하는 connect함수를 사용하여 그래픽 환경을 만들어 줍니다.
+
+먼저 signal이 호출되면 workbench의 queue로 들어가게 됩니다.
+
+workbench에서는 signal들을 직렬화 시켜서 순서대로 연관된 모듈을 동작시킵니다.
+
+
+## nemiver 모듈 추가 과정
+
+<figure class="half">
+	<img src="//kbs0327.github.io/blog/images/nemiver_prototype.jpg">
+</figure>
+
+위의 그림이 제가 처음 시작했던 프로젝트의 프로토타입이었습니다.
+
+제가 필요한 것은 현재 어떤 지점을 향하고 있고, 그 때까지 어떤 함수가 호출이 되었는지를 아는 것이었습니다.
+
+그래서 코드가 한줄이 시작될 때마다 제 모듈을 호출하게 만들었고
+
+제가 만든 모듈은 그 때까지 함수의 정보와 매개변수 등을 기록하고 그것을 보여주는 형태로 만들었습니다.
+
+<figure class="half">
+	<img src="//kbs0327.github.io/blog/images/nemiver_complete.jpg">
+</figure>
+
+이런 형태로 완성이 되었습니다.
+ 
+
+## 참고자료
+네마이버 공식 홈페이지 <a href="https://wiki.gnome.org/Apps/Nemiver">https://wiki.gnome.org/Apps/Nemiver</a>
+GNOME 공식 홈페이지 <a href="http://www.gnome.org/">http://www.gnome.org/</a>
