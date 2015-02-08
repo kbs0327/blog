@@ -2,7 +2,8 @@
 layout: post
 title:  "토비의 스프링 프레임워크 독파"
 date:   2015-02-08 15:52:13
-teaser: toby.jpg
+image: 
+  teaser: toby.jpg
 categories: book
 ---
 <img src="http://toby.epril.com/tobyimage/tobyspring31-2-c.jpg">
