@@ -1,7 +1,7 @@
 ---
 layout: archive
 permalink: /
-title: "Latest Posts"
+title: "루키 개발자의 블로그"
 ---
 
 <div class="tiles">
