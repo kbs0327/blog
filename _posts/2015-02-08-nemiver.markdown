@@ -55,5 +55,5 @@ workbench에서는 signal들을 직렬화 시켜서 순서대로 연관된 모�
  
 
 ## 참고자료
-네마이버 공식 홈페이지 <a href="https://wiki.gnome.org/Apps/Nemiver">https://wiki.gnome.org/Apps/Nemiver</a>
+네마이버 공식 홈페이지 <a href="https://wiki.gnome.org/Apps/Nemiver">https://wiki.gnome.org/Apps/Nemiver</a><br>
 GNOME 공식 홈페이지 <a href="http://www.gnome.org/">http://www.gnome.org/</a>
