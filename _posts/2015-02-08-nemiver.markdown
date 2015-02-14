@@ -4,7 +4,7 @@ title:  "nemiver에 모듈추가"
 date:   2015-02-08 15:52:13
 image: 
   teaser: nemiver.jpg
-categories: book
+categories: technology
 ---
 <img src="https://farm9.staticflickr.com/8679/15535277554_d320f6692c_c.jpg">
 
