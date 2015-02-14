@@ -241,7 +241,7 @@ The method ddd() is undefined for the type InheritingingInterface
 ```
   
 **결론**  
-** * static method의 경우 상속이나 구현을 해도 method를 호출하기 위해서는 '해당 클래스.method' 형태로 호출해야 합니다.**  
+* **static method의 경우 상속이나 구현을 해도 method를 호출하기 위해서는 '해당 클래스.method' 형태로 호출해야 합니다.**  
   
 ### default method는 상속의 상속시에도 사용할 수 있을까?  
 
@@ -320,7 +320,7 @@ public class ImplementingInheritingingInterfaceTest {
 이 테스트도 성공합니다.  
   
 **결론**  
-** * 실험1과 실험2 결과 default method를 구현한 interface의 자식들은 모두 이 default method를 사용할 수 있다는 것을 알 수 있습니다.**  
+* **실험1과 실험2 결과 default method를 구현한 interface의 자식들은 모두 이 default method를 사용할 수 있다는 것을 알 수 있습니다.**  
 
 **이미지 출처**  
 [http://techidiocy.com/metaspace-java8/](http://techidiocy.com/metaspace-java8/)  
