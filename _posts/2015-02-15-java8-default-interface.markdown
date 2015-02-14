@@ -23,7 +23,7 @@ public interface Interface {
 {% endhighlight %}
 하지만 JAVA8에서는 interface에 아래와 같이 method들을 정의하는 것이 가능해졌습니다.  
 바로 default method와 static method입니다.
-```java
+{% highlight java %}
 public interface Interface {
 	int aaa();
 	int bbb();
@@ -35,11 +35,11 @@ public interface Interface {
 		return 0;
 	}
 }
-```
+{% endhighlight %}
 이렇게 인터페이스에 기본적으로 적용이 되는 method들을 추가 시키는 것입니다.  
 이 default method는 3가지 방법으로 사용이 됩니다.   
 * 아무런 구현이 없이 인터페이스의 method를 사용하는 방법
-```java
+{% highlight java %}
 public class ImplementingClass implements Interface{
 	@Override
 	public int aaa() {
@@ -52,21 +52,21 @@ public class ImplementingClass implements Interface{
 		return b;
 	}
 }
-```
+{% endhighlight %}
 * default method가 선언된 interface를 상속받아서 다시 abstract method로 만드는 방법
-```java
+{% highlight java %}
 public interface InheritingingInterface extends Interface{
 	int ccc();
 }
-```
+{% endhighlight %}
 * default method가 선언된 interface를 상속받아서 default method를 override하는 방법
-```java
+{% highlight java %}
 public interface InheritingingInterface extends Interface{
 	default int ccc() {
 		return 2;
 	}
 }
-```  
+{% endhighlight %}
 
 **단, default method로 Object 클래스의 method를 override하는 것은 할 수 없습니다.**
   
@@ -90,7 +90,7 @@ default method는 interface가 그 동안 막아왔던 함수의 구현을 부�
   
 ####실험1 
 먼저 default method인 ccc를 상속받아서 override하는 2개의 interface를 만들었습니다.  
-```java
+{% highlight java %}
 public interface AInterface extends Interface {
 	default int ccc() {
 		return 1;
@@ -102,9 +102,9 @@ public interface BInterface extends Interface{
 		return 2;
 	}
 }
-```
+{% endhighlight %}
 그리고 그 둘을 구현하는 Diamond class를 만들었습니다.
-```java
+{% highlight java %}
 public class DiamondClass implements AInterface, BInterface {
 	@Override
 	public int aaa() {
@@ -116,14 +116,14 @@ public class DiamondClass implements AInterface, BInterface {
 		return 0;
 	}
 }
-```
+{% endhighlight %}
 그러자 이클립스에서 아래와 같은 에러를 보여줍니다.
-```
+{% highlight java %}
 Duplicate default methods named ccc with the parameters () and () are inherited from the types BInterface and AInterface
-```
+{% endhighlight %}
 ####실험2
 다음으로 AInterface만 ccc method를 구현해 보겠습니다.
-```java
+{% highlight java %}
 public interface Interface {
 	int aaa();
 	int bbb();
@@ -152,20 +152,20 @@ public class DiamondClassTest {
 		assertThat(diamondClass.ccc(), is(1));
 	}
 }
-```
+{% endhighlight %}
 결과는 실패로 나왔고 ccc() method의 return값은 0이었습니다.  
 즉, AInterface의 override한 default method가 아니라 Interface의 default method를 호출한 것이었습니다.  
   
 ####실험3
 이번에는 상속 받는 순서를 바꾸고 테스트해보겠습니다.
-```java
+{% highlight java %}
 public class DiamondClass implements BInterface, AInterface
-```
+{% endhighlight %}
 그래도 똑같은 결과가 나옵니다.  
 
 ####실험4
 이번에는 AInterface와 BInterface에 아래와 같이 변경하고 테스트 해보겠습니다.  
-```java
+{% highlight java %}
 public interface AInterface {
 	default int ccc() {
 		return 1;
@@ -177,11 +177,11 @@ public interface BInterface {
 		return 2;
 	}
 }
-```
+{% endhighlight %}
 이번에도 아래와 같은 메세지가 나옵니다.
-```
+{% highlight java %}
 Duplicate default methods named ccc with the parameters () and () are inherited from the types AInterface and BInterface
-```
+{% endhighlight %}
   
 **결론**  
 **1. 실험1과 실험4로 보아 구현하는 interface에 같은 method의 형태가 있을 때는 에러가 발생**  
@@ -193,7 +193,7 @@ static method는 어떤 형태로 호출되는지에 대해서 확인해보겠�
   
 ####실험1
 static method를 구현한 클래스에서 그냥 호출해 보겠습니다.
-```java
+{% highlight java %}
 public interface Interface {
 	int aaa();
 	int bbb();
@@ -219,26 +219,26 @@ public class ImplementingClass implements Interface{
 		return b;
 	}
 }
-```
+{% endhighlight %}
 아래와 같이 에러메세지가 나옵니다.
-```
+{% highlight java %}
 The method ddd() is undefined for the type ImplementingClass
-```
+{% endhighlight %}
 즉, static method는 구현하는 클래스에서 method명만으로는 호출이 안됩니다.  
   
 ####실험2
 Interface를 상속받는 interface의 경우에는 static method가 호출이 되는지 확인해보겠습니다.
-```java
+{% highlight java %}
 public interface InheritingingInterface extends Interface{
 	default int ccc() {
 		ddd();
 	}
 }
-```
+{% endhighlight %}
 이것도 아래와 같이 에러메세지가 나옵니다.
-```
+{% highlight java %}
 The method ddd() is undefined for the type InheritingingInterface
-```
+{% endhighlight %}
   
 **결론**  
 * **static method의 경우 상속이나 구현을 해도 method를 호출하기 위해서는 '해당 클래스.method' 형태로 호출해야 합니다.**  
@@ -249,7 +249,7 @@ default method가 과연 상속의 상속을 받아도 사용할 수 있는지 �
   
 ####실험1
 default method가 있는 interface를 구현한 클래스를 상속받은 클래스에서 default method의 사용이 가능한지 실험해보겠습니다.  
-```java
+{% highlight java %}
 public interface Interface {
 	int aaa();
 	int bbb();
@@ -287,12 +287,12 @@ public class InheritingImplementingClassTest {
 		assertEquals(inheritingImplementingClass.ccc(), 1);
 	}
 }
-```
+{% endhighlight %}
 이 테스트는 성공합니다.
 
 ####실험2  
 이번에는 default method를 구현한 interface를 상속받은 interface를 구현한 클래스에서도 default method 호출이 가능한지 확인해 보겠습니다.
-```java
+{% highlight java %}
 public interface InheritingingInterface extends Interface{
 }
 
@@ -316,7 +316,7 @@ public class ImplementingInheritingingInterfaceTest {
 		assertEquals(implementingInheritingingInterface.ccc(), 1);
 	}
 }
-```
+{% endhighlight %}
 이 테스트도 성공합니다.  
   
 **결론**  
