@@ -15,12 +15,12 @@ categories: technology
 ## default interface 개요
   
  interface를 떠올려보면 아래와 같이 method의 구현은 없고 선언만 있는 모습을 떠올리기 쉽습니다.  
-```ruby
+{% highlight java %}
 public interface Interface {
 	int aaa();
 	int bbb();
 }
-```
+{% endhighlight %}
 하지만 JAVA8에서는 interface에 아래와 같이 method들을 정의하는 것이 가능해졌습니다.  
 바로 default method와 static method입니다.
 ```java
