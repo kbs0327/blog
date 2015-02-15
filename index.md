@@ -1,7 +1,7 @@
 ---
 layout: archive
 permalink: /
-title: "Rookie Blog"
+title: "Tech Blog"
 ---
 
 <div class="tiles">
