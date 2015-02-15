@@ -1,0 +1,7 @@
+nmv-pref-mgr.lo: /home/buseung/nemiver/src/workbench/nmv-pref-mgr.cc \
+ /usr/include/stdc-predef.h \
+ /home/buseung/nemiver/src/workbench/nmv-i-pref-mgr.h
+
+/usr/include/stdc-predef.h:
+
+/home/buseung/nemiver/src/workbench/nmv-i-pref-mgr.h:

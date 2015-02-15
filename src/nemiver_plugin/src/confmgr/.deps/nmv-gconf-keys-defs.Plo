@@ -1,0 +1,13 @@
+nmv-gconf-keys-defs.lo: \
+ /home/buseung/nemiver/src/confmgr/nmv-gconf-keys-defs.cc \
+ /usr/include/stdc-predef.h ../../config.h \
+ /home/buseung/nemiver/src/confmgr/nmv-conf-keys.h \
+ /home/buseung/nemiver/src/common/nmv-namespace.h
+
+/usr/include/stdc-predef.h:
+
+../../config.h:
+
+/home/buseung/nemiver/src/confmgr/nmv-conf-keys.h:
+
+/home/buseung/nemiver/src/common/nmv-namespace.h:

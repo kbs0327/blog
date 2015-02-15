@@ -1,0 +1,4 @@
+locals-in-middle.o: /home/buseung/nemiver/tests/locals-in-middle.cc \
+ /usr/include/stdc-predef.h
+
+/usr/include/stdc-predef.h:

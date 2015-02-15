@@ -1,0 +1,10 @@
+.
+src/common
+src/confmgr
+src/dbdimpl/sqlite
+src/dbgengine
+src/langs
+src/persp
+src/persp/dbgperspective
+src/uicommon
+src/workbench

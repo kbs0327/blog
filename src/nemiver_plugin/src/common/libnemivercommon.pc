@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=/usr/local
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/nemiver
+
+Name: libnemivercommon
+Description: Common infrastructure for the Nemiver debugger and library
+Version: 0.9.5
+Requires: libxml-2.0 >= 2.6.22, glibmm-2.4 >= 2.14, gnome-vfs-2.0 >= @LIBGNOMEVFS_VERSION@, gmodule-2.0 >= 2.14, gthread-2.0 >= 2.14, libgtop-2.0 >= 2.14
+Libs: -L${libdir} -lnemivercommon
+Cflags: -I${includedir}
