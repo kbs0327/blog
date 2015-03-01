@@ -6,8 +6,6 @@ image:
   teaser: keyboard.jpg
 categories: technology
 ---
-
-# 상속과 인터페이스 사용 예 
   
  이 글은 백창열 수석님의 코드리뷰를 바탕으로 정리한 내용입니다.  
 
