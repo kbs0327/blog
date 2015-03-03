@@ -72,6 +72,6 @@ categories: technology
 4. 유효한 값을 입력할 수 있도록 안내 텍스트를 미리 제공한다.  
 5. 세션 만료 시, 재 인증 후에도 이전 동작을 무리 없이 수행할 수 있게 한다.  
 
-## 참고자료
-주요 참고 [http://nuli.navercorp.com/sharing/a11y](널리 웹접근성의 이해)
- 웹접근성 정의 [http://wah.or.kr](한국정보화진흥원 연구소)
+## 참고자료  
+주요 참고 [http://nuli.navercorp.com/sharing/a11y](널리 웹접근성의 이해)  
+웹접근성 정의 [http://wah.or.kr](한국정보화진흥원 연구소)  
