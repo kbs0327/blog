@@ -15,7 +15,7 @@ categories: technology
 {% highlight java %}
 public class NoteDto {
 	...
-	String attachedFileName;
+	private String attachedFileName;
 	
 	private final String[] bannedFileExtentionList = {"exe"};
 	
@@ -35,7 +35,7 @@ public class NoteDto {
 
 public class CommentDto {
 	...
-	String attachedFileName;
+	private String attachedFileName;
 	
 	private final String[] bannedFileExtentionList = {"exe"};
 	
@@ -66,7 +66,7 @@ public class CommentDto extends FileDto {
 }
 
 public class FileDto {
-	String attachedFileName;
+	private String attachedFileName;
 	
 	private final String[] bannedFileExtentionList = {"exe"};
 	
@@ -129,7 +129,7 @@ public class CommentDto extends FileDto {
  이런경우에 많이 사용하는 것이 유틸리티 클래스입니다. 아래와 같이 유틸리티 클래스로 분리할 수 있습니다.
 {% highlight java %}
 public class NoteDto {
-	String attachedFileName;
+	private String attachedFileName;
 	
 	...
 
@@ -147,7 +147,7 @@ public class NoteDto {
 }
 
 public class CommentDto {
-	String attachedFileName;
+	private String attachedFileName;
 	
 	...
 
@@ -193,7 +193,7 @@ public class FileUtil {
  위의 코드를 인터페이스를 사용해 중복을 없애보겠습니다.
 {% highlight java %}
 public class NoteDto implements File {
-	String fileName;
+	private String fileName;
 	
 	...
 
@@ -214,7 +214,7 @@ public class NoteDto implements File {
 }
 
 public class CommentDto implements File {
-	String fileName;
+	private String fileName;
 	
 	...
 
@@ -250,11 +250,74 @@ public class FileUtil {
 	
 	...
 }
-{% endhighlight %}
+{% endhighlight %}  
 이렇게 해서 리팩토링을 끝냈습니다.
 위와 같은 방식으로 프로그램을 만들면 아래와 같은 장점이 있습니다.  
 1. 코드 중복의 최소화  
 2. 이해하기 쉬운 코드 작성  
+
+ - 추가의견(백창열 수석님)  
+ 여기서 File에 해당하는 부분을 클래스화 시켜서 Dto의 멤버변수로 만드는 방법을 제시해 주셨습니다.  
+이 내용을 코드로 적용시키면 아래와 같습니다.  
+{% highlight java %}
+public class NoteDto {
+	private FileDto attachedFile;
+	...
+	public String getFileName() {
+		return attachedFile.getFileName();
+	}
+
+	public void setFileName(String fileName) {
+		attachedFile.setFileName(fileName);
+	}
+	
+	public boolean isValidFileName() {
+		return attachedFile.isValidFileName();
+	}
+	...
+}
+
+public class CommentDto {
+	private FileDto attachedFile;
+	...
+	public String getFileName() {
+		return attachedFile.getFileName();
+	}
+
+	public void setFileName(String fileName) {
+		attachedFile.setFileName(fileName);
+	}
+	
+	public boolean isValidFileName() {
+		return attachedFile.isValidFileName();
+	}
+	...
+}
+
+public class FileDto {
+	private String fileName;
+	
+	private final String[] bannedFileExtentionList = {"exe"};
+	...
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	
+	public boolean isValidFileName() {
+		return fileName!= null && !hasBannedFileExtention();
+	}
+	...
+}
+{% endhighlight %}  
+  
+이렇게 멤버변수로 적용하였을 때에 기존 소스와의 차이점은 다음과 같습니다.
+  
+- File과 관련된 내용이 FileDto 클래스에 모두 들어가서 논리적응집력이 높아집니다.  
+- util클래스에서 isValidFileName 메소드를 사용할 때 fileName을 전달해 줘야했는데 더이상 넘겨줄 필요가 없습니다.  
 
 **이미지 출처**  
 [http://www.freestockphotos.biz/stockphoto/1770](http://www.freestockphotos.biz/stockphoto/1770)  
