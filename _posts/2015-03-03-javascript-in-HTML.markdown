@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "HTML속의 자바스크립트"
-date:   2015-03-04 11:30:13
+date:   2015-03-04 13:41:13
 image: 
   teaser: javascript_book.jpg
 categories: book
