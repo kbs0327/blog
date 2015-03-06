@@ -884,16 +884,21 @@ SubType.prototype.constructor = Subtype;
 SubType.prototype.sayAge = function() {
   console.log(this.age);
 };
+{% endhighlight %}
 
-// 위를 수정하기 위한 함수
+
+ - 위를 수정하기 위한 함수
+{% highlight js %}
 function inheritPrototype(subType, superType) {
   var prototype = object(superType.prototype);    // 객체 생성
   prototype.constructor = subType;                // 객체 확장
   prototype.super = superType.prototype;          // super 프로퍼티를 통하여 super type의 메서드를 명시적으로 호출가능
   subType.prototype = prototype;                  // 객체 할당
 }
+{% endhighlight %}
 
-// 적용
+ - 적용
+{% highlight js %}
 function SuperType(name) {
   this.name = name;
   this.colors = ["red", "blue", "green"];
@@ -914,7 +919,12 @@ inheritPrototype(SubType, SuperType);
 SubType.prototype.sayAge = function() {
   console.log(this.age);
 };
+
+var instance = new SubType("김부승", 27);
 {% endhighlight %}
+
+이해를 위해서 위의 메서드를 호출할시에 생성되는 객체 그래프 입니다.
+<img src="http://kbs0327.github.io/blog/images/javascript_ingeritance.jpg">
 
 ##참고자료  
 Nicholas C. Zakas. (2013). 프론트엔드 개발자를 위한 자바스크립트 프로그래밍, (한선용 옮김). 인사이트
