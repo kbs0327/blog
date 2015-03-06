@@ -924,7 +924,7 @@ var instance = new SubType("김부승", 27);
 {% endhighlight %}
 
 이해를 위해서 위의 메서드를 호출할시에 생성되는 객체 그래프 입니다.
-<img src="http://kbs0327.github.io/blog/images/javascript_ingeritance.jpg">
+<img src="http://kbs0327.github.io/blog/images/javascript_inheritance.jpg">
 
 ##참고자료  
 Nicholas C. Zakas. (2013). 프론트엔드 개발자를 위한 자바스크립트 프로그래밍, (한선용 옮김). 인사이트
