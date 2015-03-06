@@ -188,7 +188,7 @@ alert(typeof descriptor.get);       // function
 ## 객체 생성
 
 ### 팩토리 패턴  
-목적: Object생성시 중복된 코드를 줄이기
+목적: Object생성시 중복된 코드를 줄이기  
 방법: 객체 생성과정을 추상화
 
 {% highlight js %}
@@ -210,7 +210,7 @@ var person2 = createPerson("Greg", 27, "Doctor");
 문제점: 생성한 객체가 어떤 타입인지 알 수 없다는 문제점이 있음
 
 ### 생성자 패턴
-목적: 위의 문제점을 해결
+목적: 위의 문제점을 해결  
 방법: 커스텀 생성자를 만들어서 원하는 타입의 객체에 필요한 프로퍼티와 메서드 정의
 {% highlight js %}
 function Person(name, age, job) {
@@ -291,7 +291,7 @@ alert(person1.sayName == person2.sayName); // true
 우회방법의 문제점: 일부 객체에서만 쓰는 함수를 전역에 놓음으로써 전역 스코프를 어지럽힘  
 
 ## 프로토타입 패턴
-목적: 위의 문제점 해결
+목적: 위의 문제점 해결  
 방법: 모든 함수에서 가지고 있는 prototype 프로퍼티 사용
 
 {% highlight js %}
@@ -323,18 +323,18 @@ alert(Object.getPrototypeOf(person1).name); // Nicholas
 
 ### 프로토타입 동작  
 
-모든 프로토타입은 자동으로 constructor 프로퍼티를 가짐 - 소속된 함수를 가리킴
-커스텀 생성자를 호출하여 인스턴스를 만들면 인스턴스 내부에 [[prototype]] 포인터가 생성됩니다.
-[[prototype]]에 접근하는 표준은 없지만 파이어폭스, 사파리, 크롬에서는 __proto__라는 프로퍼티를 지원합니다.
-검색을 할 때 객체 인스턴스에서 찾지못하면 프로토타입에서 검색합니다.
+모든 프로토타입은 자동으로 constructor 프로퍼티를 가짐 - 소속된 함수를 가리킴  
+커스텀 생성자를 호출하여 인스턴스를 만들면 인스턴스 내부에 [[prototype]] 포인터가 생성됩니다.  
+[[prototype]]에 접근하는 표준은 없지만 파이어폭스, 사파리, 크롬에서는 __proto__라는 프로퍼티를 지원합니다.  
+검색을 할 때 객체 인스턴스에서 찾지못하면 프로토타입에서 검색합니다.  
 즉, 생성자로 만들어진 객체들은 같은 prototype을 공유하고, 프로퍼티와 메서드를 공유합니다.  
 
 소개되는 메서드들  
 hasOwnProperty: 프로퍼티가 어디에 존재하는지 확인  
-in 연산자: for in구문이 아닌 자체 in이 사용되면 인스턴스에 존재하든 프로토타입에 존재하든 모두 true를 반환합니다.
-- in 연산자의 경우 스코프 체인을 따라가면서 프로퍼티가 존재하는지 확인
-- 인스턴스에서 프로토타입에 [[Enumerable]] 속성이 false인 프로퍼티를 덮어쓰면 in 루프에서 찾을 수 있습니다.(IE8 이전에서는 버그)
-hasPrototype: 책에서 소개된 이 메서드는 object의 인스턴스 혹은 메서드의 caller에 따라서 다르게 동작할 수 있습니다.(일반적이지 않음)
+in 연산자: for in구문이 아닌 자체 in이 사용되면 인스턴스에 존재하든 프로토타입에 존재하든 모두 true를 반환합니다.  
+- in 연산자의 경우 스코프 체인을 따라가면서 프로퍼티가 존재하는지 확인  
+- 인스턴스에서 프로토타입에 [[Enumerable]] 속성이 false인 프로퍼티를 덮어쓰면 in 루프에서 찾을 수 있습니다.(IE8 이전에서는 버그)  
+hasPrototype: 책에서 소개된 이 메서드는 object의 인스턴스 혹은 메서드의 caller에 따라서 다르게 동작할 수 있습니다.(일반적이지 않음)  
 
 {% highlight js %}
 function Person() {
@@ -527,9 +527,9 @@ alert(person2.friends); // Shelby,Court,Van
 alert(person1.friends === person2.friends); // true
 {% endhighlight %}
 
-### 생성자 패턴과 프로토타임 패턴의 조합
-목적: 프로토타입의 공유문제점 해결
-방법: 프로토타입에는 공유하는 프로퍼티만 넣고 그 외는 생성자에 넣습니다.
+### 생성자 패턴과 프로토타임 패턴의 조합  
+목적: 프로토타입의 공유문제점 해결  
+방법: 프로토타입에는 공유하는 프로퍼티만 넣고 그 외는 생성자에 넣습니다.  
 
 {% highlight js %}
 function Person() {
@@ -566,7 +566,7 @@ alert(person1.sayName === person2.sayName); // true
 {% endhighlight %}
 
 ### 기생 생성자 패턴
-목적: 다른 패턴이 실패할 때 폴백으로 사용하는 패턴
+목적: 다른 패턴이 실패할 때 폴백으로 사용하는 패턴  
 방법: Wrapper function을 만듬
 
 {% highlight js %}
@@ -604,7 +604,7 @@ alert(colors.toPipedString()); // red|blue|green
 {% endhighlight %}
 
 ### 방탄 생성자 패턴
-목적: 공용프로퍼티가 없고 메서드가 this를 참조하지 않는 객체(durable 객체)를 만드는 생성자
+목적: 공용프로퍼티가 없고 메서드가 this를 참조하지 않는 객체(durable 객체)를 만드는 생성자  
 방법: 클로저를 사용하며 생성자를 호출시에 new로 호출하지 않습니다.
 
 {% highlight js %}
@@ -625,7 +625,7 @@ friend.sayName(); // Nicholas
 ## 상속
 
 ### 프로토타입 체인
-목적: 객체를 상속하기 위해 사용
+목적: 객체를 상속하기 위해 사용  
 방법: prototype에 supertype의 객체를 생성
 
 {% highlight js %}
@@ -698,7 +698,7 @@ alert(instance2.colors); // red,blue,green,black
 {% endhighlight %}
 
 ### 생성자 훔치기
-목적: 위의 문제점을 해결함
+목적: 위의 문제점을 해결함  
 방법: 생성자를 SubType생성자에서 호출함(this변경)
 
 {% highlight js %}
@@ -737,7 +737,7 @@ alert(instance.age); // 29
 문제: 함수 재사용이 불가능해짐
 
 ### 조합상속
-목적: 함수도 재사용함
+목적: 함수도 재사용함  
 방법: 생성자 훔치기 패턴과 프로토타입 체인 패턴의 장점 취함
 {% highlight js %}
 function SuperType(name) {
