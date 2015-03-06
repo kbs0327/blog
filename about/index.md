@@ -12,5 +12,5 @@ share: false
 ads: false
 ---
 
-이름: 김부승
-소속: NHN Entertaintment
+이름: 김부승  
+소속: NHN Entertaintment  
