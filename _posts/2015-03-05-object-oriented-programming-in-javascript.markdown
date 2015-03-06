@@ -923,7 +923,7 @@ SubType.prototype.sayAge = function() {
 var instance = new SubType("김부승", 27);
 {% endhighlight %}
 
-이해를 위해서 위의 메서드를 호출할시에 생성되는 객체 그래프 입니다.
+이해를 위해서 위의 메서드를 호출할시에 생성되는 객체 그래프 입니다.  
 <img src="http://kbs0327.github.io/blog/images/javascript_inheritance.jpg">
 
 ##참고자료  
