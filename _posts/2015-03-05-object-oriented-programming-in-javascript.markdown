@@ -44,45 +44,53 @@ var person = {
 {% endhighlight %}  
 이 예제에서의 메서드도 객체의 프로퍼티 중 일부입니다.  
 
-### 프로퍼티 타입  
-ECMA-262 5판에서는 프로퍼티의 특징을 내부적으로만 유효한 속성에 따라 설명합니다. 이를 기본 프로퍼티라고 부릅니다.  
-기본 프로퍼티의 속성을 변경하려면 ECMAScript5판의 Object.defineProperty() 메서드를 사용해야합니다.  
-이 메소드의 기본값은 false이므로 주의하여 사용해야 합니다.
+### 프로퍼티 속성
+ECMA-262 5판에서는 프로퍼티의 특징을 내부적으로만 유효한 속성에 따라 설명합니다.  
+이를 기본 프로퍼티라고 부르고 [[Enumberable]]처럼 대괄호 두개로 감쌉니다.  
 
+**사용되는 메서드**  
+- ECMAScript5판 Object.defineProperty(): 기본 프로퍼티의 속성을 변경함  
+이 메소드의 기본값은 false이므로 주의하여 사용해야 합니다.  
+
+ - 기본 프로퍼티 변경
 {% highlight js %}
-// 기본 프로퍼티 변경
 var person = {};
 Object.defineProperty(person, // 프로퍼티 추가 혹은 수정할 객체
   "name",                     // 프로퍼티 이름
   {                           // 서술자
-  Writable: false,            // 사실상 [[Configurable]]도 false가 됨
+  Writable: false,            // 기본값이 false여서, [[Configurable]]도 false가 됨
   value: "Nicholas"
   });
 
-  console.log(person.name); // Nicholas
-  person.name = "Greg";
-  console.log(person.name); // Nicholas
-  // [[Writable]]이 false이면 무시됨. 단, strict모드에서는 에러
+console.log(person.name);   // Nicholas
+person.name = "Greg";
+console.log(person.name);   // Nicholas
+{% endhighlight %}
+[[Writable]]이 false이면 무시됨. 단, strict모드에서는 에러  
 
-// [[Configurable]] 속성이 false일 때
+ - [[Configurable]] 속성이 false일 때
+{% highlight js %}
 var person = {};
-Object.defineProperty(person, // 프로퍼티 추가 혹은 수정할 객체
-  "name",                     // 프로퍼티 이름
-  {                           // 서술자
+Object.defineProperty(person,
+  "name",
+  {
   Configurable: false,
   value: "Nicholas"
   });
 
-  console.log(person.name); // Nicholas
-  delete person.name;
-  console.log(person.name); // Nicholas
-  // [[Configurable]]이 false이면 delete도 무시됨. 단, strict 모드에서는 에러.
+console.log(person.name); // Nicholas
+delete person.name;
+console.log(person.name); // Nicholas
+{% endhighlight %}
+[[Configurable]]이 false이면 delete도 무시됨. 단, strict 모드에서는 에러.  
+[[Configurable]]이 false이면 [[Writable]]만 수정가능.  
 
-// [[Configurable]]이 false이면 [[Writable]]만 수정가능.
+ - [[Configurable]]이 false일 때 Ver.2
+{% highlight js %}
 var person = {};
-Object.defineProperty(person, // 프로퍼티 추가 혹은 수정할 객체
-  "name",                     // 프로퍼티 이름
-  {                           // 서술자
+Object.defineProperty(person,
+  "name",
+  {
   Configurable: false,
   value: "Nicholas"
   });
@@ -110,8 +118,8 @@ Object.defineProperty(person,
 - [[Get]] - 프로퍼티를 읽을 때 호출하는 메서드
 - [[Set]] - 프로퍼티를 바꿀 때 호출하는 메서드
 
+ - Object.defineProperty로 getter, setter 수정
 {% highlight js %}
-//Object.defineProperty로 수정
 var book = {
   _year: 2004, // _가 앞에 있으면 객체 메서드를 통해서만 접근할 것이라는 의도를 나타내는 표기법
   edition: 1
@@ -131,8 +139,11 @@ Object.defineProperty(book,
 
 book.year = 2005;
 console.log(book.edition); // 2
+{% endhighlight %}
 
-// 5판 이전의 비표준 메서드 __defineGetter__(), __defineSetter__() 사용
+**사용되는 메서드**  
+- ECMAScript 5판 이전의 비표준 __defineGetter__(), __defineSetter__(): getter와 setter편집
+{% highlight js %}
 var book = {
   _year: 2004,
   edition: 1
@@ -152,8 +163,9 @@ console.log(book.edition); // 2
 {% endhighlight %}
 getter와 setter는 필수는 아닙니다. 만약 없다면 해당 메서드호출시에 무시되고 스트릭트 모드에서는 에러가 발생합니다.
 
-다중 프로퍼티 지원 메서드로 Object.defineProperties()가 있습니다.  
-또한 프로퍼티를 반환해주는 Object.getOwnPropertyDescriptor() 메서드가 있습니다. 이 메서드들도 ECMAScript 5판에서 정의되었습니다.  
+**사용되는 메서드**  
+- ECMAScript 5판 Object.defineProperties(): 다중 프로퍼티 지원 메서드  
+- ECMAScript 5판 Object.getOwnPropertyDescriptor(): 프로퍼티 속성 반환 메서드  
 {% highlight js %}
 var book = {};
 
@@ -206,6 +218,7 @@ function createPerson(name, age, job) {
   return o;
 }
 
+// new 연산자를 사용하지 않습니다.
 var person1 = createPerson("Nicholas", 29, "Software Engineer");
 var person2 = createPerson("Greg", 27, "Doctor");
 {% endhighlight %}
@@ -214,7 +227,8 @@ var person2 = createPerson("Greg", 27, "Doctor");
 
 ### 생성자 패턴
 목적: 위의 문제점을 해결  
-방법: 커스텀 생성자를 만들어서 원하는 타입의 객체에 필요한 프로퍼티와 메서드 정의
+방법: 커스텀 생성자를 만들어서 원하는 타입의 객체에 필요한 프로퍼티와 메서드 정의  
+
 {% highlight js %}
 function Person(name, age, job) {
   this.name = name;
@@ -252,7 +266,7 @@ new 연산자 호출시 순서도
 3. 생성자 내부코드 실행  
 4. 새 객체 반환  
 
-생성자 함수와 다른함수의 차이는 new 연산자와 함께 호출하는가 입니다.  
+생성자 함수와 다른함수의 차이는 new 연산자와 함께 호출하는 것 입니다.  
 {% highlight js %}
 var person = new Person("Nicholas", 29, "Software Engineer");
 person.sayName(); // Nicholas
@@ -290,6 +304,7 @@ var person1 = new Person("Nicholas", 29, "Software Engineer");
 var person2 = new Person("Greg", 27, "Doctor");
 
 console.log(person1.sayName == person2.sayName); // true
+console.log(person1.sayName()); // Nicholas
 {% endhighlight %}
 우회방법의 문제점: 일부 객체에서만 쓰는 함수를 전역에 놓음으로써 전역 스코프를 어지럽힘  
 
@@ -332,12 +347,9 @@ console.log(Object.getPrototypeOf(person1).name); // Nicholas
 검색을 할 때 객체 인스턴스에서 찾지못하면 프로토타입에서 검색합니다.  
 즉, 생성자로 만들어진 객체들은 같은 prototype을 공유하고, 프로퍼티와 메서드를 공유합니다.  
 
-소개되는 메서드들  
-hasOwnProperty: 프로퍼티가 어디에 존재하는지 확인  
-in 연산자: for in구문이 아닌 자체 in이 사용되면 인스턴스에 존재하든 프로토타입에 존재하든 모두 true를 반환합니다.  
-- in 연산자의 경우 스코프 체인을 따라가면서 프로퍼티가 존재하는지 확인  
-- 인스턴스에서 프로토타입에 [[Enumerable]] 속성이 false인 프로퍼티를 덮어쓰면 in 루프에서 찾을 수 있습니다.(IE8 이전에서는 버그)  
-hasPrototype: 책에서 소개된 이 메서드는 object의 인스턴스 혹은 메서드의 caller에 따라서 다르게 동작할 수 있습니다.(일반적이지 않음)  
+**사용되는 메서드**
+- hasOwnProperty: 프로퍼티가 어디에 존재하는지 확인  
+- hasPrototype: 책에서 소개된 이 메서드는 object의 인스턴스 혹은 메서드의 caller에 따라서 다르게 동작할 수 있습니다.(일반적이지 않음)  
 
 {% highlight js %}
 function Person() {
@@ -353,28 +365,30 @@ Person.prototype.sayName = function() {
 var person1 = new Person();
 var person2 = new Person();
 
-console.log(person1.hasOwnProperty("name")); // false
-console.log("name" in person1); // true
-console.log("toString" in person1); // true
+console.log(person1.hasOwnProperty("name"));  // false
+console.log("name" in person1);               // true
+console.log("toString" in person1);           // true
 
 person1.name = "Greg";
-console.log(person1.name); // Greg - 인스턴스에서
-console.log(person1.hasOwnProperty("name")); // true
+console.log(person1.name);                    // Greg - 인스턴스에서
+console.log(person1.hasOwnProperty("name"));  // true
 //console.log(person1.prototype.hasOwnProperty("name")); // 에러발생
 a
-console.log("name" in person1); // true
+console.log("name" in person1);               // true
 
-console.log(person2.name); // Nicholas - 프로토타입에서
-console.log(person2.hasOwnProperty("name")); // false
-console.log("name" in person2); // true
+console.log(person2.name);                    // Nicholas - 프로토타입에서
+console.log(person2.hasOwnProperty("name"));  // false
+console.log("name" in person2);               // true
 
 delete person1.name;
-console.log(person1.name); // Nicholas - 프로토타입에서 검색
-console.log(person1.hasOwnProperty("name")); // false
-console.log("name" in person1); // true
+console.log(person1.name);                    // Nicholas - 프로토타입에서 검색
+console.log(person1.hasOwnProperty("name"));  // false
+console.log("name" in person1);               // true
 {% endhighlight %}
 
-for in 구문  
+in 연산자: for in구문이 아닌 자체 in이 사용되면 인스턴스에 존재하든 프로토타입에 존재하든 모두 true를 반환합니다.  
+- in 연산자의 경우 스코프 체인을 따라가면서 프로퍼티가 존재하는지 확인  
+- 인스턴스에서 프로토타입에 [[Enumerable]] 속성이 false인 프로퍼티를 덮어쓰면 in 루프에서 찾을 수 있습니다.(IE8 이전에서는 버그)
 {% highlight js %}
 var o = {
   toString : function() {
@@ -389,8 +403,9 @@ for (var prop in o) {
 }
 {% endhighlight %}
 
-ECMAScript 5판의 메서드인 Object.keys() 메서드를 사용하면 객체 인스턴스에서 나열가능한 프로퍼티 전체 목록을 얻을 수 있습니다.  
-또한 ECMAScript 5판의 메서드인 [[Enumerable]] 속성 상관없이 목록을 얻으려면 Object.getOwnPropertyNames()메서드를 사용하면 됩니다.
+**사용되는 메서드**  
+- ECMAScript 5판 Object.keys(): 객체 인스턴스에서 나열가능한 프로퍼티 전체 목록을 가져옴  
+- ECMAScript 5판 Object.getOwnPropertyNames(): [[Enumerable]] 속성 상관없이 목록을 얻을 수 있는 메서드
 
 {% highlight js %}
 function Person() {
@@ -404,16 +419,16 @@ Person.prototype.sayName = function() {
 };
 
 var keys = Object.keys(Person.prototype);
-console.log(keys); // name,age,job,sayName
+console.log(keys);                            // name,age,job,sayName
 
 var p1 = new Person();
 p1.name = "Rob";
 p1.age = 31;
 var p1keys = Object.keys(p1);
-console.log(p1keys); // name, age
+console.log(p1keys);                          // name, age
 
 var keys = Object.getOwnPropertyNames(Person.prototype);
-console.log(keys); // constructor,name,age,job,sayName
+console.log(keys);                            // constructor,name,age,job,sayName
 {% endhighlight %}
 
 #### 프로토타입의 대체 문법
@@ -421,7 +436,6 @@ console.log(keys); // constructor,name,age,job,sayName
 {% highlight js %}
 function Person() {
 }
-/*
 Person.prototype = {
   name: "Nicholas",
   age: 29,
@@ -430,15 +444,17 @@ Person.prototype = {
     console.log(this.name);
   }
 };
-// constructor가 사라지는 문제발생
 
 var friend = new Person();
-console.log(friend instanceof Object); // true
-console.log(friend instanceof Person); // true
-console.log(friend.constructor == Person); // false
-console.log(friend.constructor == Object); // true
-*/
+console.log(friend instanceof Object);      // true
+console.log(friend instanceof Person);      // true
+console.log(friend.constructor == Person);  // false
+console.log(friend.constructor == Object);  // true
+{% endhighlight %}
+constructor가 사라지는 문제발생
 
+ - constructor가 사라지는 문제 수정
+{% highlight js %}
 Person.prototype = {
   constructor: Person, // [[Enumerable]] 속성이 true가 됨 - 이걸 해결하려면 ECMAScript5판의 defineProperty로 해결가능
   name: "Nicholas",
@@ -450,15 +466,16 @@ Person.prototype = {
 };
 
 var friend = new Person();
-console.log(friend instanceof Object); // true
-console.log(friend instanceof Person); // true
-console.log(friend.constructor == Person); // true
-console.log(friend.constructor == Object); // false
+console.log(friend instanceof Object);      // true
+console.log(friend instanceof Person);      // true
+console.log(friend.constructor == Person);  // true
+console.log(friend.constructor == Object);  // false
 {% endhighlight %}
 
 #### 프로토타입의 동적성질
-프로토타입의 값을 찾는것은 런타임시이므로 프로토타입을 변경하면 그 변경은 바로 반영됩니다.
+프로토타입의 값을 찾는것은 런타임시이므로 프로토타입을 변경하면 그 변경은 바로 반영됩니다.  
 인스턴스가 생성될 때 생성자에서 프로토타입을 가리키는 [[Prototype]] 포인터가 할당됩니다.  
+하지만 프로토타입의 객체 자체를 다른 값으로 변경하면 변경이 반영이 안됩니다.
 
 {% highlight js %}
 function Person() {
@@ -488,10 +505,10 @@ friend.sayName(); // 에러
 #### 네이티브 객체 프로토타입  
 네이티브 참조 타입도 프로토타입 패턴으로 구현되었습니다.  
 그래서 네이티브 참조 타입도 새 메서드를 추가, 수정할 수 있습니다.  
-하지만 배포하는 코드에서는 가급적 피하길 권장합니다. (충돌, 기본메서드 덮어쓰기)  
+하지만 배포하는 코드에서는 가급적 피하길 권장합니다. (충돌, 기본메서드 덮어쓰기 문제가 발생할 수 있음)  
 
 {% highlight js %}
-console.log(typeof Array.prototype.sort); // function
+console.log(typeof Array.prototype.sort);       // function
 console.log(typeof String.prototype.substring); // function
 
 String.prototype.startsWith = function (text) {
@@ -525,8 +542,8 @@ var person2 = new Person();
 
 person1.friends.push("Van");
 
-console.log(person1.friends); // Shelby,Court,Van
-console.log(person2.friends); // Shelby,Court,Van
+console.log(person1.friends);                     // Shelby,Court,Van
+console.log(person2.friends);                     // Shelby,Court,Van
 console.log(person1.friends === person2.friends); // true
 {% endhighlight %}
 
@@ -870,9 +887,10 @@ SubType.prototype.sayAge = function() {
 
 // 위를 수정하기 위한 함수
 function inheritPrototype(subType, superType) {
-  var prototype = object(superType.prototype);   // 객체 생성
-  prototype.constructor = subType;               // 객체 확장
-  subType.prototype = prototype;                 // 객체 할당
+  var prototype = object(superType.prototype);    // 객체 생성
+  prototype.constructor = subType;                // 객체 확장
+  prototype.super = superType.prototype;          // super 프로퍼티를 통하여 super type의 메서드를 명시적으로 호출가능
+  subType.prototype = prototype;                  // 객체 할당
 }
 
 // 적용
