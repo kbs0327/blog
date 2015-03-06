@@ -17,6 +17,9 @@ ECMAScript 5판의 메서드는 인터넷 익스플로러 9 이상, 파이어폭
 
 ## 객체에 대한 이해  
 
+자바스크립트에서는 클래스라는 개념이 없습니다.  
+그래서 function으로 객체를 만드는 특이한 방법을 사용합니다.  
+
 {% highlight js %}
 // name, age, job을 프로퍼티로 가지고 sayName이라는 메서드를 가지고 있는 객체
 var person = new Object();
@@ -25,7 +28,7 @@ person.age = 29;
 person.job = "Software Engineer";
 
 person.sayName = function() {
-  alert(this.name);
+  console.log(this.name);
 };
 
 // 위와 동일합니다.
@@ -35,7 +38,7 @@ var person = {
   job: "Software Engineer",
 
   sayName: function() {
-    alert(this.name);
+    console.log(this.name);
   }
 }
 {% endhighlight %}  
@@ -56,9 +59,9 @@ Object.defineProperty(person, // 프로퍼티 추가 혹은 수정할 객체
   value: "Nicholas"
   });
 
-  alert(person.name); // Nicholas
+  console.log(person.name); // Nicholas
   person.name = "Greg";
-  alert(person.name); // Nicholas
+  console.log(person.name); // Nicholas
   // [[Writable]]이 false이면 무시됨. 단, strict모드에서는 에러
 
 // [[Configurable]] 속성이 false일 때
@@ -70,9 +73,9 @@ Object.defineProperty(person, // 프로퍼티 추가 혹은 수정할 객체
   value: "Nicholas"
   });
 
-  alert(person.name); // Nicholas
+  console.log(person.name); // Nicholas
   delete person.name;
-  alert(person.name); // Nicholas
+  console.log(person.name); // Nicholas
   // [[Configurable]]이 false이면 delete도 무시됨. 단, strict 모드에서는 에러.
 
 // [[Configurable]]이 false이면 [[Writable]]만 수정가능.
@@ -127,7 +130,7 @@ Object.defineProperty(book,
     });
 
 book.year = 2005;
-alert(book.edition); // 2
+console.log(book.edition); // 2
 
 // 5판 이전의 비표준 메서드 __defineGetter__(), __defineSetter__() 사용
 var book = {
@@ -145,7 +148,7 @@ book.__defineSetter__("year", function(newValue) {
   });
 
 book.year = 2005;
-alert(book.edition); // 2
+console.log(book.edition); // 2
 {% endhighlight %}
 getter와 setter는 필수는 아닙니다. 만약 없다면 해당 메서드호출시에 무시되고 스트릭트 모드에서는 에러가 발생합니다.
 
@@ -175,14 +178,14 @@ Object.defineProperties(book, {
   });
 
 var descriptor = Object.getOwnPropertyDescriptor(book, "_year");
-alert(descriptor.value);            // 2004
-alert(descriptor.configurable);     // false
-alert(typeof descriptor.get);       // undefined
+console.log(descriptor.value);            // 2004
+console.log(descriptor.configurable);     // false
+console.log(typeof descriptor.get);       // undefined
 
 var descriptor = Object.getOwnPropertyDescriptor(book, "year");
-alert(descriptor.value);            // undefined
-alert(descriptor.configurable);     // false
-alert(typeof descriptor.get);       // function
+console.log(descriptor.value);            // undefined
+console.log(descriptor.configurable);     // false
+console.log(typeof descriptor.get);       // function
 {% endhighlight %}
 
 ## 객체 생성
@@ -198,7 +201,7 @@ function createPerson(name, age, job) {
   o.age = age;
   o.job = job;
   o.sayName = function() {
-    alert(this.name);
+    console.log(this.name);
   };
   return o;
 }
@@ -218,22 +221,22 @@ function Person(name, age, job) {
   this.age = age;
   this.job = job;
   this.sayName = function() {
-    alert(this.name);
+    console.log(this.name);
   };
 }
 
 var person1 = new Person("Nicholas", 29, "Software Engineer");
 var person2 = new Person("Greg", 27, "Doctor");
 
-alert(person1.constructor === Person); // true
-alert(person2.constructor === Person); // true
+console.log(person1.constructor === Person); // true
+console.log(person2.constructor === Person); // true
 
-alert(person1 instanceof Object); // true
-alert(person1 instanceof Person); // true
-alert(person2 instanceof Object); // true
-alert(person2 instanceof Person); // true
+console.log(person1 instanceof Object); // true
+console.log(person1 instanceof Person); // true
+console.log(person2 instanceof Object); // true
+console.log(person2 instanceof Person); // true
 
-alert(person1.sayName == person2.sayName); // false - 인스턴스마다 새 메서드 생성
+console.log(person1.sayName == person2.sayName); // false - 인스턴스마다 새 메서드 생성
 {% endhighlight %}
 Person메서드의 특징  
 
@@ -268,7 +271,7 @@ function Person(name, age, job) {
   this.name = name;
   this.age = age;
   this.job = job;
-  this.sayName = new Function("alert(this.name)"); // 논리적으로 동등
+  this.sayName = new Function("console.log(this.name)"); // 논리적으로 동등
 }
 
 // 우회방법
@@ -280,13 +283,13 @@ function Person(name, age, job) {
 }
 
 function sayName() {
-  alert(this.name);
+  console.log(this.name);
 }
 
 var person1 = new Person("Nicholas", 29, "Software Engineer");
 var person2 = new Person("Greg", 27, "Doctor");
 
-alert(person1.sayName == person2.sayName); // true
+console.log(person1.sayName == person2.sayName); // true
 {% endhighlight %}
 우회방법의 문제점: 일부 객체에서만 쓰는 함수를 전역에 놓음으로써 전역 스코프를 어지럽힘  
 
@@ -302,7 +305,7 @@ Person.prototype.name = "Nicholas";
 Person.prototype.age = 29;
 Person.prototype.job = "Software Engineer";
 Person.prototype.sayName = function() {
-  alert(this.name);
+  console.log(this.name);
 };
 
 var person1 = new Person();
@@ -311,14 +314,14 @@ person1.sayName(); // Nicholas
 var person2 = new Person();
 person2.sayName(); // Nicholas
 
-alert(person1.sayName === person2.sayName); // true
+console.log(person1.sayName === person2.sayName); // true
 
-alert(Person.prototype.isPrototypeOf(person1)); // true
-alert(Person.prototype.isPrototypeOf(person2)); // true
+console.log(Person.prototype.isPrototypeOf(person1)); // true
+console.log(Person.prototype.isPrototypeOf(person2)); // true
 
 // getPrototypeOf는 ECMAScript 5판 스펙
-alert(Object.getPrototypeOf(person1) == Person.prototype); // true
-alert(Object.getPrototypeOf(person1).name); // Nicholas
+console.log(Object.getPrototypeOf(person1) == Person.prototype); // true
+console.log(Object.getPrototypeOf(person1).name); // Nicholas
 {% endhighlight %}
 
 ### 프로토타입 동작  
@@ -344,31 +347,31 @@ Person.prototype.name = "Nicholas";
 Person.prototype.age = 29;
 Person.prototype.job = "Software Engineer";
 Person.prototype.sayName = function() {
-  alert(this.name);
+  console.log(this.name);
 };
 
 var person1 = new Person();
 var person2 = new Person();
 
-alert(person1.hasOwnProperty("name")); // false
-alert("name" in person1); // true
-alert("toString" in person1); // true
+console.log(person1.hasOwnProperty("name")); // false
+console.log("name" in person1); // true
+console.log("toString" in person1); // true
 
 person1.name = "Greg";
-alert(person1.name); // Greg - 인스턴스에서
-alert(person1.hasOwnProperty("name")); // true
-//alert(person1.prototype.hasOwnProperty("name")); // 에러발생
+console.log(person1.name); // Greg - 인스턴스에서
+console.log(person1.hasOwnProperty("name")); // true
+//console.log(person1.prototype.hasOwnProperty("name")); // 에러발생
 a
-alert("name" in person1); // true
+console.log("name" in person1); // true
 
-alert(person2.name); // Nicholas - 프로토타입에서
-alert(person2.hasOwnProperty("name")); // false
-alert("name" in person2); // true
+console.log(person2.name); // Nicholas - 프로토타입에서
+console.log(person2.hasOwnProperty("name")); // false
+console.log("name" in person2); // true
 
 delete person1.name;
-alert(person1.name); // Nicholas - 프로토타입에서 검색
-alert(person1.hasOwnProperty("name")); // false
-alert("name" in person1); // true
+console.log(person1.name); // Nicholas - 프로토타입에서 검색
+console.log(person1.hasOwnProperty("name")); // false
+console.log("name" in person1); // true
 {% endhighlight %}
 
 for in 구문  
@@ -381,7 +384,7 @@ var o = {
 
 for (var prop in o) {
   if (prop == "toString") {
-    alert("Found toString");
+    console.log("Found toString");
   }
 }
 {% endhighlight %}
@@ -397,20 +400,20 @@ Person.prototype.name = "Nicholas";
 Person.prototype.age = 29;
 Person.prototype.job = "Software Engineer";
 Person.prototype.sayName = function() {
-  alert(this.name);
+  console.log(this.name);
 };
 
 var keys = Object.keys(Person.prototype);
-alert(keys); // name,age,job,sayName
+console.log(keys); // name,age,job,sayName
 
 var p1 = new Person();
 p1.name = "Rob";
 p1.age = 31;
 var p1keys = Object.keys(p1);
-alert(p1keys); // name, age
+console.log(p1keys); // name, age
 
 var keys = Object.getOwnPropertyNames(Person.prototype);
-alert(keys); // constructor,name,age,job,sayName
+console.log(keys); // constructor,name,age,job,sayName
 {% endhighlight %}
 
 #### 프로토타입의 대체 문법
@@ -424,16 +427,16 @@ Person.prototype = {
   age: 29,
   job: "Software Engineer",
   sayName: function() {
-    alert(this.name);
+    console.log(this.name);
   }
 };
 // constructor가 사라지는 문제발생
 
 var friend = new Person();
-alert(friend instanceof Object); // true
-alert(friend instanceof Person); // true
-alert(friend.constructor == Person); // false
-alert(friend.constructor == Object); // true
+console.log(friend instanceof Object); // true
+console.log(friend instanceof Person); // true
+console.log(friend.constructor == Person); // false
+console.log(friend.constructor == Object); // true
 */
 
 Person.prototype = {
@@ -442,15 +445,15 @@ Person.prototype = {
   age: 29,
   job: "Software Engineer",
   sayName: function() {
-    alert(this.name);
+    console.log(this.name);
   }
 };
 
 var friend = new Person();
-alert(friend instanceof Object); // true
-alert(friend instanceof Person); // true
-alert(friend.constructor == Person); // true
-alert(friend.constructor == Object); // false
+console.log(friend instanceof Object); // true
+console.log(friend instanceof Person); // true
+console.log(friend.constructor == Person); // true
+console.log(friend.constructor == Object); // false
 {% endhighlight %}
 
 #### 프로토타입의 동적성질
@@ -464,7 +467,7 @@ function Person() {
 var friend = new Person();
 
 Person.prototype.sayHi = function() {
-  alert("hi");
+  console.log("hi");
 };
 
 friend.sayHi(); // hi동작함
@@ -475,7 +478,7 @@ Person.prototype = {
   age: 29,
   job: "Software Engineer",
   sayName: function() {
-    alert(this.name);
+    console.log(this.name);
   }
 }
 
@@ -488,15 +491,15 @@ friend.sayName(); // 에러
 하지만 배포하는 코드에서는 가급적 피하길 권장합니다. (충돌, 기본메서드 덮어쓰기)  
 
 {% highlight js %}
-alert(typeof Array.prototype.sort); // function
-alert(typeof String.prototype.substring); // function
+console.log(typeof Array.prototype.sort); // function
+console.log(typeof String.prototype.substring); // function
 
 String.prototype.startsWith = function (text) {
   return this.indexOf(text) == 0;
 }
 
 var msg = "Hello world!";
-alert(msg.startsWith("Hello"));
+console.log(msg.startsWith("Hello"));
 {% endhighlight %}
 
 #### 프로토타입의 문제점
@@ -513,7 +516,7 @@ Person.prototype = {
   job: "Software Engineer",
   friends: ["Shelby", "Court"],
   sayName: function() {
-    alert(this.name);
+    console.log(this.name);
   }
 };
 
@@ -522,9 +525,9 @@ var person2 = new Person();
 
 person1.friends.push("Van");
 
-alert(person1.friends); // Shelby,Court,Van
-alert(person2.friends); // Shelby,Court,Van
-alert(person1.friends === person2.friends); // true
+console.log(person1.friends); // Shelby,Court,Van
+console.log(person2.friends); // Shelby,Court,Van
+console.log(person1.friends === person2.friends); // true
 {% endhighlight %}
 
 ### 생성자 패턴과 프로토타임 패턴의 조합  
@@ -541,7 +544,7 @@ function Person() {
   //동적 프로토타입 패턴
   if (typeof this.sayName != "function") {
     Person.prototype.sayName = function() {
-      alert(this.name);
+      console.log(this.name);
     };
   }
   */
@@ -550,7 +553,7 @@ function Person() {
 Person.prototype = {
   constructor: Person,
   sayName: function() {
-    alert(this.name);
+    console.log(this.name);
   }
 };
 
@@ -559,10 +562,10 @@ var person2 = new Person("Greg", 27, "Doctor");
 
 person1.friends.push("Van");
 
-alert(person1.friends); // Shelby,Court,Van
-alert(person2.friends); // Shelby,Court
-alert(person1.friends === person2.friends); // false
-alert(person1.sayName === person2.sayName); // true
+console.log(person1.friends); // Shelby,Court,Van
+console.log(person2.friends); // Shelby,Court
+console.log(person1.friends === person2.friends); // false
+console.log(person1.sayName === person2.sayName); // true
 {% endhighlight %}
 
 ### 기생 생성자 패턴  
@@ -575,7 +578,7 @@ function Person(name, age, job) {
   o.name = name;
   o.job = job;
   o.sayName = function() {
-    alert(this.name);
+    console.log(this.name);
   };
   return o;
 }
@@ -600,7 +603,7 @@ function SpecialArray() {
 }
 
 var colors = new SpecialArray("red", "blue", "green");
-alert(colors.toPipedString()); // red|blue|green
+console.log(colors.toPipedString()); // red|blue|green
 {% endhighlight %}
 
 ### 방탄 생성자 패턴
@@ -612,7 +615,7 @@ function Person(name, age, job) {
   var o = new Object();
 
   o.sayName = function() {
-    alert(name);
+    console.log(name);
   };
 
   return o;
@@ -647,15 +650,15 @@ SubType.prototype.getSubValue = function() {
 };
 
 var instance = new SubType();
-alert(instance.getSuperValue()); // true
+console.log(instance.getSuperValue()); // true
 
-alert(instance instanceof Object); // true
-alert(instance instanceof SuperType); // true
-alert(instance instanceof SubType); // true
+console.log(instance instanceof Object); // true
+console.log(instance instanceof SuperType); // true
+console.log(instance instanceof SubType); // true
 
-alert(Object.prototype.isPrototypeOf(instance)); // true
-alert(SuperType.prototype.isPrototypeOf(instance)); // true
-alert(SubType.prototype.isPrototypeOf(instance)); // true
+console.log(Object.prototype.isPrototypeOf(instance)); // true
+console.log(SuperType.prototype.isPrototypeOf(instance)); // true
+console.log(SubType.prototype.isPrototypeOf(instance)); // true
 
 // 기존 메서드를 오버라이드
 SubType.prototype.getSuperValue = function () {
@@ -663,7 +666,7 @@ SubType.prototype.getSuperValue = function () {
 };
 
 
-alert(instance.getSuperValue()); // false
+console.log(instance.getSuperValue()); // false
 
 SubType.prototype = {
   getSubValue: function() {
@@ -675,7 +678,7 @@ SubType.prototype = {
 };
 
 instance = new SubType();
-alert(instance.getSuperValue()); // error
+console.log(instance.getSuperValue()); // error
 {% endhighlight %}
 
 문제점: 프로토타입 프로퍼티는 모든 객체에서 공유함
@@ -691,10 +694,10 @@ SubType.prototype = new SuperType();
 
 var instance1 = new SubType();
 instance1.colors.push("black");
-alert(instance1.colors); // red,blue,green,black
+console.log(instance1.colors); // red,blue,green,black
 
 var instance2 = new SubType();
-alert(instance2.colors); // red,blue,green,black
+console.log(instance2.colors); // red,blue,green,black
 {% endhighlight %}
 
 ### 생성자 훔치기
@@ -713,10 +716,10 @@ function SubType() {
 
 var instance1 = new SubType();
 instance1.colors.push("black");
-alert(instance1.colors); // red,blue,green,black
+console.log(instance1.colors); // red,blue,green,black
 
 var instance2 = new SubType();
-alert(instance2.colors); // red,blue,green
+console.log(instance2.colors); // red,blue,green
 */
 // 매개변수도 넘길 수 있음
 function SuperType(name) {
@@ -730,8 +733,8 @@ function SubType() {
 }
 
 var instance = new SubType();
-alert(instance.name); // Nicholas
-alert(instance.age); // 29
+console.log(instance.name); // Nicholas
+console.log(instance.age); // 29
 {% endhighlight %}
 
 문제: 함수 재사용이 불가능해짐
@@ -746,7 +749,7 @@ function SuperType(name) {
 }
 
 SuperType.prototype.sayName = function() {
-  alert(this.name);
+  console.log(this.name);
 };
 
 function SubType(name, age) {
@@ -758,17 +761,17 @@ function SubType(name, age) {
 SubType.prototype = new SuperType();
 
 SubType.prototype.sayAge = function() {
-  alert(this.age);
+  console.log(this.age);
 };
 
 var instance1 = new SubType("Nicholas", 29);
 instance1.colors.push("black");
-alert(instance1.colors); // red,blue,green,black
+console.log(instance1.colors); // red,blue,green,black
 instance1.sayName(); // Nicholas
 instance1.sayAge(); // 29
 
 var instance2 = new SubType("Greg", 27);
-alert(instance2.colors); // red,blue,green
+console.log(instance2.colors); // red,blue,green
 instance2.sayName(); // Greg
 instance2.sayAge(); // 27
 {% endhighlight %}
@@ -798,7 +801,7 @@ var yetAnotherPerson = object(person);
 yetAnotherPerson.name = "Linda";
 yetAnotherPerson.friends.push("Barbie");
 
-alert(person.friends); // Shelby,Court,Van,Rob,Barbie
+console.log(person.friends); // Shelby,Court,Van,Rob,Barbie
 
 // ECMAScript 5판에는 Object.create()메서드를 추가했습니다.
 // create 메서드의 두번째 매개변수는 defineProperties와 같은 형식입니다.
@@ -815,7 +818,7 @@ var yetAnotherPerson = Object.create(person);
 yetAnotherPerson.name = "Linda";
 yetAnotherPerson.friends.push("Barbie");
 
-alert(person.friends); // Shelby,Court,Van,Rob,Barbie
+console.log(person.friends); // Shelby,Court,Van,Rob,Barbie
 {% endhighlight %}
 
 ### 기생상속
@@ -825,7 +828,7 @@ alert(person.friends); // Shelby,Court,Van,Rob,Barbie
 function createAnother(original) {
   var clone = object(original);
   clone.sayHi = function() {
-    alert("hi");
+    console.log("hi");
   };
   return clone;
 }
@@ -850,7 +853,7 @@ function SuperType(name) {
 }
 
 SuperType.prototype.sayName = function() {
-  alert(this.name);
+  console.log(this.name);
 };
 
 function SubType(name, age) {
@@ -862,7 +865,7 @@ function SubType(name, age) {
 SubType.prototype = new SuperType();          // SuperType 생성자 호출
 SubType.prototype.constructor = Subtype;
 SubType.prototype.sayAge = function() {
-  alert(this.age);
+  console.log(this.age);
 };
 
 // 위를 수정하기 위한 함수
@@ -879,7 +882,7 @@ function SuperType(name) {
 }
 
 SuperType.prototype.sayName = function() {
-  alert(this.name);
+  console.log(this.name);
 };
 
 function SubType(name, age) {
@@ -891,7 +894,7 @@ function SubType(name, age) {
 inheritPrototype(SubType, SuperType);
 
 SubType.prototype.sayAge = function() {
-  alert(this.age);
+  console.log(this.age);
 };
 {% endhighlight %}
 
