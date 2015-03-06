@@ -9,8 +9,8 @@ categories: book
 
 # 이 글은 책을 정리한 내용입니다.
 
-ECMA-262는 객체를 '프로퍼티의 순서 없는 컬렉션이며 각 프로퍼티는 원시 값이나 객체, 메서드를 포함한다.'고 정의합니다.
-이 책의 저자는 자바스크립트의 객체를 해시 테이블에 비유해서 설명했으며 그게 가장 잘 설명한 것 같습니다.
+ECMA-262는 객체를 '프로퍼티의 순서 없는 컬렉션이며 각 프로퍼티는 원시 값이나 객체, 메서드를 포함한다.'고 정의합니다.  
+이 책의 저자는 자바스크립트의 객체를 해시 테이블에 비유해서 설명했으며 그게 가장 잘 설명한 것 같습니다.  
 
 ## 제약사항
 ECMAScript 5판의 메서드는 인터넷 익스플로러 9 이상, 파이어폭스 4 이상, 사파리 5 이상, 오페라 12이상, 크롬에서 사용가능합니다.
@@ -43,7 +43,7 @@ var person = {
 
 ### 프로퍼티 타입  
 ECMA-262 5판에서는 프로퍼티의 특징을 내부적으로만 유효한 속성에 따라 설명합니다. 이를 기본 프로퍼티라고 부릅니다.  
-기본 프로퍼티의 속성을 변경하려면 ECMAScript5판의 Object.defineProperty() 메서드를 사용해야합니다.
+기본 프로퍼티의 속성을 변경하려면 ECMAScript5판의 Object.defineProperty() 메서드를 사용해야합니다.  
 이 메소드의 기본값은 false이므로 주의하여 사용해야 합니다.
 
 {% highlight js %}
@@ -149,7 +149,7 @@ alert(book.edition); // 2
 {% endhighlight %}
 getter와 setter는 필수는 아닙니다. 만약 없다면 해당 메서드호출시에 무시되고 스트릭트 모드에서는 에러가 발생합니다.
 
-다중 프로퍼티 지원 메서드로 Object.defineProperties()가 있습니다.
+다중 프로퍼티 지원 메서드로 Object.defineProperties()가 있습니다.  
 또한 프로퍼티를 반환해주는 Object.getOwnPropertyDescriptor() 메서드가 있습니다. 이 메서드들도 ECMAScript 5판에서 정의되었습니다.  
 {% highlight js %}
 var book = {};
@@ -483,9 +483,9 @@ friend.sayName(); // 에러
 {% endhighlight %}
 
 #### 네이티브 객체 프로토타입  
-네이티브 참조 타입도 프로토타입 패턴으로 구현되었습니다.
-그래서 네이티브 참조 타입도 새 메서드를 추가, 수정할 수 있습니다.
-하지만 배포하는 코드에서는 가급적 피하길 권장합니다. (충돌, 기본메서드 덮어쓰기)
+네이티브 참조 타입도 프로토타입 패턴으로 구현되었습니다.  
+그래서 네이티브 참조 타입도 새 메서드를 추가, 수정할 수 있습니다.  
+하지만 배포하는 코드에서는 가급적 피하길 권장합니다. (충돌, 기본메서드 덮어쓰기)  
 
 {% highlight js %}
 alert(typeof Array.prototype.sort); // function
@@ -565,7 +565,7 @@ alert(person1.friends === person2.friends); // false
 alert(person1.sayName === person2.sayName); // true
 {% endhighlight %}
 
-### 기생 생성자 패턴
+### 기생 생성자 패턴  
 목적: 다른 패턴이 실패할 때 폴백으로 사용하는 패턴  
 방법: Wrapper function을 만듬
 
