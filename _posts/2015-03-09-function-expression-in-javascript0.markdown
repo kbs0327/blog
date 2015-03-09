@@ -370,5 +370,5 @@ var application = function() {
 {% endhighlight %}
 
 ##참고자료  
-Nicholas C. Zakas. (2013). 프론트엔드 개발자를 위한 자바스크립트 프로그래밍, (한선용 옮김). 인사이트
-[http://insanehong.kr/post/javascript-scope/](Insanehong 블로그)  
+Nicholas C. Zakas. (2013). 프론트엔드 개발자를 위한 자바스크립트 프로그래밍, (한선용 옮김). 인사이트  
+[Insanehong 블로그](http://insanehong.kr/post/javascript-scope/)  
