@@ -38,21 +38,14 @@ layout: default
 			<nav class="toc"></nav><!-- /.toc -->
 			<div id="content" class="page-content" itemprop="articleBody">
 				{{ content }}
-				<hr />
-				<footer class="page-footer">
-					{% if page.categories %}{% include page-author.html %}{% endif %}
-					{% if page.share != false %}{% include share-this.html %}{% endif %}
-					{% include page-meta.html %}
-				</footer><!-- /.footer -->
+				<hr/>
+				<h2>Comments</h2>
+				<div class="fb-comments" data-href="{{ "{{ site.url " }}}}{{ "{{ page.url " }}}}" data-num-posts="4" data-width="706"></div>
 				<aside>
 					{% if page.comments == true %}{% include comments.html %}{% endif %}
 				</aside>
 			</div><!-- /.content -->
 		</div><!-- /.inner-wrap -->
-		{{ "{% if page.comments " }}%}
-		<hr/>
-		<h2>Comments</h2>
-		<div class="fb-comments" data-href="{{ "{{ site.url " }}}}{{ "{{ page.url " }}}}" data-num-posts="4" data-width="706"></div>
-		{{ "{% endif"}}%}
+		{% if page.ads == true %}<div class="ads">{% include advertising.html %}</div><!-- /.ads -->{% endif %}
 	</article><!-- ./wrap -->
 </div><!-- /#main -->
