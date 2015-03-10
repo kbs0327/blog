@@ -12,7 +12,7 @@ image:
     <ul>
     {% for posts in category %}
       {% for post in posts %}
-        <li><a href="{{ post.url }}">{{ post.title }}</a></li>
+				{% include post-grid.html %}
       {% endfor %}
     {% endfor %}
     </ul>
