@@ -1,7 +1,8 @@
 ---
 layout: archive
 permalink: /
-title: "Tech Blog"
+image:
+		feature: sunset.jpg
 ---
 
 <div class="tiles">
