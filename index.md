@@ -6,9 +6,7 @@ image:
 ---
 
 <div class="tiles">
-<!--{% for post in site.posts %}
-	{% include post-grid.html %}
-{% endfor %}-->
+
 {% for category in site.categories %}
   <li><a name="{{ category | first }}">{{ category | first }}</a>
     <ul>
