@@ -1,11 +1,11 @@
 ---
-layout: post
+layout: article
 title:  "nemiver에 모듈추가"
 date:   2015-02-08 15:52:13
-image: 
+image:
   teaser: nemiver.jpg
 categories: technology
---- 
+---
 <img src="https://farm9.staticflickr.com/8679/15535277554_d320f6692c_c.jpg">
 
 
@@ -52,7 +52,7 @@ workbench에서는 signal들을 직렬화 시켜서 순서대로 연관된 모�
 </figure>
 
 이런 형태로 완성이 되었습니다.
- 
+
 
 ## 참고자료
 네마이버 공식 홈페이지 <a href="https://wiki.gnome.org/Apps/Nemiver">https://wiki.gnome.org/Apps/Nemiver</a><br>
