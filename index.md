@@ -5,17 +5,7 @@ title: "Tech Blog"
 ---
 
 <div class="tiles">
-<ul>
-{% for category in site.categories %}
-  <li><a name="{{ category | first }}">{{ category | first }}</a>
-    <ul>
-    {% for posts in category %}
-      {% for post in posts %}
-				{% include post-grid.html %}
-      {% endfor %}
-    {% endfor %}
-    </ul>
-  </li>
+{% for post in site.posts %}
+	{% include post-grid.html %}
 {% endfor %}
-</ul>
 </div><!-- /.tiles -->
