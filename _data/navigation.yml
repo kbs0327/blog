@@ -4,3 +4,13 @@
   url: /about/
   excerpt: "about Bueseung"
   image: "buseung.jpeg"
+
+- title: 책
+  url: /book/
+  excerpt: "책 posts"
+  image: "books.jpeg"
+
+- title: 기술
+  url: /technology/
+  excerpt: "기술 posts"
+  image: "programming.jpeg"

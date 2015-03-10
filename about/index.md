@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: default_article
 title: "About"
 date: 2015-03-06
 modified: 2015-03-06
