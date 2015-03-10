@@ -1,5 +1,5 @@
 ---
-layout: default_article
+layout: archive
 title: "기술"
 date: 2015-03-10
 modified: 2015-03-10
