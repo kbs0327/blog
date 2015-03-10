@@ -925,7 +925,7 @@ var instance = new SubType("김부승", 27);
 
 이해를 위해서 위의 메서드를 호출할시에 생성되는 객체 그래프 입니다.  
 <figure>
-  <a href="http://kbs0327.github.io/blog/images/javascript_inheritance.jpg"><img src="http://kbs0327.github.io/blog/images/javascript_inheritance.jpg">
+  <a href="http://kbs0327.github.io/blog/images/javascript_inheritance.jpg"><img src="http://kbs0327.github.io/blog/images/javascript_inheritance.jpg"></a>
 	<figcaption>장애환경 인포그래픽</figcaption>
 </figure>
 

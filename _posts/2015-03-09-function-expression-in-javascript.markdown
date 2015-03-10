@@ -127,8 +127,8 @@ compare함수를 정의하면 스코프 체인이 생성되고 이를 함수 내
 
 이해를 돕기 위해서 다이어그램을 추가하겠습니다.(출처: Insanehong 블로그)  
 <figure>
-  <a href="http://insanehong.kr/post/javascript-scope/@img/diagram3.jpeg"><img src="http://insanehong.kr/post/javascript-scope/@img/diagram3.jpeg">
-	<figcaption>장애환경 인포그래픽</figcaption>
+  <a href="http://insanehong.kr/post/javascript-scope/@img/diagram3.jpeg"><img src="http://insanehong.kr/post/javascript-scope/@img/diagram3.jpeg"></a>
+  <figcaption>장애환경 인포그래픽</figcaption>
 </figure>  
 
 ### 클로저와 변수

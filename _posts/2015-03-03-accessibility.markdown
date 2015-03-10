@@ -13,7 +13,7 @@ categories: technology
 ## 장애 환경에 대한 이해
 
 <figure>
-  <a href="http://nuli.navercorp.com/data/accessibility/img_a11y_environment.png"><img src="http://nuli.navercorp.com/data/accessibility/img_a11y_environment.png">
+  <a href="http://nuli.navercorp.com/data/accessibility/img_a11y_environment.png"><img src="http://nuli.navercorp.com/data/accessibility/img_a11y_environment.png"></a>
 	<figcaption>장애환경 인포그래픽</figcaption>
 </figure>
 
