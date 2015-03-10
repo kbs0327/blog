@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title:  "객체지향 프로그래밍"
 date:   2015-03-05 20:52:13
 image:

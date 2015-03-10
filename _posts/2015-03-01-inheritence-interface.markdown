@@ -1,12 +1,12 @@
 ---
-layout: article
+layout: post
 title:  "상속과 인터페이스 사용 예"
 date:   2015-03-01 15:27:13
-image:
+image: 
   teaser: keyboard.jpg
 categories: technology
 ---
-
+  
  이 글은 백창열 수석님의 코드리뷰를 바탕으로 정리한 내용입니다.  
 
 ## 문제의 코드
@@ -16,9 +16,9 @@ categories: technology
 public class NoteDto {
 	...
 	private String attachedFileName;
-
+	
 	private final String[] bannedFileExtentionList = {"exe"};
-
+	
 	...
 	public String getAttachedFileName() {
 		return attachedFileName;
@@ -27,7 +27,7 @@ public class NoteDto {
 	public void setAttachedFileName(String attachedFileName) {
 		this.attachedFileName = attachedFileName;
 	}
-
+	
 	public boolean isValidFileName() {
 		return attachedFileName!= null && !hasBannedFileExtention();
 	}
@@ -36,9 +36,9 @@ public class NoteDto {
 public class CommentDto {
 	...
 	private String attachedFileName;
-
+	
 	private final String[] bannedFileExtentionList = {"exe"};
-
+	
 	...
 	public String getAttachedFileName() {
 		return attachedFileName;
@@ -47,7 +47,7 @@ public class CommentDto {
 	public void setAttachedFileName(String attachedFileName) {
 		this.attachedFileName = attachedFileName;
 	}
-
+	
 	public boolean isValidFileName() {
 		return attachedFileName!= null && !hasBannedFileExtention();
 	}
@@ -67,9 +67,9 @@ public class CommentDto extends FileDto {
 
 public class FileDto {
 	private String attachedFileName;
-
+	
 	private final String[] bannedFileExtentionList = {"exe"};
-
+	
 	...
 
 	public String getAttachedFileName() {
@@ -79,13 +79,13 @@ public class FileDto {
 	public void setAttachedFileName(String attachedFileName) {
 		this.attachedFileName = attachedFileName;
 	}
-
+	
 	public boolean isValidFileName() {
 		return attachedFileName!= null && !hasBannedFileExtention();
 	}
 }
 {% endhighlight %}
- 훌륭하게 중복을 줄였습니다.
+ 훌륭하게 중복을 줄였습니다. 
  하지만 이 코드는 많은 문제점을 발생시킬 수 있습니다.  
 1. 노트와 댓글에 파일 말고 이메일 정보가 들어간다고 하면 어떻게 해야할까요?  
 2. 코드를 보는 사람이 정의 부분을 보지 않고 파일을 상속한다고 생각할 수 있을까요?
@@ -98,7 +98,7 @@ public class FileDto {
 먼저 상속의 원칙에 대해서 알아보겠습니다.
 
 ## 상속
-
+  
  상속을 사용할 때에는 항상 is-A관계인지를 생각해야 합니다.
  여기서 is-A관계란 민호의 말처럼 우리나라 말로 은, 는 법칙과 같은 뜻으로 쓰이는 것 같습니다.
 
@@ -130,7 +130,7 @@ public class CommentDto extends FileDto {
 {% highlight java %}
 public class NoteDto {
 	private String attachedFileName;
-
+	
 	...
 
 	public String getAttachedFileName() {
@@ -148,7 +148,7 @@ public class NoteDto {
 
 public class CommentDto {
 	private String attachedFileName;
-
+	
 	...
 
 	public String getAttachedFileName() {
@@ -166,17 +166,17 @@ public class CommentDto {
 
 public class FileUtil {
 	private final String[] bannedFileExtentionList = {"exe"};
-
+	
 	public static boolean isValidFileName(NoteDto note) {
 		String attachedFileName = note.getAttachedFileName();
 		return attachedFileName!= null && !hasBannedFileExtention(attachedFileName);
 	}
-
+	
 	public static boolean isValidFileName(CommentDto comment) {
 		String attachedFileName = comment.getAttachedFileName();
 		return attachedFileName!= null && !hasBannedFileExtention(attachedFileName);
 	}
-
+	
 	...
 }
 {% endhighlight %}
@@ -194,7 +194,7 @@ public class FileUtil {
 {% highlight java %}
 public class NoteDto implements File {
 	private String fileName;
-
+	
 	...
 
 	@Override
@@ -206,7 +206,7 @@ public class NoteDto implements File {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-
+	
 	@Override
 	public boolean isValidFileName() {
 		return FileUtil.isValidFileName(this);
@@ -215,7 +215,7 @@ public class NoteDto implements File {
 
 public class CommentDto implements File {
 	private String fileName;
-
+	
 	...
 
 	@Override
@@ -227,7 +227,7 @@ public class CommentDto implements File {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-
+	
 	@Override
 	public boolean isValidFileName() {
 		return FileUtil.isValidFileName(this);
@@ -242,12 +242,12 @@ public interface File {
 
 public class FileUtil {
 	private final String[] bannedFileExtentionList = {"exe"};
-
+	
 	public static boolean isValidFileName(File file) {
 		String fileName = file.getFileName();
 		return fileName!= null && !hasBannedFileExtention(fileName);
 	}
-
+	
 	...
 }
 {% endhighlight %}  
@@ -270,7 +270,7 @@ public class NoteDto {
 	public void setFileName(String fileName) {
 		attachedFile.setFileName(fileName);
 	}
-
+	
 	public boolean isValidFileName() {
 		return attachedFile.isValidFileName();
 	}
@@ -287,7 +287,7 @@ public class CommentDto {
 	public void setFileName(String fileName) {
 		attachedFile.setFileName(fileName);
 	}
-
+	
 	public boolean isValidFileName() {
 		return attachedFile.isValidFileName();
 	}
@@ -296,7 +296,7 @@ public class CommentDto {
 
 public class FileDto {
 	private String fileName;
-
+	
 	private final String[] bannedFileExtentionList = {"exe"};
 	...
 	public String getFileName() {
@@ -306,16 +306,16 @@ public class FileDto {
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
 	}
-
+	
 	public boolean isValidFileName() {
 		return fileName!= null && !hasBannedFileExtention();
 	}
 	...
 }
 {% endhighlight %}  
-
+  
 이렇게 멤버변수로 적용하였을 때에 기존 소스와의 차이점은 다음과 같습니다.
-
+  
 - File과 관련된 내용이 FileDto 클래스에 모두 들어가서 논리적응집력이 높아집니다.  
 - util클래스에서 isValidFileName 메소드를 사용할 때 fileName을 전달해 줘야했는데 더이상 넘겨줄 필요가 없습니다.  
 

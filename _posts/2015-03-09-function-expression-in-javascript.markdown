@@ -1,5 +1,5 @@
 ---
-layout: article
+layout: post
 title:  "함수 표현식"
 date:   2015-03-09 11:25:13
 image:

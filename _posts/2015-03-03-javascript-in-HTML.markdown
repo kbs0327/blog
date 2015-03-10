@@ -1,15 +1,15 @@
 ---
-layout: article
+layout: post
 title:  "HTML속의 자바스크립트"
 date:   2015-03-04 13:41:13
-image:
+image: 
   teaser: javascript_book.jpg
 categories: book
----
+--- 
 
 ## script 요소  
   속성  
-
+  
 - async 옵션 - 다운로드는 바로하지만 다른 작업을 참조하지 않습니다. 외부스크립트 파일 불러올 때에만 유효합니다.  
 - defer 옵션 - DOM이 완성될 때까지 스크립트 실행을 지연시켜도 된다고 알립니다. 외부스크립트 파일 불러올 때에만 유효합니다.(단, IE7은 예외적으로 인라인 스크립트도 허용합니다.)  
 - language 폐기됨  
@@ -51,14 +51,14 @@ function sayScript() {
   쿽스모드 - 비표준기능 사용가능 (default)  
   표준모드  
   거의 표준모드 - 표준모드 대부분은 지원하지만 표준모드만큼 엄격하지는 않음  
-
+  
 {% highlight html %}  
 <!-- HTML5 항상 붙여야함-->
 <!DOCTYPE html>
 {% endhighlight %}  
-
+  
 ## noscript 요소  
   브라우저가 스크립트를 지원하지 않거나 브라우저 스크립트 지원이 꺼져있으면 noscript요소가 렌더링 됩니다.  
-
+  
 ##참고자료  
   Nicholas C. Zakas. (2013). 프론트엔드 개발자를 위한 자바스크립트 프로그래밍, (한선용 옮김). 인사이트  
