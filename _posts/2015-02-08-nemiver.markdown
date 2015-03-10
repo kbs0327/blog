@@ -7,8 +7,10 @@ image:
 categories: technology
 comments: yes
 ---
-<img src="https://farm9.staticflickr.com/8679/15535277554_d320f6692c_c.jpg">
-
+<figure>
+	<a href="https://farm9.staticflickr.com/8679/15535277554_d320f6692c_c.jpg"><img src="https://farm9.staticflickr.com/8679/15535277554_d320f6692c_c.jpg"></a>
+	<figcaption>Image caption.</figcaption>
+</figure>
 
 ## nemiver를 사용하게 된 계기
 
@@ -36,8 +38,9 @@ workbench에서는 signal들을 직렬화 시켜서 순서대로 연관된 모�
 
 ## nemiver 모듈 추가 과정
 
-<figure class="half">
-	<img src="//kbs0327.github.io/blog/images/nemiver_prototype.jpg">
+<figure>
+	<a href="//kbs0327.github.io/blog/images/nemiver_prototype.jpg"><img src="//kbs0327.github.io/blog/images/nemiver_prototype.jpg"></a>
+	<figcaption>Image caption.</figcaption>
 </figure>
 
 위의 그림이 제가 처음 시작했던 프로젝트의 프로토타입이었습니다.
@@ -48,8 +51,9 @@ workbench에서는 signal들을 직렬화 시켜서 순서대로 연관된 모�
 
 제가 만든 모듈은 그 때까지 함수의 정보와 매개변수 등을 기록하고 그것을 보여주는 형태로 만들었습니다.
 
-<figure class="half">
-	<img src="//kbs0327.github.io/blog/images/nemiver_complete.jpg">
+<figure>
+	<a href="//kbs0327.github.io/blog/images/nemiver_complete.jpg"><img src="//kbs0327.github.io/blog/images/nemiver_complete.jpg"></a>
+	<figcaption>Image caption.</figcaption>
 </figure>
 
 이런 형태로 완성이 되었습니다.

@@ -6,7 +6,10 @@ image:
   teaser: toby.jpg
 categories: book
 ---
-<img src="http://toby.epril.com/tobyimage/tobyspring31-2-c.jpg">
+<figure>
+	<a href="http://toby.epril.com/tobyimage/tobyspring31-2-c.jpg"><img src="http://toby.epril.com/tobyimage/tobyspring31-2-c.jpg"></a>
+	<figcaption>Image caption.</figcaption>
+</figure>
 
 회사를 떠올리면 프로젝트가 먼저 생각이 납니다.
 

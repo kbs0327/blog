@@ -126,7 +126,10 @@ compare함수를 정의하면 스코프 체인이 생성되고 이를 함수 내
 활성화 객체는 익명함수가 파괴될 때까지 메모리에 남습니다.  
 
 이해를 돕기 위해서 다이어그램을 추가하겠습니다.(출처: Insanehong 블로그)  
-<img src="http://insanehong.kr/post/javascript-scope/@img/diagram3.jpeg">  
+<figure>
+  <a href="http://insanehong.kr/post/javascript-scope/@img/diagram3.jpeg"><img src="http://insanehong.kr/post/javascript-scope/@img/diagram3.jpeg">
+	<figcaption>장애환경 인포그래픽</figcaption>
+</figure>  
 
 ### 클로저와 변수
 클로저는 항상 외부함수의 변수의 최종 값만 알 수 있습니다.
