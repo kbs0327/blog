@@ -5,7 +5,7 @@ title: "Tech Blog"
 ---
 
 <div class="tiles">
-
+<ul>
 {% for category in site.categories %}
   <li><a name="{{ category | first }}">{{ category | first }}</a>
     <ul>
@@ -17,4 +17,5 @@ title: "Tech Blog"
     </ul>
   </li>
 {% endfor %}
+</ul>
 </div><!-- /.tiles -->
