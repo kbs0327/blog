@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: article
 title:  "브라우저 객체 모델"
 date:   2015-03-09 16:31:13
 image:
