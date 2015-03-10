@@ -40,12 +40,8 @@ layout: default
 				{{ content }}
 				<hr/>
 				<h2>Comments</h2>
-        <div
-          class="fb-like"
-          data-share="true"
-          data-width="450"
-          data-show-faces="true">
-        </div>
+        alert("{{ "{{ site.url " }}}}{{ "{{ page.url " }}}}");
+        <div class="fb-comments" data-href="{{ "{{ site.url " }}}}{{ "{{ page.url " }}}}" data-num-posts="4" data-width="706"></div>
 			</div><!-- /.content -->
 		</div><!-- /.inner-wrap -->
 		{% if page.ads == true %}<div class="ads">{% include advertising.html %}</div><!-- /.ads -->{% endif %}
