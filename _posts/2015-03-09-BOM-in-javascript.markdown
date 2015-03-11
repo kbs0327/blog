@@ -18,10 +18,10 @@ BOM은 웹페이지 콘텐츠와 무관하게 브라우저 기능을 노출하�
 {% highlight js %}
 var age 29;
 function sayAge() {
-  alert(this.age);
+  console.log(this.age);
 }
 
-alert(window.age); // 29
+console.log(window.age); // 29
 sayAge();          // 29
 window.sayAge();   // 29
 {% endhighlight %}
@@ -33,7 +33,7 @@ window.color = "red";
 
 delete window.age;    // IE9 미만에서는 에러, 나머지는 false반환
 delete window.color;  // IE9 미만에서는 에러, 나머지는 true반환
-alert(window.color);  // undefined
+console.log(window.color);  // undefined
 
 var newValue = oldValue;          // oldValue를 선언한 적이 없어서 에러가 발생  
 var new Value = window.oldValue;  // 프로퍼티 검색이므로 에러가 발생하지 않음  
@@ -151,9 +151,9 @@ wroxWin.moveTo(100,100);
 
 // 닫기
 wroxWin.close();
-alert(wroxWin.closed); // true
+console.log(wroxWin.closed); // true
 
-alert(wroxWin.opener == window); // true
+console.log(wroxWin.opener == window); // true
 {% endhighlight %}
 opener프로퍼티: 자신을 연 창을 참조함 - null로 변경시 프로세스를 분리할 수 있음  
 
@@ -182,7 +182,7 @@ try {
 }
 
 if(blocked) {
-  alert("The popup was blocked!");
+  console.log("The popup was blocked!");
 }
 {% endhighlight %}
 
@@ -192,10 +192,10 @@ if(blocked) {
 
 #### 타임아웃
 {% highlight js %}
-setTimeout("alert('Hello world!')", 1000);
+setTimeout("console.log('Hello world!')", 1000);
 
 var timeoutId = setTimeout(function() {
-  alert("Hello world!");
+  console.log("Hello world!");
   }, 1000);
 
 clearTimeout(timeoutId);
@@ -220,7 +220,7 @@ function incrementNumber() {
   if (num < max) {
     setTimeout(incrementNumber, 500);
   } else {
-    alert("Done");
+    console.log("Done");
   }
 }
 
@@ -228,7 +228,7 @@ setTimeout(incrementNumber, 500);
 {% endhighlight %}
 
 ### 시스템 대화상자  
-alert - 알림  
+console.log - 알림  
 confirm - 확인 취소 (boolean 반환)  
 prompt - 입력받는 대화상자 (대화상자 표시할 텍스트, 기본값을 매개변수로 가지며 입력받은 값을 반환합니다.)  
 find - 비동기적인 찾기 대화상자  
@@ -279,7 +279,7 @@ var qs = (location.search.length > 0 ? location.search.substring(1) : ""),
 assign, href - 새 URL 이동 및 브라우저 히스토리 스택에 추가  
 location 객체 프로퍼티 변경 - 현재 페이지 영향줌  
 replace - 이동하지만 히스토리 스택에 기록이 남지는 않음  
-reload - 가능하면 캐시에서 읽어옴  
+reload - 페이지 갱신 가능하면 캐시에서 읽어옴  
 
 {% highlight js %}
 location.assign("http://www.wrox.com");
@@ -331,12 +331,13 @@ function hasPlugin(name) {
   return false;
 }
 
-alert(hasPlugin("Flash"));
-alert(hasPlugin("QuickTime"));
+console.log(hasPlugin("Flash"));
+console.log(hasPlugin("QuickTime"));
 {% endhighlight %}
 
 인터넷 익스플로러는 플러그인 탐지가 어렵습니다.  
-COM객체로 플러그인을 구현해서 해당 COM 식별자를 알아야 확인 가능합니다.  
+플러그인을 탐지하는 유일한 방법은 ActiveXObject를 사용하는 것입니다.  
+인터넷 익스플로러는 COM객체로 플러그인을 구현해서 해당 COM 식별자를 알아야 확인 가능합니다.  
 {% highlight js %}
 function hasPlugin(name) {
   try {
@@ -347,8 +348,8 @@ function hasPlugin(name) {
   }
 }
 
-alert(hasIEPlugin("ShockwaveFlash.ShockwaveFlash"));
-alert(hasIEPlugin("QuickTime.QuickTime"));
+console.log(hasIEPlugin("ShockwaveFlash.ShockwaveFlash"));
+console.log(hasIEPlugin("QuickTime.QuickTime"));
 {% endhighlight %}
 
 ### 처리기 등록  

@@ -37,11 +37,11 @@ var functionName = function(arg0, arg1, arg2) {
 // 쓰면 안됨
 if(condition) {
   function sayHi() {
-    alert("Hi!");
+    console.log("Hi!");
   }
 } else {
   function sayHi() {
-    alert("Yo!");
+    console.log("Yo!");
   }
 }
 
@@ -49,11 +49,11 @@ if(condition) {
 var sayHi;
 if(condition) {
   sayHi = function() {
-    alert("Hi");
+    console.log("Hi");
   };
 } else {
   sayHi = function() {
-    alert("Yo!");
+    console.log("Yo!");
   };
 }
 {% endhighlight %}
@@ -72,7 +72,7 @@ function factorial(num) {
 // 이 함수는 동작하지 않습니다.
 var anotherFactorial = factorial;
 factorial = null;
-alert(anotherFactorial(4)); // 에러 - anotherFactorial 함수에서 factorial 함수를 호출하나 factorial 함수는 null
+console.log(anotherFactorial(4)); // 에러 - anotherFactorial 함수에서 factorial 함수를 호출하나 factorial 함수는 null
 {% endhighlight %}  
 이러한 경우 스트릭트 모드가 아닐 때에는 arguments.callee를 사용하면 에러가 발생하지 않습니다.  
 그리고 다른 방식으로 이름 붙은 함수 표현식을 사용하면 스트릭트 모드에서도 에러가 발생하지 않습니다.  
@@ -164,7 +164,7 @@ var object = {
   }
 };
 
-alert(object.getNameFunc()()); // The Window
+console.log(object.getNameFunc()()); // The Window
 // 주석을 실행 시키면 My Object라고 출력됨
 {% endhighlight %}
 모든 함수는 호출되는 순간 자동으로 this와 arguments 두 특별한 변수를 가지게 됩니다.  
@@ -180,9 +180,9 @@ var object = {
   }
 };
 
-alert(object.getName()); // My Object
-alert((object.getName)()); // My Object
-alert((object.getName = object.getName)()); // The Window
+console.log(object.getName()); // My Object
+console.log((object.getName)()); // My Object
+console.log((object.getName = object.getName)()); // The Window
 {% endhighlight %}
 object의 getName을 호출하면 this는 object 객체가 되고  
 object.getName과 (object.getName)은 같은 것으로 정의되어 있어서 this는 유지됩니다.  
@@ -198,7 +198,7 @@ function assignHandler() {
   var id = element.id; // id 사본을 저장
 
   element.onclick = function() {
-    alert(id);
+    console.log(id);
   };
 
   element = null; // 메모리 해제를 위해 null할당
@@ -211,11 +211,11 @@ function assignHandler() {
 {% highlight js %}
 function outputNumbers(count) {
   for (var i = 0; i < count; i++) {
-    alert(i);
+    console.log(i);
   }
 
   var i; // 변수 재선언
-  alert(i); // count
+  console.log(i); // count
 }
 {% endhighlight %}
 
@@ -261,9 +261,9 @@ function Person(name) {
 }
 
 var person = new Person("Nicholas");
-alert(person.getName()); // Nicholas
+console.log(person.getName()); // Nicholas
 person.setName("Greg");
-alert(person.getName()); // Greg
+console.log(person.getName()); // Greg
 {% endhighlight %}
 이 패턴의 문제점은 오직 생성자 패턴을 통해서만 이런 결과가 가능하다는 것입니다.
 
@@ -306,13 +306,13 @@ MyObject에 var를 사용하지 않아서 고유 스코프가 아닌 전역에 �
 })();
 
 var person1 = new Person("Nicholas");
-alert(person1.getName()); // Nicholas
+console.log(person1.getName()); // Nicholas
 person1.setName("Greg");
-alert(person1.getName()); // Greg
+console.log(person1.getName()); // Greg
 
 var person2 = new Person("Michael");
-alert(person1.getName()); // Michael
-alert(person2.getName()); // Michael
+console.log(person1.getName()); // Michael
+console.log(person2.getName()); // Michael
 {% endhighlight %}
 인스턴스가 독립 변수를 가질 수 없지만 프로토타입을 통해 코드 재사용성은 좋아집니다.
 
