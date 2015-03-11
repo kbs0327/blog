@@ -185,11 +185,11 @@ alert((object.getName)()); // My Object
 alert((object.getName = object.getName)()); // The Window
 {% endhighlight %}
 object의 getName을 호출하면 this는 object 객체가 되고  
-object.getName은 (object.getName)은 같은 것으로 정의되어 있어서 this는 유지됩니다.  
+object.getName과 (object.getName)은 같은 것으로 정의되어 있어서 this는 유지됩니다.  
 하지만 먼저 할당 후에 그 결과를 호출햇으므로 this값은 유지되지 않아서 The Window를 반환합니다.  
 
 ### 메모리 누수
-클로저는 인터넷 익스플로러 9이전 버전에서 메모리 문제르 일으킵니다.
+클로저는 인터넷 익스플로러 9이전 버전에서 메모리 문제를 일으킵니다.
 JScript와 COM의 가비지 컬렉션방법이 다르기 때문입니다.
 
 {% highlight js %}
@@ -233,6 +233,7 @@ function outputNumbers(count) {
 자바스크립트는 private member는 존재하지 않습니다. 하지만 privilged 메서드를 통해 흉내낼 수 있습니다.  
 
 메소드를 클로저로 만들어서 private member를 만드는 방법입니다.  
+방탄생성자 패턴과 비슷합니다.  
 {% highlight js %}
 function MyObject() {
   var privateVariable = 10;
