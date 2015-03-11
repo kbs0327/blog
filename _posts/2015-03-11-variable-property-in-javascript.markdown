@@ -4,7 +4,7 @@ title:  "자바스크립트에서의 변수 vs 프로퍼티"
 date:   2015-03-11 12:20:13
 image:
   teaser: programming.jpg
-categories: book
+categories: technology
 ---
 
 # 자바스크립트에서 변수와 프로퍼티의 차이
