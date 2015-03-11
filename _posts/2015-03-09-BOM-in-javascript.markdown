@@ -231,12 +231,12 @@ wroxWin.resizeTo(500,500);
 wroxWin.moveTo(100,100);
 
 // 닫기
-wroxWin.close();
+wroxWin.close(); // window.open으로 생성한 팝업창에서만 동작
 console.log(wroxWin.closed); // true
 
 console.log(wroxWin.opener == window); // true
 {% endhighlight %}
-opener프로퍼티: 자신을 연 창을 참조함 - null로 변경시 프로세스를 분리할 수 있음  
+opener프로퍼티: 최상위 window의 객체로 자신을 연 창을 참조함 - null로 변경시 프로세스를 분리할 수 있음  
 
 #### 보안 제한
 
@@ -248,7 +248,9 @@ opener프로퍼티: 자신을 연 창을 참조함 - null로 변경시 프로세
 - 사용자 행동없는 상태에서 팝업창 호출하면 팝업창 제목만 노출(크롬)  
 
 #### 팝업 차단
-팝업차단기가 작동되면 window.open()은 null을 반환합니다. 하지만 외부 프로그램이 팝업을 차단한 경우에는 에러를 반환합니다.  
+팝업차단기를 사용하면 예기치 못한 팝업을 차단할 수 있습니다.  
+팝업차단기가 작동되면 window.open()은 null을 반환합니다.  
+하지만 외부 프로그램이 팝업을 차단한 경우에는 에러를 반환합니다.  
 
 {% highlight js %}
 var blocked = false;
@@ -322,14 +324,58 @@ print - 프린트 대화상자
 현재 창에 불러온 문서 정보와 함께 일반적인 내비게이션기능을 제공  
 window의 프로퍼티인 동시에 document의 프로퍼티(같은 객체)  
 
-hash - #다음에 문자가 나오는 형태[#contents](없으면 빈 문자열)  
-host - 서버이름과 포트번호[www.wrox.com:80]  
-hostname - 포트번호를 제외한 서버이름[www.wrox.com]  
-href - 페이지의 완전한 URL, location.toString도 이 값을 반환합니다.[http://www.wrox.com]  
-pathname - URL에 포함된 디렉터리 및 파일 이름[/WileyCDA]  
-port - URL의 요청포트입니다. 없으면 빈문자열을 반환합니다.[8080]  
-protocol - 페이지에서 사용하는 프로토콜입니다.[http:]  
-search - URL의 쿼리스트링 부분입니다.[?q=javascript]  
+<table>
+  <tr>
+    <th style="width:20%">Property</th>
+    <th>Description</th>
+    <th>Example</th>
+  </tr>
+  <tr>
+    <td>hash</td>
+    <td>Sets or returns the anchor part (#) of a URL</td>
+    <td>#contents</td>
+  </tr>
+  <tr>
+    <td>host</td>
+    <td>Sets or returns the hostname and port number of a URL</td>
+    <td>www.wrox.com:80</td>
+  </tr>
+  <tr>
+    <td>hostname</td>
+    <td>Sets or returns the hostname of a URL</td>
+    <td>www.wrox.com</td>
+  </tr>
+  <tr>
+    <td>href</td>
+    <td>Sets or returns the entire URL</td>
+    <td>http://www.wrox.com</td>
+  </tr>
+  <tr>
+    <td>origin</td>
+    <td>Returns the protocol, hostname and port number of a URL</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>pathname</td>
+    <td>Sets or returns the path name of a URL</td>
+    <td>/WileyCDA</td>
+  </tr>
+  <tr>
+    <td>port</td>
+    <td>Sets or returns the port number of a URL</td>
+    <td>8080</td>
+  </tr>
+  <tr>
+    <td>protocol</td>
+    <td>Sets or returns the protocol of a URL</td>
+    <td>http:</td>
+  </tr>
+  <tr>
+    <td>search</td>
+    <td>Sets or returns the querystring part of a URL</td>
+    <td>?q=javascript</td>
+  </tr>
+</table>  
 
 ### 쿼리스트링 확장  
 쿼리스트링 파싱하는 코드  
@@ -360,7 +406,7 @@ var qs = (location.search.length > 0 ? location.search.substring(1) : ""),
 assign, href - 새 URL 이동 및 브라우저 히스토리 스택에 추가  
 location 객체 프로퍼티 변경 - 현재 페이지 영향줌  
 replace - 이동하지만 히스토리 스택에 기록이 남지는 않음  
-reload - 페이지 갱신 가능하면 캐시에서 읽어옴  
+reload - 페이지 갱신 가능하면 캐시에서 읽어옴(실행여부를 확실히 알수 없음 - 코드 끝에 두는것을 권장)  
 
 {% highlight js %}
 location.assign("http://www.wrox.com");
@@ -390,6 +436,7 @@ location.reload(true); // 항상 서버에서
 
 ## navigator 객체
 넷스케이프 네비게이터 2에서 도입했고, 클라이언트에서 브라우저 구별 밥법 표준으로 쓰였습니다.  
+참고: [MDN navigator api](https://developer.mozilla.org/ko/docs/Web/API/Navigator)  
 
 ### 플러그인 감지
 plugins 배열에서 정보를 얻을 수 있습니다.  
@@ -434,8 +481,8 @@ console.log(hasIEPlugin("QuickTime.QuickTime"));
 {% endhighlight %}
 
 ### 처리기 등록  
-registerContentHandler() - 처리할 마임타입, 해당 마임타입 처리할 페이지URL, 애필리케이션 이름  
-registerProtocolHandler() - 처리할 프로토콜, 해당 프로토콜 처리할 페이지URL, 애필리케이션 이름  
+registerContentHandler() - 처리할 마임타입, 해당 마임타입 처리할 페이지URL, 애플리케이션 이름  
+registerProtocolHandler() - 처리할 프로토콜, 해당 프로토콜 처리할 페이지URL, 애플리케이션 이름  
 {% highlight js %}
 navigator.registerContentHandler("application/rss+xml", "http://www.somereader.com?feed=%s", "Some Reader");
 navigator.registerProtocolHandler("mailto", "http://www.somemailclient.com?cmd=%s", "Some Mail Client");
@@ -444,6 +491,7 @@ navigator.registerProtocolHandler("mailto", "http://www.somemailclient.com?cmd=%
 ## screen 객체  
 클라이언트 화면에 관련된 객체  
 브라우저에서 기능을 제한할 때가 많으므로 동작하지 않을 때가 많습니다.  
+참고: [MDN screen api](https://developer.mozilla.org/en-US/docs/Web/API/Window/screen)  
 
 ## history 객체  
 처음 연 이후 사용자의 내비게이션 히스토리를 보관합니다.  
@@ -469,3 +517,6 @@ if (history.length == 0) {
 
 ##참고자료  
 Nicholas C. Zakas. (2013). 프론트엔드 개발자를 위한 자바스크립트 프로그래밍, (한선용 옮김). 인사이트  
+[WEB.BLAZONRY](http://www.blazonry.com/javascript/windows.php)  
+[w3schools](http://www.w3schools.com/jsref/obj_location.asp)  
+[MDN WEB API](https://developer.mozilla.org/en-US/docs/Web/API)  
