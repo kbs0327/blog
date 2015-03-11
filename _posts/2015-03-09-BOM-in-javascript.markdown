@@ -55,6 +55,7 @@ parent객체는 현재 프레임의 상위 부모 프레임을 가리킵니다.
 self객체는 자기 자신을 가리킵니다.  
 
 이 객체들은 window의 프로퍼티여서 window.parent, window.top도 가능합니다.  
+프레임을 사용하면 브라우저에 Global 객체가 여러개 존재하게 됩니다.  
 사용예  
 {% highlight js %}
 // 가장 최상위 프레임 호출
@@ -127,18 +128,98 @@ window.open 함수
 
 #### 팝업 창
 
-default값은 []로 표시  
-- fullscreen: 최대 크기로 생성할지 선택(yes/no)  
-- height: 새 창의 높이(최소: 100)  
-- left: 새 창의 x좌표(음수 불가)  
-- location: 주소표시줄을 표시할지 나타냄(yes/no)  
-- menubar: 메뉴바 표시할지 나타냄(yes/[no])  
-- resizable: 크기를 조절할 수 있는지 나타냄(yes/[no])  
-- scrollbars: 스크롤을 허용할지 나타냄(yes/[no])  
-- status: 상태바를 표시할지 나타냄(yes/[no])  
-- toolbar: 툴바를 표시할지 나타냄(yse/[no])  
-- top: 새 창의 x좌표(음수불가)  
-- width: 새 창의 너비(최소: 100)  
+<table border="1" cellspacing="5" cellpadding="5">
+  <tr>
+    <th>Option</th>
+    <th>Values</th>
+    <th>Description</th>
+    <th>Default</th>
+  </tr>
+  <tr>
+    <td>location</td>
+    <td>yes|no</td>
+    <td>Does the location bar show?</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>menubar</td>
+    <td>yes|no</td>
+    <td>Does the menubar show?</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>scrollbars</td>
+    <td>yes|no</td>
+    <td>Do scrollbars show?</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>status</td>
+    <td>yes|no</td>
+    <td>Does the status bar show|</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>titlebar</td>
+    <td>yes|no</td>
+    <td>Does the titlebar show?</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>toolbar</td>
+    <td>yes|no</td>
+    <td>Does the toolbar show?</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>resizable</td>
+    <td>yes|no</td>
+    <td>Can you resize the window?</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>height</td>
+    <td>pixels</td>
+    <td>height of window</td>
+    <td>Min 100</td>
+  </tr>
+  <tr>
+    <td>width</td>
+    <td>pixels</td>
+    <td>width of window</td>
+    <td>Min 100</td>
+  </tr>
+  <tr>
+    <td>directories</td>
+    <td>yes|no</td>
+    <td>Does the personal toolbar show?</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>innerHeight</td>
+    <td>pixels</td>
+    <td>specifies the inner height of window</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>innerWidth</td>
+    <td>pixels</td>
+    <td>specifies the inner width of window</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>screenX</td>
+    <td>pixels</td>
+    <td>specifies distance from left edge of screen</td>
+    <td></td>
+  </tr>
+  <tr>
+    <td>screenY</td>
+    <td>pixels</td>
+    <td>specifies distance from top edge of screen</td>
+    <td></td>
+  </tr>
+</table>
 
 {% highlight js %}
 var wroxWin = window.open("http://www.wrox.com/","wroxWindow", "height=400,width=400,top=10,left=10,resizable=yes");
