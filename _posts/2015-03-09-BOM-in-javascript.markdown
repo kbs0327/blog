@@ -128,7 +128,7 @@ window.open 함수
 
 #### 팝업 창
 
-<table border="1" cellspacing="5" cellpadding="5">
+<table>
   <tr>
     <th>Option</th>
     <th>Values</th>
