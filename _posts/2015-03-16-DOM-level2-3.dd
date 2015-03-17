@@ -1,0 +1,36 @@
+---
+	layout: article
+title: "DOM 레벨2와 레벨3"
+date: 2015 - 03 - 16 11: 12: 13
+image: teaser: javascript_book.jpg
+categories: book
+---
+
+# # DOM변경점
+
+DOM레벨 2는새타입을전혀도입하지않았습니다.
+DOM레벨 3은기존의타입을확장하고새타입을추가했습니다.
+DOM모듈지원은다음코드로확인할수있습니다. 
+{ % highlight js % }
+var supportsDOM2Core = document.implementation.hasFeature("Core", "2.0");
+var supportsDOM3Core = document.implementation.hasFeature("Core", "3.0");
+var supportsDOM2HTML = document.implementation.hasFeature("HTML", "2.0");
+var supportsDOM2Views = document.implementation.hasFeature("Veiws", "2.0");
+var supportsDOM2XML = document.implementation.hasFeature("XML", "2.0"); 
+{ % endhighlight % }
+
+# # # XML네임스페이스
+XML네임스페이스는 HTML에서 지원되지 않고 XHTML에서만 지원됩니다.  
+xmlns속성으로 표시되며 XHTML에서는 html요소안에 네임스페이스를 표시해야 합니다.  
+XHTML 네임스페이스는 http://www.w3.org/1999/xhtml 입니다.
+{ % highlight js % }
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Example XHTML page</title>
+	</head>
+	<body>
+		Hello world!
+	</body>
+</html>
+{ % endhighlight % }
+
