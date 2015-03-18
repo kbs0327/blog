@@ -90,33 +90,33 @@ DOM레벨2 이벤트 명세에서는 타깃에서 이벤트를 호출할 시에 
 ### HTML 이벤트 핸들러
 HTML속성에 할당하여 실행할 수 있습니다.  
 
-{ % highlight html % }
+{% highlight html %}
 <input type="button" value="Click Me" onclick="alert('Clicked')"/>
-{ % endhighlight % }
+{% endhighlight %}
 
 이 코드에서는 자바스크립트도 HTML요소이므로 HTML이스케이프하여 표현해야 합니다.  
 HTML 이벤트 핸들러는 인라인도 가능하지만 아래처럼 표현하는 것도 가능합니다.  
 
-{ % highlight html % }
+{% highlight html %}
 <script type="text/javascript">
 function showMessage() {
 	alert("Hello world");
 }
 </script>
 <input type="button" value="Click Me" onclick="showMessage()"/>
-{ % endhighlight % }
+{% endhighlight %}
 
 이런 방식으로 할당되면 event라는 특별한 로컬변수가 생기고 이는 이벤트 객체에 해당합니다.  
 this값은 이벤트 타깃 요소와 일치합니다.
 
-{ % highlight html % }
+{% highlight html %}
 <input type="button" value="Click Me" onclick="alert(event.type)">	<!-- click --> 
 <input type="button" value="Click Me" onclick="alert(this.type)">	<!-- click Me --> 
-{ % endhighlight % }
+{% endhighlight %}
 
 아래와 같이 스코프 체인 확장이 일어납니다.
 
-{ % highlight js % }
+{% highlight js %}
 function() {
 	with(document) {
 		with(this) {
@@ -124,17 +124,17 @@ function() {
 		}
 	}
 }
-{ % endhighlight % }
+{% endhighlight %}
 
 그래서 아래와같이 자신의 프로퍼티에 쉽게 접근할 수 있습니다.
 
-{ % highlight html % }
+{% highlight html %}
 <input type="button" value="Click Me" onclick="alert(value)">	<!-- click Me --> 
-{ % endhighlight % }
+{% endhighlight %}
 
 요소가 폼 input요소인 경우 스코프체인에 부모인 폼 요소도 포합됩니다.  
 
-{ % highlight js % }
+{% highlight js %}
 function() {
 	with(document) {
 		with(this.form) {
@@ -144,25 +144,25 @@ function() {
 		}
 	}
 }
-{ % endhighlight % }
+{% endhighlight %}
 
 이렇게 확장되는 속성대문에 이벤트 핸들러는 형제 멤버에 접근하기 쉽습니다.
 
-{ % highlight html % }
+{% highlight html %}
 <form method="post">
 	<input type="text" name="username" value="">
 	<input type="button" value="Echo Username" onclick="alert(username.value)">
 </form>
-{ % endhighlight % }
+{% endhighlight %}
 
 HTML에 이벤트 핸들러 할당하는 방법의 단점들  
 
 1.핸들러가 정의되지 않은 상태에서 버튼을 누르면 에러가 발생할 때도 있습니다.  
 그래서 아래처럼 에러를 조용히 처리하게 합니다.  
 
-{ % highlight html % }
+{% highlight html %}
 <input type="button" value="Click Me" onclick="try{showMessage();} catch(ex){}">
-{ % endhighlight % }
+{% endhighlight %}
 
 2.이벤트 핸들러 함수의 스코프 체인 확장 결과가 브라우저마다 다름  
 3.HTML과 자바스크립트가 너무 단단히 묶임
@@ -170,46 +170,46 @@ HTML에 이벤트 핸들러 할당하는 방법의 단점들
 ### DOM 레벨0 이벤트 핸들러
 이벤트핸들러를 할당하는 전통적인 방법은 이벤트 핸들러 프로퍼티에 함수를 할당하는 것입니다.
 
-{ % highlight js % }
+{% highlight js %}
 document.getElementById("myBtn");
 btn.onclick = function () {
 	alert("Clicked");
 };
-{ % endhighlight % }
+{% endhighlight %}
 
 DOM 레벨0방법으로 이벤트 핸들러를 할당하면 해당 요소의 메서드로 간주됩니다.  
 이 이벤트 핸들러는 요소의 스코프에서 실행되며 this는 요소 자체입니다.  
 
-{ % highlight js % }
+{% highlight js %}
 document.getElementById("myBtn");
 btn.onclick = function () {
 	alert(this.id);	// myBtn
 };
-{ % endhighlight % }
+{% endhighlight %}
 
 이벤트 버블링 단계에 실행되도록 의도한 것입니다.  
 이를 해제하기 위해서는 아래와 같이 하면 됩니다.
 
-{ % highlight js % }
+{% highlight js %}
 btn.onclick = null;
-{ % endhighlight % }
+{% endhighlight %}
 
 ### DOM 레벨2 이벤트 핸들러
 DOM 레벨2 이벤트에서는 담당 메서드를 도입했습니다.  
 addEventListener: 이벤트 할당  
 removeEventListener: 이벤트 제거  
 
-{ % highlight js % }
+{% highlight js %}
 var btn = document.getElementById("myBtn");
 btn.addEventListener("click", function () {
 	alert(this.id);	//myBtn
 }, false);
-{ % endhighlight % }
+{% endhighlight %}
 
 이벤트는 마지막 매개변수가 false여서 버블링 단계에 실행됩니다.  
 이벤트는 요소의 스코프에서 실행됩니다. 또한 이벤트는 여러개 존재할 수 있습니다.  
   
-{ % highlight js % }
+{% highlight js %}
 var btn = document.getElementById("myBtn");
 btn.addEventListener("click", function () {
 	alert(this.id);	//myBtn
@@ -217,12 +217,12 @@ btn.addEventListener("click", function () {
 btn.addEventListener("click", function () {
 	alert("Hello world");	// Hello world
 }, false);
-{ % endhighlight % }
+{% endhighlight %}
 
 이벤트를 제거할 때는 핸들러를 추가할 때와 같은 매개변수로 removeEventListener를 호출해야합니다.  
 즉, 추가한 익명함수는 제거할 수 없습니다.
 
-{ % highlight js % }
+{% highlight js %}
 var btn = document.getElementById("myBtn");
 btn.addEventListener("click", function () {
 	alert(this.id);	//myBtn
@@ -231,11 +231,11 @@ btn.addEventListener("click", function () {
 btn.removeEventListener("click", function () { // 동작하지 않음
 	alert(this.id);
 }, false);
-{ % endhighlight % }
+{% endhighlight %}
 
 이는 아래와 같이 써야 동작합니다.
 
-{ % highlight js % }
+{% highlight js %}
 var btn = document.getElementById("myBtn");
 var handler = function () {
 	alert(this.id);
@@ -243,33 +243,33 @@ var handler = function () {
 
 btn.addEventListener("click", handler, false);
 btn.removeEventListener("click", handler, false);
-{ % endhighlight % }
+{% endhighlight %}
 
 ### 인터넷 익스플로러 이벤트 핸들러
 인터넷 익스플로러도 DOM표준과 비슷한 메서드를 구현했습니다.
 attachEvent: 이벤트 할당
 detachEvent: 이벤트 제거
 
-{ % highlight js % }
+{% highlight js %}
 var btn = document.getElementById("myBtn");
 btn.attachEvent("onclick", function() {
 	alert("Clicked");
 });
-{ % endhighlight % }
+{% endhighlight %}
 
 attachEvent로 등록한 이벤트 핸들러는 전역 컨텍스트에서 실행됩니다.
 
-{ % highlight js % }
+{% highlight js %}
 var btn = document.getElementById("myBtn");
 btn.attachEvent("onclick", function() {
 	alert(this === window); // true
 });
-{ % endhighlight % }
+{% endhighlight %}
 
 요소에 여러 이벤트를 추가할 수 있습니다.  
 하지만 순서는 반대로 호출됩니다.
 
-{ % highlight js % }
+{% highlight js %}
 var btn = document.getElementById("myBtn");
 btn.attachEvent("onclick", function() {
 	alert("Clicked");
@@ -277,7 +277,7 @@ btn.attachEvent("onclick", function() {
 btn.attachEvent("onclick", function() {
 	alert("Hello world!");
 });
-{ % endhighlight % }
+{% endhighlight %}
 
 detachEvent로 등록한 이벤트를 삭제할 수 있습니다.(익명함수 제거 안됩니다.)
 
@@ -285,7 +285,7 @@ detachEvent로 등록한 이벤트를 삭제할 수 있습니다.(익명함수 �
 가능한한 많은 브라우저에서 동작하게 하려면 버블링 단계에서 이벤트를 동작시켜야 합니다.  
 크로스 브라우저 이벤트 핸들러 EventUtil을 만듭니다.  
 
-{ % highlight js % }
+{% highlight js %}
 var EventUtil = {
 	addHandler: function (element, type, handler) {
 		if (element.addEventListener) {
@@ -315,7 +315,7 @@ var handler = function () {
 EventUtil.addHandler(btn, "click", handler);
 
 EventUtil.removeHandler(btn, "click", handler);
-{ % endhighlight % }
+{% endhighlight %}
 
 ## event 객체
 모든 브라우저가 지원하지만 세부사항까지 같지는 않습니다.  
@@ -331,7 +331,7 @@ EventUtil.removeHandler(btn, "click", handler);
 DOM표준을 준수하는 브라우저에서 이벤트 핸들러에 전달되는 매개변수는 event객체 하나뿐입니다.  
 다음과 같이 사용할 수 있습니다.
 
-{ % highlight js % }
+{% highlight js %}
 var btn = document.getElementById("myBtn");
 btn.onclick = function (event) {
 	alert(event.type);	//click
@@ -340,12 +340,12 @@ btn.onclick = function (event) {
 btn.addEventListener("click", function (event) {
 	alert(event.type);	//click
 }, false);
-{ % endhighlight % }
+{% endhighlight %}
 
 이벤트와 관련된 프로퍼티와 메서드는 [링크](https://developer.mozilla.org/en-US/docs/Web/API/Event)를 참조하면 됩니다.  
 다음 코드를 살펴보면 this와 currentTarget, target의 상관관계를 알 수 있습니다.  
 
-{ % highlight js % }
+{% highlight js %}
 var btn = document.getElementById("myBtn");
 btn.onclick = function (event) {
 	alert(event.currentTarget === this);	// true
@@ -357,11 +357,11 @@ document.body.onclick = function (event) {
 	alert(event.target === this);			// true
 	alert(event.target === document.getElementById("myBtn"));	// true
 }
-{ % endhighlight % }
+{% endhighlight %}
 
 이 프로퍼티들을 이용해서 하나의 함수에서 여러 이벤트를 처리하게 할 수 있습니다.  
 
-{ % highlight js % }
+{% highlight js %}
 var btn = document.getElementById("myBtn");
 var handler = function (event) {
 	switch (event.type) {
@@ -382,7 +382,7 @@ var handler = function (event) {
 btn.onclick = handler;
 btn.onmouseover = handler;
 btn.onmouseout = handler;
-{ % endhighlight % }
+{% endhighlight %}
 
 preventDefault()로 이벤트를 취소할 수 있습니다.(단, cancelable 프로퍼티가 true여야함)  
 그리고 stopPropagation()메서드는 이벤트 흐름을 즉시 멈춰서 캡처링 버블링을 취소합니다.  
@@ -391,7 +391,7 @@ eventPhase 프로퍼티: 현재 어느단계에 있는지 알려줌
 2: 타깃 호출  
 3: 버블링  
 
-{ % highlight js % }
+{% highlight js %}
 // preventDefault 실습
 var link = document.getElementById("myLink");
 link.onclick = function (event) {
@@ -422,7 +422,7 @@ document.body.addEventListener("click", function (event) {
 document.body.onclick = function (event) {
 	alert(event.eventPhase);	// 3
 };
-{ % endhighlight % }
+{% endhighlight %}
 
 ### 인터넷 익스플로러의 event 객체
 이벤트 핸들러를 어떻게 할당했느냐에 따라 다르게 접근합니다.  
@@ -431,7 +431,7 @@ attachEvent로 할당하면 event객체는 함수의 유일한 매개변수로 �
 HTML 속성에서 할당하면 event 변수에 저장됩니다.  
 인터넷 익스플로러의 공통 프로퍼티와 메서드는 [링크](https://msdn.microsoft.com/en-us/library/ie/ms535863%28v=vs.85%29.aspx)를 확인하기 바랍니다.  
 
-{ % highlight js % }
+{% highlight js %}
 // DOM0 접근법
 var btn = document.getElementById("myBtn");
 btn.onclick = function () {
@@ -444,19 +444,19 @@ var btn = document.getElementById("myBtn");
 btn.attachEvent("onclick", function (event) {
 	alert(event.type);	//click
 });
-{ % endhighlight % }
+{% endhighlight %}
 
-{ % highlight html % }
+{% highlight html %}
 // HTML 접근법
 <input type="button" value="Click Me" onclick="alert(event.type)">			<!-- click -->	
 <input type="button" value="Click Me" onclick="alert(window.event.type)">	<!-- click이므로 event 객체는 window변수에 저장됨-->
-{ % endhighlight % }
+{% endhighlight %}
 
 this도 상황에 따라 다르므로 event.srcElement를 사용하는 편이 좋습니다.  
 returnValue 프로퍼티는 false를 입력하면 기본동작이 취소됩니다.  
 cancelBubble 프로퍼티는 true를 입력하면 버블링이 취소됩니다.
 
-{ % highlight js % }
+{% highlight js %}
 // this와 event.srcElement
 var btn = document.getElementById("myBtn");
 btn.onclick = function () {
@@ -483,12 +483,12 @@ btn.onclick = function () {
 document.body.onclick = function () {
 	alert("Body clicked");
 };
-{ % endhighlight % }
+{% endhighlight %}
 
 ### 크로스 브라우저 이벤트 객체
 DOM 표준과 IE의 event객체를 크로스브라우저 솔루션으로 구현할 수 있습니다.  
 
-{ % highlight js % }
+{% highlight js %}
 var EventUtil = {
 	addHandler: function (element, type, handler) {
 		if (element.addEventListener) {
@@ -533,7 +533,7 @@ var EventUtil = {
 		}
 	}
 };
-{ % endhighlight % }
+{% endhighlight %}
 
 ## 이벤트 타입
 - UI이벤트는 브라우저 이벤트이며 BOM과 상호작용합니다
@@ -575,24 +575,24 @@ var EventUtil = {
 
 위의 HTML이벤트는 DOMActivate를 제외하면 DOM 레벨2 이벤트의 HTML 이벤트 그룹에 속합니다.
 
-{ % highlight js % }
+{% highlight js %}
 // HTML 이벤트가 DOM 레벨2 이벤트 지원
 var isSupported = document.implementation.hasFeature("HTMLEvents", "2.0");
 
 // HTML 이벤트가 DOM 레벨3 이벤트 지원
 var isSupported = document.implementation.hasFeature("HTMLEvents", "3.0");
-{ % endhighlight % }
+{% endhighlight %}
 
 #### load 이벤트
 window의 load이벤트: 이미지나 자바스크립트 파일, CSS파일 같은 외부자원을 포함해서 모든 페이지가 불러왔을 때 발생합니다.
 
-{ % highlight js % }
+{% highlight js %}
 EventUtil.addHandler(window, "load", function (event) {
 	alert("Loaded!");
 });
-{ % endhighlight % }
+{% endhighlight %}
 
-{ % highlight html % }
+{% highlight html %}
 <!DOCTYPE html>
 <html>
 	<head>
@@ -602,7 +602,7 @@ EventUtil.addHandler(window, "load", function (event) {
 		
 	</body>
 </html>
-{ % endhighlight % }
+{% endhighlight %}
 
 매개변수인 event값  
 - DOM준수: event.target - document  
@@ -614,11 +614,11 @@ window에서 발생하는 이벤트는 body요소의 속성으로 할당 가능�
 이미지의 load이벤트: 이미지를 다 불러왔을 때 발생합니다.
 요소에 src프로퍼티를 설정하는 즉시 이미지를 내려받습니다.
 
-{ % highlight html % }
+{% highlight html %}
 <img src="smile.gif" onload="alert('Image loaded.')">
-{ % endhighlight % }
+{% endhighlight %}
 
-{ % highlight js % }
+{% highlight js %}
 var image = document.getElementById("myImage");
 EventUtil.addHandler(image, "load", function (event) {
 	event = EventUtil.getEvent(event);
@@ -642,14 +642,14 @@ EventUtil.addHandler(window, "load", function () {
 	});
 	image.src = "smile.gif";
 });
-{ % endhighlight % }
+{% endhighlight %}
 
 비표준방식
 IE9이상, 파이어폭스, 오페라, 크롬, 사파리3이상 - script load이벤트
 IE와 오페라 - css load이벤트
 두 이벤트는 문서에 요소가 추가된 이후에 전송이 시작됩니다.
 
-{ % highlight js % }
+{% highlight js %}
 // script load 이벤트
 EventUtil.addHandler(window, "load", function () {
 	var script = document.createElement("script");
@@ -672,7 +672,7 @@ EventUtil.addHandler(window, "load", function () {
 	link.href = "example.css";
 	document.getElementsByTagName("head")[0].appendChild(link);
 });
-{ % endhighlight % }
+{% endhighlight %}
 
 #### unload 이벤트
 문서를 완전히 닫을 때 발생하며, 메모리 누수 방지 목적으로 사용합니다.  
@@ -681,7 +681,7 @@ event 프로퍼티
 - DOM준수: target - document  
 - IE8이전: srcElement 지원 안합니다.  
 
-{ % highlight html % }
+{% highlight html %}
 <!DOCTYPE html>
 <html>
 	<head>
@@ -691,7 +691,7 @@ event 프로퍼티
 		
 	</body>
 </html>
-{ % endhighlight % }
+{% endhighlight %}
 
 #### resize 이벤트
 브라우저 창의 크기를 변경하면 발생합니다.  
@@ -700,14 +700,14 @@ body요소에 onresize핸들러를 사용해도 되지만 자바스크립트 접
 - IE, 사파리, 크롬 오페라: 1픽셀이라도 바뀌면 발생하며 계속 발생함
 - 파이어폭스: 창 크기 조절을 멈추는 시점에 발생
 
-{ % highlight js % }
+{% highlight js %}
 EventUtil.addHandler(window, "resize", function (event) {
 	alert("Resize");
 });
-{ % endhighlight % }
+{% endhighlight %}
 
 #### scroll 이벤트
-{ % highlight js % }
+{% highlight js %}
 EventUtil.addHandler(window, "scroll", function (event) {
 	if(document.compatMode == "CSS1Compat") {
 		alert(document.documentElement.scrollTop);
@@ -715,7 +715,7 @@ EventUtil.addHandler(window, "scroll", function (event) {
 		alert(document.body.scrollTop);
 	}
 });
-{ % endhighlight % }
+{% endhighlight %}
 
 문서를 스크롤하는 동안 반복 실행됨
 
@@ -739,9 +739,9 @@ EventUtil.addHandler(window, "scroll", function (event) {
 6. 포커스 받는 요소에서 DOMFocusIn 발생  
  
 지원여부 확인
-{ % highlight js % }
+{% highlight js %}
 var isSupported = document.implementation.hasFeature("FocusEvent", "3.0");
-{ % endhighlight % }
+{% endhighlight %}
 
 ### 마우스 이벤트와 휠 이벤트
 DOM레벨 3 정의
@@ -774,32 +774,32 @@ IE 8 이전 버그로 인한 순서
 4. mouseup  
 5. dblclick  
 
-{ % highlight js % }
+{% highlight js %}
 // DOM 레벨2 이벤트 확인
 var isSupported = document.implementation.hasFeature("MouseEvents", "2.0");
 // 위 이벤트 모두 지원 확인
 var isSupported = document.implementation.hasFeature("MouseEvent", "3.0");
-{ % endhighlight % }
+{% endhighlight %}
 
 마우스 휠에는 mousewheel 이벤트가 하나 존재합니다.
 
 #### 클라이언트 좌표
 마우스 이벤트는 clientX, clientY에서 뷰포트 위치를 저장합니다.  
 
-{ % highlight js % }
+{% highlight js %}
 var div = document.getElementById("myDiv");
 EventUtil.addHandler(div, "click", function (event) {
 	event = Eventutil.getEvent(event);
 	console.log("Client coordinates: " + event.clientX + "," + event.clientY);
 });
-{ % endhighlight % }
+{% endhighlight %}
 
 #### 페이지 좌표
 이벤트 객체에 pageX, pageY 프로퍼티에 페이지 좌표가 저장됩니다.  
 IE8 이전버전에서는 페이지 좌표를 지원안하지만 클라이언트 좌표와 스크롤정보를 통해 계산할 수 있습니다.  
 scrollLeft/scrollTop으로 확인하며, 쿽스모드에서는 document.body, 표준모드에서는 document.documentElement에 저장됩니다.
 
-{ % highlight js % }
+{% highlight js %}
 // 페이지 좌표로 구하기
 var div = document.getElementById("myDiv");
 EventUtil.addHandler(div, "click", function (event) {
@@ -822,24 +822,24 @@ EventUtil.addHandler(div, "click", function (event) {
 	}
 	console.log("Page coordinages: " + pageX + "," + pageY);
 });
-{ % endhighlight % }
+{% endhighlight %}
 
 #### 화면좌표
 전체화면 좌표는 이벤트에 screenX/screenY에 저장됩니다.
 
-{ % highlight js % }
+{% highlight js %}
 var div = document.getElementById("myDiv");
 EventUtil.addHandler(div, "click", function (event) {
 	event = EventUtil.getEvent(event);
 	console.log("Screen coordinates: " + event.screenX + "," + event.screenY);
 });
-{ % endhighlight % }
+{% endhighlight %}
 
 #### 키보드 수정
 키보드의 특정키가 클릭에 영향을 줄 수도 있습니다.  
 이러한 수정키들은 Shift, Ctrl, Alt, Meta 키입니다.
 
-{ % highlight js % }
+{% highlight js %}
 var div = document.getElementById("myDiv");
 EventUtil.addHandler(div, "click", function (event) {
 	event = EventUtil.getEvent(event);
@@ -863,14 +863,14 @@ EventUtil.addHandler(div, "click", function (event) {
 	
 	console.log("Keys: " + keys.join(","));
 });
-{ % endhighlight % }
+{% endhighlight %}
 
 #### 관련 요소
 mouseover와 mouseout 이벤트에는 목적지요소를 저장하는 관련 요소가 있습니다.  
 관련요소는 event객체에 relatedTarget프로퍼티에 있습니다.  
 이 프로퍼티는 이 이벤트에서만 값을 가지며 다른 이벤트에서는 null입니다.
 
-{ % highlight html % }
+{% highlight html %}
 <!DOCTYPE html>
 <html>
 	<head>
@@ -881,9 +881,9 @@ mouseover와 mouseout 이벤트에는 목적지요소를 저장하는 관련 요
 		</div>
 	</body>
 </html>
-{ % endhighlight % }
+{% endhighlight %}
 
-{ % highlight js % }
+{% highlight js %}
 var EventUtil = {
 	getRelatedTarget: function (event) {
 		if (event.relatedTarget) {
@@ -907,7 +907,7 @@ EventUtil.addHandler(div, "mouseout", function (event) {
 	var relatedTarget = EventUtil.getRelatedTarget(event);
 	console.log("Moused out of " + target.tagName + " to " + relatedTarget.tagName);
 });
-{ % endhighlight % }
+{% endhighlight %}
 
 #### 버튼
 클릭은 마우스 기본 버튼이나 엔터키를 눌렀을 때만 발생합니다.  
@@ -931,7 +931,7 @@ IE8이전
 크로스 브라우징 코드를 만들때는 보통 DOM방식으로 통일합니다.  
 익스플로러의 5나 7을 반환하는 이벤트는 DOM에서는 0입니다.  
 
-{ % highlight js % }
+{% highlight js %}
 var EventUtil = {
 	getButton: function (event) {
 		if (document.implementation.hasFeature("MouseEvents", "2.0")) {
@@ -961,7 +961,7 @@ EventUtil.addHandler(div, "mousedown", function (event) {
 	event = EventUtil.getEvent(event);
 	console.log(EventUtil.getButton(event));
 });
-{ % endhighlight % }
+{% endhighlight %}
 
 #### 추가적인 이벤트 정보
 DOM레벨2에서는 이벤트 객체에 추가 정보를 제공하는 detail프로퍼티가 있습니다.  
