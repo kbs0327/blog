@@ -25,7 +25,7 @@ DOM 레벨2에서 이벤트의 핵심을 구현했고, 브라우저 전용 이�
 ### 이벤트 버블링
 이벤트의 가장 안쪽부터 거슬러 올라가는 흐름
 
-{ % highlight html % }
+{% highlight html %}
 <!DOCTYPE html>
 <html>
 	<head>
@@ -37,7 +37,7 @@ DOM 레벨2에서 이벤트의 핵심을 구현했고, 브라우저 전용 이�
 		</div>
 	</body>
 </html>
-{ % endhighlight % }
+{% endhighlight %}
 페이지에서 div요소를 클릭하면 이벤트는 아래 순서대로 발생합니다.  
 
 1. div
