@@ -605,6 +605,7 @@ EventUtil.addHandler(window, "load", function (event) {
 {% endhighlight %}
 
 매개변수인 event값  
+
 - DOM준수: event.target - document  
 - IE 8미만: scrElement프로퍼티를 설정하지 않습니다.  
 
@@ -678,6 +679,7 @@ EventUtil.addHandler(window, "load", function () {
 문서를 완전히 닫을 때 발생하며, 메모리 누수 방지 목적으로 사용합니다.  
 이 이벤트는 모든 것이 해제될 때 발생하므로 페이지에 존재하던 객체를 전부 사용할 수 없습니다.
 event 프로퍼티  
+
 - DOM준수: target - document  
 - IE8이전: srcElement 지원 안합니다.  
 
@@ -975,6 +977,161 @@ IE의 이벤트 추가정보
 - offsetY: 타깃 경계기준 y 좌표  
 - shiftLeft: 왼쪽 shift키 눌렸는지 알려줌
 
+#### mousewheel 이벤트
+이 이벤트는 모든 요소에서 발생하며 document(IE8)와 window(IE9 이상, 오페라, 크롬, 사파리)까지 버블링해 올라갑니다.  
+wheelDelta 프로퍼티  
+일반적  
+휠 앞으로 굴림: +120  
+휠 뒤로 굴림: -120  
+오페라 9.5미만: 부호 반대  
 
+DOMMouseScroll 이벤트: 파이어폭스의 마우스 휠 이벤트  
+detail 프로퍼티  
+휠 앞으로 굴림: -3  
+휠 뒤로 굴림: +3  
+
+존재하지 않는 이벤트에 이벤트 핸들러를 할당하면 에러없이 실패합니다.
+
+{% highlight js %}
+// 일반적 마우스 휠 이벤트
+EventUtil.addHandler(document, "mousewheel", function (event) {
+	event = EventUtil.getEvent(event);
+	console.log(event.wheelDelta);
+});
+
+// 오페라 마우스 휠 이벤트
+EventUtil.addHandler(document, "mousewheel", function (event) {
+	event = EventUtil.getEvent(event);
+	var delta = (client.engine.opera && client.engine.opera < 9.5 ? 
+		-event.wheelDelta : event.wheelDelta);
+		console.log(delta);
+});
+
+// 파이어폭스 마우스 휠 이벤트
+EventUtil.addHandler(document, "DOMMouseScroll", function (event) {
+	event = EventUtil.getEvent(event);
+	console.log(event.detail);
+});
+
+// 크로스 브라우저 솔루션
+var EventUtil = {
+	getWheelDelta: function (event) {
+		if (event.wheelDelta) {
+			return (client.engine.opera && client.engine.opera < 9.5 ?
+				-event.wheelDelta : event.wheelDelta);
+		} else {
+			return -event.detail * 40;
+		}
+	},
+	
+	// 이미 설명한 코드는 생략
+};
+
+// 크로스 브라우저 솔루션 이벤트핸들러 등록
+(function() {
+	event = EventUtil.getEvent(event);
+	var delta = EventUtil.getWheelDelta(event);
+	console.log(delta);
+	
+	EventUtil.addHandler(document, "mousewheel", handleMouseWheel);
+	EventUtil.addHandler(document, "DOMMouseScroll", handleMouseWheel);
+})();
+{% endhighlight %}
+
+#### 터치장치 지원
+터치장치 지원할 때 고려할 사항들
+
+- dblclick 이벤트는 전혀 지원되지 않습니다.  
+- 클릭 가능한 요소를 탭하면 mousemove이벤트가 발생합니다.  
+- mousemove 이벤트도 mouseover와 mouseout 이벤트를 발생시킵니다.  
+- mousewheel과 scroll 이벤트는 화면에 두 손가락을 올릴 때 발생하며 움직이면 스크롤됩니다.  
+
+#### 접근성 문제
+스크린 리더 사용자가 쓰기 쉽게 하려면 다음을 주의해야 합니다.
+
+- 코드 실행에는 click을 이용합니다.  
+- 사용자에게 새 option을 제시할 때는 스크린리더 사용자를 고려해야합니다.  
+- 중요한 동작을 dblclick으로 실행시키면 안됩니다.  
+
+### 키보드와 텍스트 이벤트
+DOM레벨2에서는 키보드 이벤트를 정의했다가 제거됬습니다.
+그래서 대부분의 브라우저는 DOM레벨0에 영향을 받고, DOM레벨3 명세를 따르는 브라우저도 있습니다.
+
+- keydown: 사용자가 키를 처음 누를 때 발생  
+- keypress: 사용자가 키를 누르고 문자가 입력되었을 때 처음 입력되며 누르고 있는 동안 계속 발생  
+- keyup: 사용자가 키에서 손을 뗄 때 발생  
+
+keydown과 keypress모두 텍스트 박스에 글자가 생기기 전에 발생하지만 keyup은 글자가 생기고 발생합니다.  
+
+#### 키 코드
+keydown과 keyup이벤트에서는 keyCode프로퍼티에 각 키에 대응하는 코드가 있습니다.
+
+{% highlight js %}
+var textbox = document.getElementById("myText");
+EventUtil.addHandler(textbox, "keyup", function (event) {
+	event = EventUtil.getEvent(event);
+	console.log(event.keyCode);
+});
+{% endhighlight %}
+
+#### 문자코드
+keypress 이벤트객체에는 charCode라는 문자의 아스키코드를 저장하는 프로퍼티를 지원합니다.  
+
+{% highlight js %}
+// 크로스 브라우저 코드
+var EventUtil = {
+	getCharCode: function (event) {
+		if (typeof event.charCode == "number") {
+			return event.charCode;
+		} else {
+			return event.keyCode;
+		}
+	},
+	
+	// 이미 구현한 코드는 설명안함
+};
+
+// 적용
+var textbox = document.getElementById("myText");
+EventUtil.addHandler(textbox, "keypress", function (event) {
+	event = EventUtil.getEvent(event);
+	console.log(EventUtil.getCharCode(event);
+};
+{% endhighlight %}
+
+#### DOM 레벨 3에서 바뀐점
+- charCode 폐기 -> key, char 프로퍼티 추가  
+- key: 문자면 문자 반환, 그 외에는 키 이름 반환  
+- char: 문자면 문자 반환, 그 외는 null 반환  
+- IE9: key지원 char미지원  
+- 사파리5, 크롬: key에서 문자아니면 유니코드 반환  
+- 크로스브라우저 구현 불가 -> key, keyIdentifier, char 안쓰길 권장  
+
+- location: 어디에서 눌렸는지 알려줌(사용 않길 권장)  
+  - keyLocation: 사파리, 크롬에서 location 구현(버그: 3만 동작)  
+	1: 기본 키보드  
+	2: 왼쪽(왼쪽 알트키)  
+	3: 키패드  
+	4: 모바일 환경  
+	5: 조이스틱  
+
+- getModifierState: 수정키 눌려있는지 확인가능(IE만 구현)
+  - 나머지 브라우저는 shiftKey, altKey, ctrlKey metaKey에서 사용가능  
+
+- textInput 이벤트: 문자가 눌렸을 때만 작동함  
+  - event객체에 inputMethod라는 입력방법을 알려주는 프로퍼티 존재  
+    0: 브라우저 입력 모름  
+	1: 키보드  
+	2: 텍스트 붙여넣기  
+	3: 드래그 앤 드롭  
+	4: IME 통한 입력  
+	5: 폼 옵션으로 입력  
+	6: 스타일러스 등으로 입력  
+	7: 목소리로 입력  
+	8: 여러방법 조합  
+	9: 스크립트로 입력
+
+	
 ## 참고자료  
+Nicholas C. Zakas. (2013). 프론트엔드 개발자를 위한 자바스크립트 프로그래밍, (한선용 옮김). 인사이트  
 [MDN event](https://developer.mozilla.org/en-US/docs/Web/API/Event)  
