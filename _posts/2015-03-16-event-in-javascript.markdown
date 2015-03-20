@@ -1131,7 +1131,351 @@ EventUtil.addHandler(textbox, "keypress", function (event) {
 	8: 여러방법 조합  
 	9: 스크립트로 입력
 
+#### 장치별 키보드 이벤트
+Wii리모트에 저장
 	
+#### 조합 이벤트
+DOM 레벨3에서 처음 도입되었으며 IME의 입력을 처리하도록 만들어졌습니다.  
+현재 조합이벤트를 지원하는 브라우저는 IE9 이상밖에 없습니다.
+
+조합이벤트  
+
+- compositionstart: IME 텍스트 조합 열리는 순간 발생(data property는 입력중인 문자입니다(선택만))  
+- compositionupdate: 새문자가 삽입될 때 발생(삽입될 새 문자입니다.)  
+- compositionend: 시스템이 닫힐 때 발생(IME 세션에서 입력된 문자입니다.)
+
+{% highlight js %}
+var textbox = document.getElementById("myText");
+EventUtil.addHandler(textbox, "compositionstart", function (event) {
+	event = EventUtil.getEvent(event);
+	console.log(event.data);
+});
+
+EventUtil.addHandler(textbox, "compositionupdate", function (event) {
+	event = EventUtil.getEvent(event);
+	console.log(event.data);
+});
+
+EventUtil.addHandler(textbox, "compositionend", function (event) {
+	event = EventUtil.getEvent(event);
+	console.log(event.data);
+});
+
+// 지원여부 확인
+var isSupported = document.implementation.hasFeature("CompositionEvent", "3.0");
+{% endhighlight %}
+
+### metation event
+DOM 레벨2에서는 DOM일부가 변경되었을 때 이벤트로 알려줍니다.  
+
+- DOMSubtreeModified: DOM구조가 바뀌었을 때 발생합니다.(다른 이벤트가 모두 발생하고 발생)  
+- DOMNodeInserted: 노드가 다른 노드의 자식으로 삽입될 때 발생합니다.  
+- DOMNodeRemoved: 노드가 부모 노드로 부터 제거될 때 발생합니다.  
+- DOMNodeInsertedIntoDocument: 노드가 직접적으로 또는 자신이 존재하는 서브트리를 통해 삽입되었을 때 발생합니다.(DOM레벨3에서 폐기)  
+- DOMNodeRemovedFromDocument: 노드가 직접적으로 또는 자신이 존재하는 서브트리에서 제거되었을 때 발생합니다.(DOM 레벨3에서 폐기)  
+- DOMAttrModified: 속성이 바뀌었을 때 발생(DOM레벨3에서 폐기)  
+- DOMCharacterDataModified: 텍스트 노드의 값이 바뀔 때 발생(DOM 레벨3에서 폐기)  
+
+지원여부확인
+{% highlight js %}
+var isSupported = document.implementation.hasFeature("MutationEvents", "2.0");
+{% endhighlight %}
+
+#### 노드 제거
+1. removeChild나 replaceChild  
+2. DOMNodeRemoved 이벤트 발생(버블링됨, target: 제거된 노드, event.relatedNote: 부모 노드 참조)  
+3. 자식노드 존재시에 폐기된 DOMNodeRemovedFromDocument 이벤트가 각 자식노드에서 발생한 다음 제거된 노드에서 발생  
+4. 제거  
+5. DOMSubtreeModified 이벤트 발생(target: 제거된 노드의 부모노드)  
+
+{% highlight html %}
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Node Removal Events Example</title>
+	</head>
+	<body>
+		<ul id="myList">
+			<li>Item 1</li>
+			<li>Item 2</li>
+			<li>Item 3</li>
+		</ul>
+	</body>
+</html>
+{% endhighlight %}
+테스트 코드
+{% highlight js %}
+EventUtil.addHandler(window, "load", function (event) {
+	var list = document.getElementById("myList");
+	
+	EventUtil.addHandler(document, "DOMSubtreeModified", function (event) {
+		console.log(event.type);
+		console.log(event.target);
+	});
+	
+	EventUtil.addHandler(document, "DOMNodeRemoved", function (event) {
+		console.log(event.type);
+		console.log(event.target);
+		console.log(event.relatedNode);
+	});
+	
+	EventUtil.addHandler(list.firstChild, "DOMNodeRemovedFromDocument", function (event) {
+		console.log(event.type);
+		console.log(event.target);
+	});
+	
+	list.parentNode.removeChild(list);
+});
+{% endhighlight %}
+
+#### 노드 삽입
+1. appendChild나 replaceChild, insertBefore 호출  
+2. DOMNodeInserted(버블링됨, target: 삽입된 노드, event.relatedNode: 부모노드에 대한 참조)  
+3. 폐기된 DOMNodeInsertedIntoDocument 이벤트 발생(버블링 안됨, target: 삽입된 노드, event: 정보없음)  
+4. 삽입  
+5. DOMSubtreeModified 이벤트 발생  
+
+실행 코드  
+{% highlight js %}
+EventUtil.addHandler(window, "load", function (event) {
+	var list = document.getElementById("myList");
+	var item = document.createElement("li");
+	item.appendChild(document.createTextNode("Item 4"));
+	
+	EventUtil.addHandler(document, "DOMSubtreeModified", function (event) {
+		console.log(event.type);
+		console.log(event.target);
+	});
+	
+	EventUtil.addHandler(document, "DOMNodeInserted", function (event) {
+		console.log(event.type);
+		console.log(event.target);
+		console.log(event.relatedNode);
+	});
+	
+	EventUtil.addHandler(list.firstChild, "DOMNodeInsertedIntoDocument", function (event) {
+		console.log(event.type);
+		console.log(event.target);
+	});
+	
+	list.appendChild(list);
+});
+{% endhighlight %}
+
+### HTML5 이벤트
+
+#### contextmenu 이벤트
+컨텍스트 메뉴가 생기려는 순간에 발생합니다.  
+
+- 버블링됨  
+- target: 해당요소  
+- 이벤트 막기: DOM표준준수(event.preventDefault), IE8이전(event.returnValue)  
+- 브라우저 기본동작 막아야함  
+- 지원: IE, 파이어폭스, 사파리, 크롬, 오페라11이상  
+
+{% highlight html %}
+<html>
+	<body>
+		<div id="myDiv">
+			Right click or Ctrl+click me to get a custom context menu.Click  
+			anywhere else to get the default context menu.
+		</div>
+		<ul id="myMenu" style="position:absolute;visibility:hidden;background-color:silver">
+			<li><a href="http://www.nczonline.net">Nicholas' site</a></li>
+			<li><a href="http://www.wrox.com">Wrox site</a></li>
+			<li><a href="http://www.yahoo.com">Yahoo!</a></li>
+		</ul>
+	</body>
+</html>
+{% endhighlight %}
+
+{% highlight js %}
+EventUtil.addHandler(window, "load", function (event) {
+	var div = document.getElementById("myDiv");
+	
+	EventUtil.addHandler(document, "contextmenu", function (event) {
+		event = EventUtil.getEvent(event);
+		EventUtil.preventDefault(event);
+		
+		var menu = document.getElementById("myMenu");
+		menu.style.left = event.clientX + "px";
+		menu.style.top = event.clientY + "px";
+		menu.style.visibility = "visible";
+	});
+	
+	EventUtil.addHandler(document, "click" function (event) {
+		document.getElementById("myMenu").style.visibility = "hidden";
+	});
+});
+{% endhighlight %}
+
+#### beforeunlod 이벤트
+window에서 발생하며 페이지 떠나는 것을 막기위해 만들어졌습니다.  
+IE, 파이어폭스, 사파리, 크롬, 오페라(12이상)이 지원합니다.  
+
+{% highlight js %}
+EventUtil.addHandler(window, "beforeunload", function (event) {
+	event = EventUtil.getEvent(event);
+	var message = "I'm really going to miss you if you go.";
+	event.returnValue = message;
+	return message;
+});
+{% endhighlight %}
+
+
+#### DOMContentLoaded 이벤트
+DOM트리가 완전히 구성되는 즉시 발생(자바스크립트, CSS등 파일 안기다림)
+
+{% highlight js %}
+EventUtil.addHandler(document, "DOMContentLoaded", function (event) {
+	console.log("Content loaded");
+});
+
+// 지원 안하는 경우 밀리초 타임아웃 사용
+setTimeout(function () {
+	// 이벤트 핸들러 등록
+}, 0);
+{% endhighlight %}
+
+#### readystatechange 이벤트
+문서나 요소를 불러오는 상황에 대한 정보를 제공  
+
+readyState 프로퍼티(같은 순서로 진행되지는 않음)  
+interactive인 시간은 DOMContentLoaded 이벤트가 발생하는 시간과 비슷합니다.(complete보다 빨리 일어날 때도 있음)  
+script나 link요소에서도 발생하므로 외부 자바스크립트나 CSS를 불러왔는지 판단 가능합니다.  
+  
+
+- uninitialized: 객체가 존재하지만 초기화 안됬습니다.  
+- loading: 객체에서 데이터를 불러오는 중입니다.  
+- loaded: 객체에서 데이터를 완전히 불러왔습니다.  
+- interactive: 객체를 완전히 불러오지는 못했지만 상호작용 가능합니다.  
+- complete: 객체를 완전히 불러왔습니다.  
+
+{% highlight js %}
+// 사용 예
+EventUtil.addHandler(document, "readystatechange", function (event) {
+	if (document.readyState == "interactive") {
+		console.log("Content loaded");
+	}
+});
+
+// complete와 interactive 중 빠른 것 먼저실행
+EventUtil.addHandler(document, "readystatechange", function (event) {
+	if (document.readyState == "interactive" ||
+		document.readyState == "complete") {
+		EventUtil.removeHandler(document, "readystatechange", arguments.callee);
+		console.log("Content loaded");
+	}			
+});
+
+// 외부 자바스크립트 로드 예제
+EventUtil.addHandler(window, "load", function () {
+	var script = document.createElement("script");
+	
+	EventUtil.addHandler(script, "readystatechange", function (event) {
+		event = EventUtil.getEvent(event);
+		var taget = EventUtil.getTarget(event);
+		
+		if (target.readyState == "loaded" || target.readyState == "complete") {
+			EventUtil.removeHandler(target, "readystatechange", arguments.callee;
+			console.log("Script Loaded");
+		}
+	});
+	script.src = "example.js";
+	document.body.appendChild(script);
+});
+
+// 외부 CSS 로드 예제
+// 외부 CSS 로드 예제
+EventUtil.addHandler(window, "load", function () {
+	var script = document.createElement("link");
+	link.type = "text/css";
+	link.rel = "stylesheet";
+	
+	EventUtil.addHandler(link, "readystatechange", function (event) {
+		event = EventUtil.getEvent(event);
+		var taget = EventUtil.getTarget(event);
+		
+		if (target.readyState == "loaded" || target.readyState == "complete") {
+			EventUtil.removeHandler(target, "readystatechange", arguments.callee;
+			console.log("CSS Loaded");
+		}
+	});
+	link.src = "example.css";
+	document.getElementsByTagName("head")[0].appendChild(link);
+});
+{% endhighlight %}
+
+#### pageshow, pagehide 이벤트  
+파이어폭스와 오페라는 bfcache라는 기능을 도입했습니다.(캐시)  
+
+pageshow 이벤트
+
+- load보다 늦게 발생하며 페이지 상태를 복원하는 즉시 발생합니다.  
+- document에서 발생하지만 window에 이벤트 핸들러 등록  
+- 이벤트 객체에 persisted프로퍼티: bfcache에 저장된 경우 true반환  
+
+pagehide 이벤트  
+
+- unload이벤트 전에 발생  
+- document에서 발생하지만 window에 이벤트 핸들러 등록  
+- 이벤트 객체에 persisted프로퍼티: 페이지 떠난 다음 bfcache에 저장될 때 true
+
+두 이벤트 지원: 파이어폭스, 사파리 5이상, 크롬, 오페라, IE9
+
+{% highlight js %}
+// pageshow 테스트
+(function() {
+	var showCount = 0;
+	
+	EventUtil.addHandler(window, "load", function () {
+		console.log("Load fired");
+	});
+	
+	EventUtil.addHandler(window, "pageshow", function () {
+		showCount++;
+		console.log("Show has been fired " + showCount + " times.");
+	});
+})();
+
+// pagehide 이벤트
+(function() {
+	var showCount = 0;
+	
+	EventUtil.addHandler(window, "load", function () {
+		console.log("Load fired");
+	});
+	
+	EventUtil.addHandler(window, "pageshow", function () {
+		showCount++;
+		console.log("Show has fired " + showCount + " times. Persisted? " + event.persisted);
+	});
+})();
+{% endhighlight %}
+
+#### hashchange 이벤트
+url해시가 바뀔 때 발생합니다.  
+이벤트 객체에는 oldURL과 newURL 두가지가 추가됩니다.  
+지원: IE8이상, 파이어폭스 3.6이상, 크롬, 오페라 10.6이상
+
+{% highlight js %}
+EventUtil.addHandler(window, "hashchange", function (event) {
+	console.log("Old URL: " + event.oldURL + "\nNew URL: " + event.newURL);
+});
+
+EventUtil.addHandler(window, "hashchange", function (event) {
+	console.log("Current hash: " + location.hash);
+});
+
+// 지원 여부 확인
+var isSupported = ("onhashchange" in window);
+
+// IE8에서 IE7문서모드일 때 지원안하는데 지원한다고 버그있음
+// 해결소스
+var isSupported = ("onhashchange" in window) &&
+				(document.documentMode === undefined ||
+					document.documentMode > 7);
+{% endhighlight %}
 ## 참고자료  
 Nicholas C. Zakas. (2013). 프론트엔드 개발자를 위한 자바스크립트 프로그래밍, (한선용 옮김). 인사이트  
 [MDN event](https://developer.mozilla.org/en-US/docs/Web/API/Event)  
