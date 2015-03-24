@@ -397,4 +397,4 @@ describe("custom asymmetry", function() {
 {% endhighlight %}
 
 ## 참고자료  
-[Jasmine 공식홈페이지](http://jasmine.github.io/2.2/introduction.html)
+[Jasmine 공식홈페이지](http://jasmine.github.io/2.2/introduction.html)  
