@@ -1,0 +1,400 @@
+---
+layout: article
+title: "Jasmin"
+date: 2015-03-23 14:13:13
+image: 
+  teaser: jasmin.png
+categories: technology
+---
+
+# BDD Test Framework, Jasmin
+자스민은 BDD(Behavior-driven development) 테스트 프레임워크입니다.
+
+## 용어
+아래에 나오는 Suite들과 Spec들은 모두 Javascript의 함수입니다.
+
+### Suites
+테스트 코드에서 describe 함수를 사용하여 정의하는 블럭이며, 여러개의 Spec으로 구성됩니다.
+
+### Specs
+describe함수 안에서 it함수로 정의되며, spec안에는 1개 이상의 expectation으로 구성됩니다.
+
+### Expectations
+expect함수로 정의되며, actual이라고도 불립니다. expectation은 기대값을 정의하는 Matcher함수의 체인을 가집니다.
+
+예제들
+{% highlight js %}
+describe("A suite", function() {
+	it("contains spec with an expectation", function() {
+		expect(true).toBe(true);
+	});
+});
+
+describe("A suite is just a function", function() {
+	var a;
+	
+	it("and so is a spec", function() {
+		a = true;
+		
+		expect(a).toBe(true);
+	});
+});
+
+describe("The 'toBe' matcher compares with ===", function() {
+	it("and has a positive case", function() {
+		expect(true).toBe(true);
+	});
+	
+	it("and can have a negative case", function() {
+		expect(false).not.toBe(true);
+	});
+});
+{% endhighlight %}
+
+### Matchers
+값의 기대값을 정의하며, 결과는 true나 false로 나옵니다. 반대의 값을 원한다면 Matcher앞에 not을 붙이면 됩니다.  
+다양한 Matcher들이 존재하며, [custom matcher](http://jasmine.github.io/2.2/custom_matcher.html)도 정의할 수 있습니다.
+
+주요 Matchers
+
+1. toBe: '==='비교 연산
+2. toEqual: 간단한 문자열이나 변수, 객체에서 동작
+3. toMatch: 정규식 일치 확인
+4. toBeDefined: undefined가 아님
+5. tobeUndefined: undefined임
+6. toBeNull: null임
+7. toBeTruthy: boolean으로 변할 수 있음
+8. toBeFalsy: boolean으로 변할 수 없음
+9. toContain: 배열에 인자가 있음
+10. toBeLessThan: 값이 작음
+11. toBeGreaterThan: 값이 큼
+12. toBeCloseTo: 소수점아래 몇자리까지 같은지 확인
+13. toThrow: 함수가 예외를 던짐
+
+
+{% highlight js %}
+describe("Included matchers:", function() {
+	// 1
+	it("The 'toBe' matcher compares with ===", function() {
+		var a = 12;
+		var b = a;
+		
+		expect(a).toBe(b);
+		expect(a).not.toBe(null);
+	});
+	
+	// 2
+	describe("The 'toEqual' matcher", function() {
+		it("works for simple literals and variables", function() {
+			var a = 12;
+			expect(a).toEqual(12);
+		});
+		
+		it("should work for objects", function() {
+			var foo = {
+				a: 12,
+				b: 34
+			};
+			var bar = {
+				a: 12,
+				b: 34
+			};
+			expect(foo).toEqual(bar);
+		});
+	});
+	
+	// 3
+	it("The 'toMatch' matcher is for regular expressions", function() {
+		var message = "foo bar baz";
+		
+		expect(message).toMatch(/bar/);
+		expect(message).toMatch("bar");
+		expect(message).not.toMatch(/quux/);
+	});
+	
+	// 4
+	it("The 'toBeDefined' matcher compares against 'undefined'", function() {
+		var a = {
+			foo: "foo"
+		};
+		
+		expect(a.foo).toBeDefined();
+		expect(a.bar).not.toBeDefined();
+	});
+	
+	// 5
+	it("The 'toBeUndefined' matcher compares against 'undefined'", function() {
+		var a = {
+			foo: "foo"
+		};
+		
+		expect(a.foo).not.toBeUndefined();
+		expect(a.bar).toBeUndefined();
+	});
+	
+	// 6
+	it("The 'toBeNull' matcher compares against null", function() {
+		var a = null;
+		var foo = "foo";
+		
+		expect(null).toBeNull();
+		expect(a).toBeNull();
+		expect(foo).not.toBeNull();
+	});
+	
+	// 7
+	it("The 'toBeTruthy' matcher is for boolean casting testing", function() {
+		var a, foo = "foo";
+		
+		expect(foo).toBeTruthy();
+		expect(a).not.toBeTruthy();
+	});
+	
+	// 8
+	it("The 'toBeFalsy' matcher is for boolean casting testing", function() {
+		var a, foo = "foo";
+		
+		expect(a).toBeFalsy();
+		expect(foo).not.toBeFalsy();
+	});
+	
+	// 9
+	it("The 'toContain' matcher is for finding an item in an Array", function() {
+		var a = ["foo", "bar", "baz"];
+		
+		expect(a).toContain("bar");
+		expect(a).not.toContain("quux");
+	});
+	
+	// 10
+	it("The 'toBeLessThan' matcher is for mathematical comparisons", function() {
+		var pi= 3.1415926, e = 2.78;
+		
+		expect(e).toBeLessThan(pi);
+		expect(pi).not.toBeLessThan(e);
+	});
+	
+	// 11
+	it("The 'toBeGreaterThan' matcher is for mathematical comparisons", function() {
+		var pi = 3.1415926, e = 2.78;
+		
+		expect(pi).toBeGreaterThan(e);
+		expect(e).not.toBeGreaterThan(pi);
+	});
+	
+	// 12
+	it("The 'toBeCloseTo' matcher is for precision math comparison", function() {
+		var pi = 3.1415926, e = 2.78;
+		
+		expect(pi).not.toBeCloseTo(e, 2);
+		expect(pi).toBeCloseTo(e, 0);
+	});
+	
+	//13
+	it("The 'toThrow' matcher is for testing if a function throws an exception", function() {
+		var foo = function () {
+			return 1 + 2;
+		};
+		var bar = function () {
+			return a + 1;
+		};
+		
+		expect(foo).not.toThrow();
+		expect(bar).toThrow();
+	});	
+});
+{% endhighlight %}
+
+### spec들의 Grouping
+describe 함수들이 비슷한 spec들을 묶음  
+
+#### Startup Teardown
+beforEach: describe 함수 내에 spec들이 시작될 때마다 실행  
+beforeAll: describe 함수 내에 spec들이 시작되기 전에 1번만 실행됨  
+afterEach: describe 함수 내에 spec들이 끝날 때마다 실행  
+afterAll: describe 함수 내에 spec들이 모두 끝났을 때 1번만 실행됨  
+
+#### this 키워드
+beforeEach/it/afterEach 뭉치 내에서 this는 비어있는 object를 공유함(다른 spec과 공유안됨)
+
+#### 내장 describe block
+describe는 spec이 정의되는 어느 공간에나 정의할 수 있습니다.
+
+### Suit과 Spec 무시
+x를 앞에 붙임(ex. xdescribe, xit)
+
+### pending spec
+실행되지는 않지만 출력에는 보이는 값
+
+### Spies
+test double의 일종으로 describe나 it bloc내 어디서든 호출할 수 있습니다.  
+spy는 특별한 메소드를 가집니다.
+
+{% highlight js %}
+describe("A spy", function() {
+  var foo, bar = null;
+
+  beforeEach(function() {
+    foo = {
+      setBar: function(value) {
+        bar = value;
+      }
+    };
+
+    spyOn(foo, 'setBar');
+
+    foo.setBar(123);
+    foo.setBar(456, 'another param');
+  });
+
+  it("tracks that the spy was called", function() {
+    expect(foo.setBar).toHaveBeenCalled();
+  });
+
+  it("tracks all the arguments of its calls", function() {
+    expect(foo.setBar).toHaveBeenCalledWith(123);
+    expect(foo.setBar).toHaveBeenCalledWith(456, 'another param');
+  });
+
+  it("stops all execution on a function", function() {
+    expect(bar).toBeNull();
+  });
+});
+{% endhighlight %}
+
+#### Spies: and.callThrough
+실제 함수가 그대로 동작하지만 함수가 호출됬는지는 확인가능합니다.  
+
+{% highlight js %}
+spyOn(foo, 'getBar').and.callThrough();
+{% endhighlight %}
+
+#### Spies: and.returnValue
+함수가 호출되면 해당 값을 반환합니다.
+
+{% highlight js %}
+spyOn(foo, "getBar").and.returnValue(745);
+{% endhighlight %}
+
+#### Spies: and.callFake
+함수가 호출되면 지정한 다른 함수가 호출됩니다.
+
+{% highlight js %}
+spyOn(foo, "getBar").and.callFake(function() {
+  return 1001;
+});
+{% endhighlight %}
+
+#### Spies: and.throwError
+함수가 호출되면 에러를 던집니다.
+
+{% highlight js %}
+spyOn(foo, "setBar").and.throwError("quux");
+{% endhighlight %}
+
+#### Spies: and.stub
+언제든지 설정할 수 있으며, stub으로 변화시킵니다.
+
+{% highlight js %}
+describe("A spy", function() {
+  var foo, bar = null;
+
+  beforeEach(function() {
+    foo = {
+      setBar: function(value) {
+        bar = value;
+      }
+    };
+
+    spyOn(foo, 'setBar').and.callThrough();
+  });
+
+  it("can call through and then stub in the same spec", function() {
+    foo.setBar(123);
+    expect(bar).toEqual(123);
+
+    foo.setBar.and.stub();
+    bar = null;
+
+    foo.setBar(123);
+    expect(bar).toBe(null);
+  });
+});
+{% endhighlight %}
+
+#### Spies: calls property
+
+- calls.any(): 한번이라도 불렸으면 true  
+- calls.count(): 불린 횟수  
+- calls.argsFor(index): index번째의 argument 값  
+- calls.allArgs(): 호출된 모든 매개변수  
+- calls.all(): context와 매개변수들을 반환  
+- calls.mostRecent(): 가장최근에 불린 context와 매개변수들을 반환  
+- calls.first(): 처음불린 context와 매개변수들 반환  
+- first, mostRecent, all 함수의 object메소드는 호출한 object반환  
+- calls.reset(): spy 초기화
+
+매개변수들
+{% highlight js %}
+foo.setBar(123);
+[123]
+
+foo.setBar(123);
+foo.setBar(456, "baz");
+[[123],[456, "baz"]]
+{% endhighlight %}
+
+context와 매개변수
+{% highlight js %}
+foo.setBar(123);
+[{object: foo, args: [123], returnValue: undefined}]
+{% endhighlight %}
+
+#### Spies: createSpy
+스파이를 만듭니다. 이 스파이는 다른 스파이와 같은 동작을 합니다.
+
+#### Spies: createSpyObj
+스파이들의 객체를 만듭니다. 
+
+### jasmine.any
+class에 해당하는 어떤 값을 반환합니다.
+
+### jasmine.objectContaining
+객체에서 {key: value} pair가 존재하는지 확인합니다.
+
+### jasmine.arrayContaining
+배열에 값의 배열이 존재하는지 확인
+
+### jasmine.stringMatching
+객체의 {key: value}에서 value를 확인하는 함수입니다.
+
+### asymmetricMatch
+custrum Matric은 object에 asymmetricMatch 속성을 통해 추가할 수 있습니다.  
+
+{% highlight js %}
+describe("custom asymmetry", function() {
+  var tester = {
+    asymmetricMatch: function(actual) {
+      var secondValue = actual.split(',')[1];
+      return secondValue === 'bar';
+    }
+  };
+
+  it("dives in deep", function() {
+    expect("foo,bar,baz,quux").toEqual(tester);
+  });
+
+  describe("when used with a spy", function() {
+    it("is useful for comparing arguments", function() {
+      var callback = jasmine.createSpy('callback');
+
+      callback('foo,bar,baz');
+
+      expect(callback).toHaveBeenCalledWith(tester);
+    });
+  });
+});
+{% endhighlight %}
+
+## 참고자료  
+[Jasmine 공식홈페이지](http://jasmine.github.io/2.2/introduction.html)
