@@ -1,7 +1,7 @@
 ---
 layout: article
 title: "Jasmin"
-date: 2015-03-23 14:13:13
+date: 2015-03-24 14:13:13
 image: 
   teaser: jasmin.png
 categories: technology
