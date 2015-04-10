@@ -17,7 +17,7 @@ categories: technology
 
 ### log 출력 구분
 <figure>
-  <a href="log_map.png"></a>
+  <a href="kbs0327.github.io/blog/images/log_map.png"></a>
 	<figcaption>log map 계층도</figcaption>
 </figure>
 
@@ -26,7 +26,6 @@ categories: technology
 ### log 출력 XML pattern
 %-4relative [%thread] %-5level %logger{32} - %msg%n 형식으로 XML을 setting하면
 {% highlight XML %}
-var age 29;
 176  [main] DEBUG manual.architecture.HelloWorld2 - Hello world.
 {% endhighlight %}
 이 처럼 출력 됩니다.
@@ -102,7 +101,7 @@ root와 logger를 이용해서 로그를 출력할 위치와 정도를 나타낼
 {% endhighlight %}
 위처럼 나타낼 수 있으며 위처럼 설정하면
 <figure>
-  <a href="root_logger.png"></a>
+  <a href="kbs0327.github.io/blog/images/root_logger.png"></a>
 </figure>
 위의 표처럼 assign됩니다.
 
