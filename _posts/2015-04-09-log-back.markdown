@@ -17,7 +17,7 @@ categories: technology
 
 ### log 출력 구분
 <figure>
-  <a href="kbs0327.github.io/blog/images/log_map.png"><img src="kbs0327.github.io/blog/images/log_map.png"></a>
+  <a href="http://kbs0327.github.io/blog/images/log_map.png"><img src="http://kbs0327.github.io/blog/images/log_map.png"></a>
 	<figcaption>log map 계층도</figcaption>
 </figure>
 
@@ -101,7 +101,7 @@ root와 logger를 이용해서 로그를 출력할 위치와 정도를 나타낼
 {% endhighlight %}
 위처럼 나타낼 수 있으며 위처럼 설정하면
 <figure>
-  <a href="kbs0327.github.io/blog/images/root_logger.png"><img src="kbs0327.github.io/blog/images/root_logger.png"></a>
+  <a href="http://kbs0327.github.io/blog/images/root_logger.png"><img src="http://kbs0327.github.io/blog/images/root_logger.png"></a>
 </figure>
 위의 표처럼 assign됩니다.
 
