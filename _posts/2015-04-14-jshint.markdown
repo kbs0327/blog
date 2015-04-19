@@ -1,0 +1,107 @@
+---
+layout: article
+title: "jshint"
+date: 2015-04-14 14:07:13
+image:
+  teaser: jshint.png
+categories: technology
+---
+
+# 소개
+ JSHint는 자바스크립트의 에러나 잠재적인 문제를 찾아내고 팀의 코딩컨벤션을 강제하는 툴입니다.
+
+## 설치 방법
+{% highlight js %}
+$ npm install jshint -g
+$ jshint myfile.js
+{% endhighlight %}
+위의 방법으로 jshint를 설치할 수 있고 아래의 방법으로 jshint를 실행할 수 있습니다.
+
+## 설정
+
+- --config 플래그를 사용하여 설정가능합니다.
+- .jshintrc 파일을 사용하여 설정 가능합니다.
+- 파일에 아래와 같은 주석으로 JShint를 설정할 수 있습니다.
+{% highlight js %}
+/* jshint undef: true, unused: true */
+/* global MY_GLOBAL */
+{% endhighlight %}
+
+## JSHint Options
+
+### 설정하면 경고가 나오는 옵션들
+- bitwise: 이 옵션을 설정하면 ^(XOR)이나 |(OR)같은 비트연산자를 막습니다.
+- curly: 아래와 같이 brace없이 사용하는 것을 막습니다.
+{% highlight js %}
+while (day)
+  shuffle();
+{% endhighlight %}
+- eqeqeq: ==나 !=를 막고 ===와 !== 사용을 강제합니다.
+- es3: JSHint에게 ECMAScript3에 사용한다고 알려줍니다.
+- es5: JSHint에게 ECMAScript5에 사용한다고 알려줍니다.
+- forin: object에 for in을 사용할 때 hasOwnProperty를 사용하게 합니다.
+- freeze: Array나 Date같은 native object의 prototype에 overwriting하는 것을 막습니다.
+- funcscope: if문 같은 영역안에서 선언된 변수에 잡근할 때 warning을 무시합니다.
+- futurehostile: 미래에 사용되기로 한 예약어를 사용하는 것을 막습니다.
+- globals: 전역변수를 읽고 쓰는것을 가능하게 합니다.(false이면 read-only)
+- globalstrict: global strict mode를 사용할 수 있게 합니다.
+- iterator: __iterator__ 속성에 대하여 경고를 무시합니다.
+- latedef: 이미 정의한 변수를 다시 정의하는 것을 막습니다.
+- maxcomplexity: 코드의 cyclomatic complexity의 상한을 정합니다.
+- maxdepth: depth의 한계치를 정합니다.
+- maxerr: 에러의 최대값을 구해서 그 이상의 에러는 무시합니다.
+- maxparams: 함수당 최대 매개변수 수를 정합니다.
+- maxstatements: 함수의 문장의 최대 수를 정합니다.
+- noarg: arguments.caller와 arguments.callee를 막습니다.
+- nocomma: comma 연산자의 사용을 막습니다.
+- nonbsp: npsp 문자에 경고합니다.
+- nonew: new를 사용하고 결과를 가지는 문장이 없는 것을 막습니다.
+- notypeof: typeof 연산자의 값이 잘못되어도 경고하지 않습니다.
+- shadow: 이미 밖에서 선언한 변수를 정의할 때 경고합니다.
+- singleGroups: 제대로 선언되지 않은 grouping 연산자의 사용을 막습니다.
+- undef: 선언되지 않은 변수의 사용을 막습니다.
+- unused: 선언되고 사용되지 않은 변수에 경고를 보여줍니다.
+
+### 설정하면 경고가 무시되는 옵션들
+- asi: ';'이 사용되지 않는 것의 경고를 무시합니다.
+- boss: 값을 정의하면서 그 값을 사용하는 것의 경고를 무시합니다.
+- debug: debugger 문장 사용 경고를 무시합니다.
+- elision: 배열에 빈 요소를 사용할 수 있게 합니다.
+- eqnull: '== null' 같이 null이나 undefined의 비교에 경고가 나오는 것을 무시합니다.
+- esnext: ECMAScript6문법을 사용한다고 알려줍니다.
+- evil: eval에 경고가 뜨는 것을 무시합니다.
+- expr: 값 정의나 함수 호출을 추측하여 경고를 보여주는 것을 막습니다.
+- lastsemic: ';'이 한줄로 쓸 때 중간에도 필요하지만 줄의 끝에만 ';'이 나오면 나오는 경고를 무시합니다.
+- loopfunc: loop문 안에 function을 정의할 때 나오는 경고를 막아줍니다.
+- moz: mozila javascript extention을 사용한다고 jshint에게 알려줍니다.
+- noyield: generator function을 사용할 때 yeild문을 사용하지 않아도 경고를 나오게 하지 않습니다.
+- phantom: phantomJS 환경에서 구동될 때 전역 정의를 가능하게 합니다.
+- plusplus: '++'나 '--'연산자 사용을 막습니다.
+- scripturl: 'javascript:...' 형식으로 외부 url의 스크립트를 가지고 오는 것을 허용합니다.
+- supernew: 'new function() {...}' 구문을 가능하게 합니다.
+- validthis: strict 모드에서 생성자가 아니더라도 this의 사용을 가능하게 합니다.
+- withstmt: 'with' 구문을 사용할 수 있게 합니다.
+
+### 설정하면 미리 정의된 환경을 전역에 설정해주는 옵션들
+- browser: modern browser의 환경을 설정해줍니다.
+- browserify: browserify 툴이 전역환경 정의를 할 수 있게 해줍니다.
+- couch: couchDB를 사용하도록 설정합니다.
+- debug: console이나 alert을 사용할 수 있게 합니다.
+- dojo: dojo 툴킷을 사용하게 합니다.
+- jasmine: jasmine을 사용하게 합니다.
+- jquery: jQuery를 사용하게 합니다.
+- mocha: mocha를 사용하게 합니다.
+- mootools: mootools를 사용하게 합니다.
+- node: Node 실행 환경에서 코드를 작동할 수 있게 합니다.
+- nonstandard: 'escape' 같이 표준은 아니지만 널리 사용하는 것들을 사용하게 합니다.
+- prototypejs: Prototype 프레임워크를 동작하게 합니다.
+- qunit: Qunit 프레임워크를 사용하게 합니다.
+- rhino: Rhino 실행 환경에서 코드를 작동할 수 있게 합니다.
+- shelljs: Shelljs를 사용하게 합니다.
+- typed: typed array constructor를 사용하게 합니다.
+- worker: Web worker 환경에서 코드를 작동할 수 있게 합니다.
+- wsh: windows script host 환경에서 코드를 작동할 수 있게 합니다.
+- yui: YUI 프레임워크를 사용하게 합니다.
+
+## 참고자료
+[jshint 공식 홈페이지](http://logback.qos.ch/manual/index.html)
