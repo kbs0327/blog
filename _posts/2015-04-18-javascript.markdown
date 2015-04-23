@@ -3,7 +3,7 @@ layout: article
 title: "자바스크립트 1차 중급 강의 정리"
 date: 2015-04-18 14:07:13
 image:
-  teaser: javascript_logo.png
+  teaser: javascript_logo.jpeg
 categories: technology
 ---
 
