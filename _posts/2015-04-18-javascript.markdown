@@ -104,32 +104,31 @@ Function 오브젝트는 독립된 객체로 인식하고 접근해야 합니다
 내부프로퍼티는 공통 프로퍼티와 선택적 프로퍼티로 나누어집니다.
 
 ### 공통 내부 프로퍼티
-모든 오브젝트에 설정
-[[Prototype]]: 오브젝트의 프로토타입(Object or Null)
-[[Class]: 오브젝트 유형구분(String)
-[[Extensible]]: 오브젝트에 프로퍼티 추가 가능여부(Boolean)
-[[Get]]: 이름을 가진 프로퍼티 값을 반환(any)
-[[GetOwnProperty]]: 오브젝트 소유의 프로퍼티 디스크립터 속성반환(프로젝트 디스크립터 - Enummarable)
-[[GetProperty]]: 오브젝트의 프로퍼티 디스크립터 속성 반환(프로퍼티 디스크립터)
-[[Put]]: 프로퍼티 이름의 값을 설정
-[[HasProperty]]
-[[Delete]]: 오브젝트에서 프로퍼티 이름 삭제
-[[DefaultValue]]-프리미티브 값: 오브젝트의 디폴트 값(함수) - Boolean, number, string, date 에서만 적용가능확인해봐야함
-[[DefinedOwnProperty]]: 오브젝트에 프로퍼티 추가, 값, 변경
+ - [[Prototype]]: 오브젝트의 프로토타입(Object or Null)
+ - [[Class]: 오브젝트 유형구분(String)
+ - [[Extensible]]: 오브젝트에 프로퍼티 추가 가능여부(Boolean)
+ - [[Get]]: 이름을 가진 프로퍼티 값을 반환(any)
+ - [[GetOwnProperty]]: 오브젝트 소유의 프로퍼티 디스크립터 속성반환(프로젝트 디스크립터 - Enummarable)
+ - [[GetProperty]]: 오브젝트의 프로퍼티 디스크립터 속성 반환(프로퍼티 디스크립터)
+ - [[Put]]: 프로퍼티 이름의 값을 설정
+ - [[HasProperty]]
+ - [[Delete]]: 오브젝트에서 프로퍼티 이름 삭제
+ - [[DefaultValue]]-프리미티브 값: 오브젝트의 디폴트 값(함수) - Boolean, number, string, date 에서만 적용가능확인해봐야함
+ - [[DefinedOwnProperty]]: 오브젝트에 프로퍼티 추가, 값, 변경
 
 ### 선택적 내부 프로퍼티
-[PrimitiveValue]]: Boolean, Number, String, Date에서만 제공(값)
-[[Constructor]]: new연산자로 생성시 반환
-[[Call]]: 함수를 호출 function object만 있음
-[[HasInstance]]: 오브젝트 생성한 인스턴스
-[[Scope]]: Function 오브젝트 실행되는 렉시컬 환경(정적인 환경 - lexical environment)
-[[FormalParameters]]: 호출된 함수의 파라미터 이름 리스트(유사배열)
-[[Code]]: 함수가 호출되었을때 실행(함수의 코드 내용)
-[[TargetFunction]]: 바인드에서만 사용
-[[BoundThis]]: 바인드에서만사용
-[[Boundarguments]]: 파인드에서만 사용
-[[Match]]: 정규식을 중간중간 저장
-[[ParameterMap]]: 아규먼트 오브젝트와 함수 파라미터의 프로퍼티 매핑(호출과 정의의 매개변수 연결)
+ - [PrimitiveValue]]: Boolean, Number, String, Date에서만 제공(값)
+ - [[Constructor]]: new연산자로 생성시 반환
+ - [[Call]]: 함수를 호출 function object만 있음
+ - [[HasInstance]]: 오브젝트 생성한 인스턴스
+ - [[Scope]]: Function 오브젝트 실행되는 렉시컬 환경(정적인 환경 - lexical environment)
+ - [[FormalParameters]]: 호출된 함수의 파라미터 이름 리스트(유사배열)
+ - [[Code]]: 함수가 호출되었을때 실행(함수의 코드 내용)
+ - [[TargetFunction]]: 바인드에서만 사용
+ - [[BoundThis]]: 바인드에서만사용
+ - [[Boundarguments]]: 파인드에서만 사용
+ - [[Match]]: 정규식을 중간중간 저장
+ - [[ParameterMap]]: 아규먼트 오브젝트와 함수 파라미터의 프로퍼티 매핑(호출과 정의의 매개변수 연결)
 
 ### 함수 선언방법
 - 함수 선언문
