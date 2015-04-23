@@ -54,7 +54,9 @@ UI/UX를 표현하는 일이 많이 있고 웹 브라우저에서 돌아갑니�
  - String Boolean number
  - Math Date RegExp JSON Error
 - 빌트인 연산자
- - ++, --
+{% highlight js %}
+    ++, --
+{% endhighlight %}
 
 빌트인의 오브젝트는 글로벌 오브젝트, Object, Function Object로 나누어집니다.
 
