@@ -42,6 +42,7 @@ element.bind("keypress", function (event) {
 이에 대해서 MDN에서는 이렇게 설명하고 있습니다.
 
 There are keydown, keypress, and keyup events. For most keys, Gecko dispatches a sequence of key events like this:
+
 1. When the key is first depressed, the keydown event is sent.
 2. If the key is not a modifier key, the keypress event is sent.
 3. When the user releases the key, the keyup event is sent.
