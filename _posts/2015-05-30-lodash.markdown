@@ -13,6 +13,7 @@ categories: technology
 ## Array 관련 함수
 
 ### _.findIndex
+
 함수형식: _.findIndex(array, [predicate=_.identity], [thisArg])
 입력: object의 배열
 출력: index의 number
@@ -45,6 +46,7 @@ _.findIndex(users, 'active');
 {% endhighlight %}
 
 ### _.flatten
+
 함수형식: _.flatten(array, [isDeep])
 입력: 다차원 배열(배열안에 배열이 있는 배열)
 출력: 결과 array
@@ -61,6 +63,7 @@ _.flatten([1, [2, 3, [4]]], true);
 {% endhighlight %}
 
 ### _.remove
+
 함수형식: _.remove(array, [predicate=_.identity], [thisArg])
 입력: 배열
 출력: 제거된 array
@@ -84,6 +87,7 @@ console.log(evens);
 ## Collection 관련함수
 
 ### _.every
+
 함수형식: _.every(collection, [predicate=_.identity], [thisArg])
 입력: collection
 출력: boolean값
@@ -112,6 +116,7 @@ _.every(users, 'active');
 {% endhighlight %}
 
 ### _.filter
+
 함수형식: _.filter(collection, [predicate=_.identity], [thisArg])
 입력: collection
 출력: 일치하는 값들의 배열
@@ -143,6 +148,7 @@ _.filter(users, 'active');
 {% endhighlight %}
 
 ### _.find
+
 함수형식: _.find(collection, [predicate=_.identity], [thisArg])
 입력: collection
 출력: 처음으로 참이 되는 객체
@@ -175,6 +181,7 @@ _.find(users, 'active');
 {% endhighlight %}
 
 ### _.forEach
+
 함수형식: _.forEach(collection, [iteratee=_.identity], [thisArg])
 입력: collection
 관련함수: _.forEachRight - forEach와 순서가 반대
@@ -198,6 +205,7 @@ _.forEach({ 'a': 1, 'b': 2 }, function(n, key) {
 {% endhighlight %}
 
 ### _.includes
+
 함수형식: _.includes(collection, target, [fromIndex=0])
 입력: collection
 출력: 포함하고 있는지 결과
@@ -221,6 +229,7 @@ _.includes('pebbles', 'eb');
 {% endhighlight %}
 
 ### _.map
+
 함수형식: _.map(collection, [iteratee=_.identity], [thisArg])
 입력: collection
 출력: 계산한 결과 값의 배열
@@ -249,6 +258,7 @@ _.map(users, 'user');
 {% endhighlight %}
 
 ### _.reduce
+
 함수형식: _.reduce(collection, [iteratee=_.identity], [accumulator], [thisArg])
 입력: collection
 출력: 계산한 결과 값
