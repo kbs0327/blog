@@ -14,10 +14,10 @@ categories: technology
 
 ### _.findIndex
 
-함수형식: _.findIndex(array, [predicate=_.identity], [thisArg])
-입력: object의 배열
-출력: index의 number
-관련함수: _.findLastIndex - 뒤에서 부터 일치하는 index를 반환합니다.
+함수형식: _.findIndex(array, [predicate=_.identity], [thisArg])   
+입력: object의 배열  
+출력: index의 number  
+관련함수: _.findLastIndex - 뒤에서 부터 일치하는 index를 반환합니다.  
 
 {% highlight js %}
 var users = [
@@ -47,10 +47,10 @@ _.findIndex(users, 'active');
 
 ### _.flatten
 
-함수형식: _.flatten(array, [isDeep])
-입력: 다차원 배열(배열안에 배열이 있는 배열)
-출력: 결과 array
-관련함수: _.flattenDeep - _.flatten(array, true)와 같은 값을 반환합니다.
+함수형식: _.flatten(array, [isDeep])  
+입력: 다차원 배열(배열안에 배열이 있는 배열)  
+출력: 결과 array  
+관련함수: _.flattenDeep - _.flatten(array, true)와 같은 값을 반환합니다.  
 
 {% highlight js %}
 // 배열안의 배열 값을 순서대로 나열합니다.(1depth만)
@@ -64,10 +64,10 @@ _.flatten([1, [2, 3, [4]]], true);
 
 ### _.remove
 
-함수형식: _.remove(array, [predicate=_.identity], [thisArg])
-입력: 배열
-출력: 제거된 array
-관련함수: _.filter - 다른 점은 remove는 원본값을 변경한다는 것과 반환값이 다릅니다.
+함수형식: _.remove(array, [predicate=_.identity], [thisArg])  
+입력: 배열  
+출력: 제거된 array  
+관련함수: _.filter - 다른 점은 remove는 원본값을 변경한다는 것과 반환값이 다릅니다.  
 
 {% highlight js %}
 var array = [1, 2, 3, 4];
@@ -88,9 +88,9 @@ console.log(evens);
 
 ### _.every
 
-함수형식: _.every(collection, [predicate=_.identity], [thisArg])
-입력: collection
-출력: boolean값
+함수형식: _.every(collection, [predicate=_.identity], [thisArg])  
+입력: collection  
+출력: boolean값  
 
 {% highlight js %}
 // 배열안의 타입을 확인할 수 있습니다.
@@ -117,10 +117,10 @@ _.every(users, 'active');
 
 ### _.filter
 
-함수형식: _.filter(collection, [predicate=_.identity], [thisArg])
-입력: collection
-출력: 일치하는 값들의 배열
-관련함수: _.remove - remove에 설명이 있습니다.
+함수형식: _.filter(collection, [predicate=_.identity], [thisArg])  
+입력: collection  
+출력: 일치하는 값들의 배열  
+관련함수: _.remove - remove에 설명이 있습니다.  
 
 {% highlight js %}
 // 콜백함수를 실행하여 true를 반환하는 값들의 배열을 반환합니다.
@@ -149,10 +149,10 @@ _.filter(users, 'active');
 
 ### _.find
 
-함수형식: _.find(collection, [predicate=_.identity], [thisArg])
-입력: collection
-출력: 처음으로 참이 되는 객체
-관련함수: findLast - _.find의 역순 검색
+함수형식: _.find(collection, [predicate=_.identity], [thisArg])  
+입력: collection  
+출력: 처음으로 참이 되는 객체  
+관련함수: findLast - _.find의 역순 검색  
 
 {% highlight js %}
 var users = [
@@ -182,9 +182,9 @@ _.find(users, 'active');
 
 ### _.forEach
 
-함수형식: _.forEach(collection, [iteratee=_.identity], [thisArg])
-입력: collection
-관련함수: _.forEachRight - forEach와 순서가 반대
+함수형식: _.forEach(collection, [iteratee=_.identity], [thisArg])  
+입력: collection  
+관련함수: _.forEachRight - forEach와 순서가 반대  
 
 {% highlight js %}
 // 배열은 한개의 값씩 대입하여 함수를 실행시킵니다.
@@ -206,9 +206,9 @@ _.forEach({ 'a': 1, 'b': 2 }, function(n, key) {
 
 ### _.includes
 
-함수형식: _.includes(collection, target, [fromIndex=0])
-입력: collection
-출력: 포함하고 있는지 결과
+함수형식: _.includes(collection, target, [fromIndex=0])  
+입력: collection  
+출력: 포함하고 있는지 결과  
 
 {% highlight js %}
 // 배열에 값이 있는지 찾습니다.
@@ -230,9 +230,9 @@ _.includes('pebbles', 'eb');
 
 ### _.map
 
-함수형식: _.map(collection, [iteratee=_.identity], [thisArg])
-입력: collection
-출력: 계산한 결과 값의 배열
+함수형식: _.map(collection, [iteratee=_.identity], [thisArg])  
+입력: collection  
+출력: 계산한 결과 값의 배열  
 
 {% highlight js %}
 function timesThree(n) {
@@ -259,10 +259,10 @@ _.map(users, 'user');
 
 ### _.reduce
 
-함수형식: _.reduce(collection, [iteratee=_.identity], [accumulator], [thisArg])
-입력: collection
-출력: 계산한 결과 값
-관련함수: _.reduceRight - 순서를 반대로 실행시키는 함수
+함수형식: _.reduce(collection, [iteratee=_.identity], [accumulator], [thisArg])  
+입력: collection  
+출력: 계산한 결과 값  
+관련함수: _.reduceRight - 순서를 반대로 실행시키는 함수  
 
 {% highlight js %}
 // reduce는 콜백함수의 첫번째 인자로 전의 함수가 실행시킨 결과를 받습니다.
