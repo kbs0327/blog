@@ -1,0 +1,275 @@
+---
+layout: article
+title: "lodash 정리"
+date: 2015-05-30 14:07:13
+image:
+  teaser: lodash.jpg
+categories: technology
+---
+
+# 개요
+자바스크립트로 개발을 하면서 lodash 라이브러리를 많이 사용하게 되서, lodash 라이브러리 중 많이 사용하는 함수들을 정리해보겠습니다.
+
+## Array 관련 함수
+
+### _.findIndex
+함수형식: _.findIndex(array, [predicate=_.identity], [thisArg])
+입력: object의 배열
+출력: index의 number
+관련함수: _.findLastIndex - 뒤에서 부터 일치하는 index를 반환합니다.
+
+{% highlight js %}
+var users = [
+  { 'user': 'barney',  'active': false },
+  { 'user': 'fred',    'active': false },
+  { 'user': 'pebbles', 'active': true }
+];
+
+// 콜백함수를 실행하여 결과가 처음 true가 나오는 index 값을 반환합니다.
+_.findIndex(users, function(chr) {
+  return chr.user === 'barney';
+});
+// -> 0
+
+// 처음 일치하는 object의 index 값을 반환합니다.
+_.findIndex(users, { 'user': 'fred', 'active': false });
+// -> 1
+
+// 처음으로 해당 key와 value를 가진 index 값을 반환합니다.
+_.findIndex(users, 'active', false);
+// → 0
+
+// 처음으로 해당 key를 가지고 value가 true인 index 값을 반환합니다.
+_.findIndex(users, 'active');
+// → 2
+{% endhighlight %}
+
+### _.flatten
+함수형식: _.flatten(array, [isDeep])
+입력: 다차원 배열(배열안에 배열이 있는 배열)
+출력: 결과 array
+관련함수: _.flattenDeep - _.flatten(array, true)와 같은 값을 반환합니다.
+
+{% highlight js %}
+// 배열안의 배열 값을 순서대로 나열합니다.(1depth만)
+_.flatten([1, [2, 3, [4]]]);
+// → [1, 2, 3, [4]]
+
+// 배열안의 배열 값을 깊이와 상관없이 순서대로 나열합니다.
+_.flatten([1, [2, 3, [4]]], true);
+// → [1, 2, 3, 4]
+{% endhighlight %}
+
+### _.remove
+함수형식: _.remove(array, [predicate=_.identity], [thisArg])
+입력: 배열
+출력: 제거된 array
+관련함수: _.filter - 다른 점은 remove는 원본값을 변경한다는 것과 반환값이 다릅니다.
+
+{% highlight js %}
+var array = [1, 2, 3, 4];
+
+// 원하는 조건에 해당되는 값은 기존 array에서 제거되어 배열로 반환됩니다.
+var evens = _.remove(array, function(n) {
+  return n % 2 == 0;
+});
+
+console.log(array);
+// → [1, 3]
+
+console.log(evens);
+// → [2, 4]
+{% endhighlight %}
+
+## Collection 관련함수
+
+### _.every
+함수형식: _.every(collection, [predicate=_.identity], [thisArg])
+입력: collection
+출력: boolean값
+
+{% highlight js %}
+// 배열안의 타입을 확인할 수 있습니다.
+_.every([true, 1, null, 'yes'], Boolean);
+// → false
+
+var users = [
+  { 'user': 'barney', 'active': false },
+  { 'user': 'fred',   'active': false }
+];
+
+// 값을 비교할 수 있습니다.
+_.every(users, { 'user': 'barney', 'active': false });
+// → false
+
+// key와 value가 있는지 확인할 수 있습니다.
+_.every(users, 'active', false);
+// → true
+
+// key에 해당하는 value가 모두 true이면 true를 반환합니다.
+_.every(users, 'active');
+// → false
+{% endhighlight %}
+
+### _.filter
+함수형식: _.filter(collection, [predicate=_.identity], [thisArg])
+입력: collection
+출력: 일치하는 값들의 배열
+관련함수: _.remove - remove에 설명이 있습니다.
+
+{% highlight js %}
+// 콜백함수를 실행하여 true를 반환하는 값들의 배열을 반환합니다.
+_.filter([4, 5, 6], function(n) {
+  return n % 2 == 0;
+});
+// → [4, 6]
+
+var users = [
+  { 'user': 'barney', 'age': 36, 'active': true },
+  { 'user': 'fred',   'age': 40, 'active': false }
+];
+
+// 입력한 object의 key와 value들을 모두 포함하는 객체들을 배열로 반환합니다.
+_.filter(users, { 'age': 36, 'active': true });
+// → [{ 'user': 'barney', 'age': 36, 'active': true }]
+
+// 입력한 key와 value가 있는 객체들을 배열로 반환합니다.
+_.filter(users, 'active', false);
+// → [{ 'user': 'barney', 'age': 36, 'active': true }]
+
+// 입력한 key값이 true인 객체들을 배열로 반환합니다.
+_.filter(users, 'active');
+// → [{ 'user': 'barney', 'age': 36, 'active': true }]
+{% endhighlight %}
+
+### _.find
+함수형식: _.find(collection, [predicate=_.identity], [thisArg])
+입력: collection
+출력: 처음으로 참이 되는 객체
+관련함수: findLast - _.find의 역순 검색
+
+{% highlight js %}
+var users = [
+  { 'user': 'barney',  'age': 36, 'active': true },
+  { 'user': 'fred',    'age': 40, 'active': false },
+  { 'user': 'pebbles', 'age': 1,  'active': true }
+];
+
+// 콜백함수가 처음으로 참이되는 객체를 반환
+_.find(users, function(chr) {
+  return chr.age < 40;
+});
+// → { 'user': 'barney',  'age': 36, 'active': true }
+
+// 객체의 키와 value가 모두 일치하는 처음의 객체 반환
+_.find(users, { 'age': 1, 'active': true });
+// → { 'user': 'pebbles', 'age': 1,  'active': true }
+
+// 객체의 키와 value가 모두 일치하는 처음의 객체 반환
+_.find(users, 'active', false);
+// → { 'user': 'fred',    'age': 40, 'active': false }
+
+// 해당 키가 처음으로 true가 되는 객체 반환
+_.find(users, 'active');
+// → { 'user': 'barney',  'age': 36, 'active': true }
+{% endhighlight %}
+
+### _.forEach
+함수형식: _.forEach(collection, [iteratee=_.identity], [thisArg])
+입력: collection
+관련함수: _.forEachRight - forEach와 순서가 반대
+
+{% highlight js %}
+// 배열은 한개의 값씩 대입하여 함수를 실행시킵니다.
+_([1, 2]).forEach(function(n) {
+  console.log(n);
+}).value();
+// 1
+// 2
+
+// object는 한개의 value와 키를 대입하여 함수를 실행시킵니다.
+_.forEach({ 'a': 1, 'b': 2 }, function(n, key) {
+  console.log(n, key);
+});
+// 1
+// "a"
+// 2
+// "b"
+{% endhighlight %}
+
+### _.includes
+함수형식: _.includes(collection, target, [fromIndex=0])
+입력: collection
+출력: 포함하고 있는지 결과
+
+{% highlight js %}
+// 배열에 값이 있는지 찾습니다.
+_.includes([1, 2, 3], 1);
+// → true
+
+// index에 해당 값이 있는지 찾습니다.
+_.includes([1, 2, 3], 1, 2);
+// → false
+
+// 일치하는 값이 있는지 찾습니다.
+_.includes({ 'user': 'fred', 'age': 40 }, 'fred');
+// → true
+
+// 일치하는 값이 문자열 안에 있는지 찾습니다.
+_.includes('pebbles', 'eb');
+// → true
+{% endhighlight %}
+
+### _.map
+함수형식: _.map(collection, [iteratee=_.identity], [thisArg])
+입력: collection
+출력: 계산한 결과 값의 배열
+
+{% highlight js %}
+function timesThree(n) {
+  return n * 3;
+}
+
+// 해당함수를 실행하고 그 결과를 배열로 반환합니다.
+_.map([1, 2], timesThree);
+// → [3, 6]
+
+// 해당함수를 실행하고 그 결과를 배열로 반환합니다.
+_.map({ 'a': 1, 'b': 2 }, timesThree);
+// → [3, 6]
+
+var users = [
+  { 'user': 'barney' },
+  { 'user': 'fred' }
+];
+
+// key값만 집어넣을 경우 해당 value값들을 배열로 반환해줍니다.
+_.map(users, 'user');
+// → ['barney', 'fred']
+{% endhighlight %}
+
+### _.reduce
+함수형식: _.reduce(collection, [iteratee=_.identity], [accumulator], [thisArg])
+입력: collection
+출력: 계산한 결과 값
+관련함수: _.reduceRight - 순서를 반대로 실행시키는 함수
+
+{% highlight js %}
+// reduce는 콜백함수의 첫번째 인자로 전의 함수가 실행시킨 결과를 받습니다.
+// 그리고 함수가 모두 실행된 뒤에 결과를 반환합니다.
+_.reduce([1, 2], function(total, n) {
+  return total + n;
+});
+// → 3
+
+// reduce는 콜백함수의 첫번째 인자로 전의 함수가 실행시킨 결과를 받습니다.
+// 그리고 함수가 모두 실행된 뒤에 결과를 반환합니다.
+_.reduce({ 'a': 1, 'b': 2 }, function(result, n, key) {
+  result[key] = n * 3;
+  return result;
+}, {});
+// → { 'a': 3, 'b': 6 }
+{% endhighlight %}
+
+## 참고자료
+[lodash 공식사이트](https://lodash.com/)
