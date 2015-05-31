@@ -31,10 +31,10 @@ params: 이동할 state에 parameter들을 저장할 수 있습니다. 형식은
 options: state를 이동할 때에 다양한 옵션을 줘서 다르게 동작할 수 있게 합니다. 이번에 살펴볼 것은 reload옵션입니다.  
 
 ### ui-sref
-형식: ui-sref=" {{ state name }} ( {{ params 객체 }} )"  
+형식: ui-sref=" { state name } ( { params 객체 } )"  
 ui-sref는 html에 attribute에 위의 형식으로 넣어서 동작할 수 있습니다.  
 
-ui-sref에 option을 주는 방법으로 ui-sref-opts=" {{ option 객체 }} " attribute를 줄 수 있습니다.  
+ui-sref에 option을 주는 방법으로 ui-sref-opts=" { option 객체 } " attribute를 줄 수 있습니다.  
 
 ## state이동시 reload문제
 state를 이동할 때에 url이 동일하면 이동을 해도 화면을 reload 하지 않는 문제가 있습니다.  
@@ -42,7 +42,7 @@ state를 이동할 때에 url이 동일하면 이동을 해도 화면을 reload 
 하지만 이렇게 이동을 하면 전체 페이지가 reload되는 문제가 있습니다.  
 
 그래서 ui-router v0.2.5부터는 전체 view가 아닌 부분만 reload하게 할 수 있습니다.  
-그 방법은 {reload: {{ state name }} } 형식으로 호출하는 것입니다.  
+그 방법은 {reload: { state name } } 형식으로 호출하는 것입니다.  
 
 state name은 갱신하고 싶은 대상의 state name을 적고, 해당 state부터 하위의 state까지 모두 reload가 됩니다.  
 
