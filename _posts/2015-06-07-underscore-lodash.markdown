@@ -23,8 +23,7 @@ lodash 또한 자바스릅트 유틸리티성 라이브러리로 크로스환경
 ## 차이점
 lodash는 확인해보면 정말 underscore의 superset이라고 할 수 있습니다.  
 먼저 underscore의 API를 구현하였으며(내부 구현은 차이가 있습니다.) underscore에는 없는 함수들을 추가로 개발하였습니다.  
-<iframe width="100%" height="420" src="http://cloud.highcharts.com/embed/utusen/3" style="border: 0px;"></iframe>
-위처럼 성능을 확인해보면 underscore의 API보다 lodash의 API가 대체로 더 성능이 좋은 것을 확인할 수 있습니다.  
+[링크](http://cloud.highcharts.com/embed/utusen/3)의 성능을 확인해보면 underscore의 API보다 lodash의 API가 대체로 더 성능이 좋은 것을 확인할 수 있습니다.  
 
 ## 어떤 것을 써야하는가?
 만약 NodeJS를 사용하는 유저라면 Lodash를 사용하는 것이 더 효율적으로 보입니다.
