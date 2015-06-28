@@ -7,29 +7,29 @@ image:
 categories: technology
 ---
 
-# °³¿ä
-angularjs¸¦ »ç¿ëÇÏ´Ù°¡ º¸¸é ¾î¶²½ÄÀ¸·Î angularjs°¡ ½ÇÇàµÇ°Ô µÇ´ÂÁö ±Ã±ÝÇÒ ¶§°¡ ¸¹ÀÌ ÀÖ½À´Ï´Ù.  
-±×·¡¼­ ÇÑ ¹ø Á¤¸®ÇØ ºÃ½À´Ï´Ù.  
+# ê°œìš”
+angularjsë¥¼ ì‚¬ìš©í•˜ë‹¤ê°€ ë³´ë©´ ì–´ë–¤ì‹ìœ¼ë¡œ angularjsê°€ ì‹¤í–‰ë˜ê²Œ ë˜ëŠ”ì§€ ê¶ê¸ˆí•  ë•Œê°€ ë§Žì´ ìžˆìŠµë‹ˆë‹¤.  
+ê·¸ëž˜ì„œ í•œ ë²ˆ ì •ë¦¬í•´ ë´¤ìŠµë‹ˆë‹¤.  
 
-## ÃÊ±â ¼³Á¤
-ng-appÀ» htmlÅÂ±×¿¡ ¸í½ÃÇØÁÖ°í, script ÅÂ±×¿¡¼­ angularjs ÄÚµå À§Ä¡¸¦ ¸í½ÃÇØÁÝ´Ï´Ù.  
-html¿¡ ng-appÀ» ¸í½ÃÇÒ °æ¿ì auto-bootstrapµÇ¾î angularjs¸¦ »ç¿ëÇÒ ¼ö ÀÖ½À´Ï´Ù.  
+## ì´ˆê¸° ì„¤ì •
+ng-appì„ htmlíƒœê·¸ì— ëª…ì‹œí•´ì£¼ê³ , script íƒœê·¸ì—ì„œ angularjs ì½”ë“œ ìœ„ì¹˜ë¥¼ ëª…ì‹œí•´ì¤ë‹ˆë‹¤.  
+htmlì— ng-appì„ ëª…ì‹œí•  ê²½ìš° auto-bootstrapë˜ì–´ angularjsë¥¼ ì‚¬ìš©í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.  
 
-## ÀÚµ¿ ÃÊ±âÈ­
-angularjs ÃÊ±âÈ­´Â DOMContentLoadedÀÌº¥Æ®°¡ ¹ß»ýÇÏ°Å³ª document.readyState°¡ 'complete'·Î ¼³Á¤µÇ¸é ½ÃÀÛµË´Ï´Ù.
+## ìžë™ ì´ˆê¸°í™”
+angularjs ì´ˆê¸°í™”ëŠ” DOMContentLoadedì´ë²¤íŠ¸ê°€ ë°œìƒí•˜ê±°ë‚˜ document.readyStateê°€ 'complete'ë¡œ ì„¤ì •ë˜ë©´ ì‹œìž‘ë©ë‹ˆë‹¤.
 
-- ¸ÕÀú directive¿Í °ü·ÃµÈ ¸ðµâÀ» ºÒ·¯¿É´Ï´Ù.
-- applicationÀÇ injector¸¦ ¸¸µì´Ï´Ù.
-- ng-appÀ» root·Î DOM compileÀ» ½ÃÀÛÇÕ´Ï´Ù.
+- ë¨¼ì € directiveì™€ ê´€ë ¨ëœ ëª¨ë“ˆì„ ë¶ˆëŸ¬ì˜µë‹ˆë‹¤.
+- applicationì˜ injectorë¥¼ ë§Œë“­ë‹ˆë‹¤.
+- ng-appì„ rootë¡œ DOM compileì„ ì‹œìž‘í•©ë‹ˆë‹¤.
 
 <figure>
-	<a href="//kbs0327.github.io/blog/images/angularjs-concepts-startup.png"><img src="//kbs0327.github.io/blog/images/angularjs-concepts-startup.png"></a>
-	<figcaption>ÀÚµ¿ ºÎÆ®½ºÆ®·¦ °úÁ¤</figcaption>
+	<a href="//kbs0327.github.io/blog/images/angularjs-concepts-startup.png"><img src="//kbs0327.github.io/blog/images/angularjs-concepts-startup.png"></a> 
+	<figcaption>ìžë™ ë¶€íŠ¸ìŠ¤íŠ¸ëž© ê³¼ì •</figcaption>
 </figure>
 
-## ¼öµ¿ ÃÊ±âÈ­
-angular.bootstrapÀÌ¶ó´Â ÇÔ¼ö¸¦ ÅëÇÏ¿© ¼öµ¿ÃÊ±âÈ­¸¦ ÇÒ ¼ö ÀÖ½À´Ï´Ù.  
-ÀÌ ÇÔ¼ö¸¦ ÀÌ¿ëÇÏ¸é custom moduleÀ» Á¤ÀÇÇÒ ¼ö ÀÖ½À´Ï´Ù.
+## ìˆ˜ë™ ì´ˆê¸°í™”
+angular.bootstrapì´ë¼ëŠ” í•¨ìˆ˜ë¥¼ í†µí•˜ì—¬ ìˆ˜ë™ì´ˆê¸°í™”ë¥¼ í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.  
+ì´ í•¨ìˆ˜ë¥¼ ì´ìš©í•˜ë©´ custom moduleì„ ì •ì˜í•  ìˆ˜ ìžˆìŠµë‹ˆë‹¤.
 
-## Âü°íÀÚ·á  
-[AngularJs °ø½Ä È¨ÆäÀÌÁö](https://angularjs.org/)
+## ì°¸ê³ ìžë£Œ  
+[AngularJs ê³µì‹ í™ˆíŽ˜ì´ì§€](https://angularjs.org/)
