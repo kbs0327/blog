@@ -21,7 +21,7 @@ AngularJS에서 가장 큰 장점은 `양방향 바인딩`이라고 생각합니
 </figure>
 
 #### 주요내용  
-- $httpProvider.useApplyAsync  
+- [$httpProvider.useApplyAsync](#httpprovideruseapplyasynchttpsdocsangularjsorgapingproviderhttpprovideruseapplyasync)  
 - $compileProvider.debugInfoEnabled  
 - one time binding  
 - ngRepeat track by  
@@ -318,6 +318,7 @@ ngRepeat 안의 `$watch`되는 변수들을 one time binding을 사용하여 `$w
 Dooray에서는 위의 방법들을 주로 사용하여 속도를 1초정도 개선할 수 있었습니다.  
 
 # 그 외 성능개선 Tip  
+  
 ### [AngularJS Batarang](https://chrome.google.com/webstore/detail/angularjs-batarang-stable/niopocochgahfkiccpjmmpchncjoapek)
 크롬익스텐션으로 이를 사용하면 DOM의 `$watch`변수들의 실행 시간을 확인할 수 있습니다.  
 
