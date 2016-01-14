@@ -45,64 +45,65 @@ Runtime 시에 디버깅 모드를 키고 끌지 정하는 메소드입니다.
 AngularJS의 가장 큰 장점 중의 하나인 HTML에서 JS변수를 보여줄 수 있는 `Expression`은 `\{\{변수명\}\}`의 형태로 JS의 변수를 추가할 수 있습니다.
 
 아래와 같이 입력시에  
-``` html  
+
+{% highlight html %}  
 <div ng-controller="MyCtrl">  
 	{{myName}}  
 </div>  
-```  
-``` javascript  
+{% endhighlight %}  
+{% highlight js %}  
 angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', function ($scope, $timeout) {  
 	$scope.myName = '김부승';  
 	$timeout(function () {  
 		$scope.myName = '알투';  
 	}, 3000);  
 }]);  
-```  
+{% endhighlight %}  
 아래와 같은 형태로 변합니다.  
 
-``` html  
+{% highlight html %}  
 <div ng-controller="MyCtrl">  
 	김부승  
 </div>  
-```  
+{% endhighlight %}  
 그리고 3초 후에 아래처럼 변경됩니다.  
 
-``` html  
+{% highlight html %}  
 <div ng-controller="MyCtrl">  
 	알투  
 </div>  
-```  
+{% endhighlight %}  
 
 이렇게 변하는 이유는 myName 변수가 변했는지 `$watch`하고 있으며 3초 후에 `$digest`될 때에 myName변수가 변경된 것이 DOM에 반영되기 때문입니다.  
 AngularJS는 이렇게 DOM에 `$watch` 수를 줄이기 위해 one time binding을 제공하는데 이것은 1번만 변수를 DOM에 반영하고 `$watch`를 해제시키는 것입니다.  
 one time binding을 적용하면 위의 예제는 아래와 같이 변합니다.  
-``` html  
+{% highlight html %}  
 <div ng-controller="MyCtrl">  
 	{{::myName}}  
 </div>  
-```  
-``` javascript  
+{% endhighlight %}  
+{% highlight js %}  
 angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', function ($scope, $timeout) {  
 	$scope.myName = '김부승';  
 	$timeout(function () {  
 		$scope.myName = '알투';  
 	}, 3000);  
 }]);  
-```  
+{% endhighlight %}  
 
 이렇게 입력하면 똑같이 처음에는 아래처럼 변합니다.  
-``` html  
+{% highlight html %}  
 <div ng-controller="MyCtrl">  
 	김부승  
 </div>  
-```  
+{% endhighlight %}  
 
 하지만 3초 후에 myName변수가 변한 이후에도 아래처럼 보입니다.  
-``` html  
+{% highlight html %}  
 <div ng-controller="MyCtrl">  
 	김부승  
 </div>  
-```  
+{% endhighlight %}  
 
 3초후의 myName 변수는 '알투'라고 저장되어 있지만 DOM에는 반영되지 않습니다. 이것은 `$digest`되도 myName변수를 `$watch`하고 있지 않기 때문에 DOM이 변경되지 않는 것입니다.  
 
@@ -116,15 +117,15 @@ ngRepeat는 간단하게 표한하자면 HTML 소스에서 for문을 실행시�
 이것은 성능의 저하를 일으키는 주된 원인이 됩니다.  
 
 예를들어 아래와 같이 ngRepeat을 사용하면(변화를 보여주기 위해 one time binding을 사용하겠습니다.)
-``` html  
+{% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList">  
 		{{::member.name}}  
 	</div>  
 </div>  
-```  
+{% endhighlight %}  
 
-``` javascript  
+{% highlight js %}  
 angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', function ($scope, $timeout) {  
 	$scope.memberList = [{  
 		id: 1,  
@@ -142,9 +143,9 @@ angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', funct
 		$scope.memberList.splice(0, 1, {id: 1, name: '알투'});  
 	}, 3000);  
 }]);  
-```  
+{% endhighlight %}  
 처음에는 아래와 같은 형태로 보이게 되고  
-``` html
+{% highlight html %}  
 <div ng-controller="MyCtrl">
 	<div ng-repeat="member in memberList">
 		김부승
@@ -153,10 +154,10 @@ angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', funct
 		박현재
 	</div>
 </div>
-```
+{% endhighlight %}  
 
 3초 후에는 아래처럼 변하게 됩니다.  
-``` html  
+{% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList">  
 		알투  
@@ -165,22 +166,21 @@ angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', funct
 		박현재  
 	</div>  
 </div>  
-```  
-
+{% endhighlight %}  
 
 ## track by 속성
 ngRepeat에는 track by 속성을 주어서 성능을 개선할 수 있습니다.  
 track by 속성을 추가하면 해당 변수(혹은 함수)를 계산하여 값이 같으면 DOM을 다시 그리지 않고 기존의 DOM을 가져다가 사용합니다.  
 
-``` html  
+{% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList track by member.id">  
 		{{::member.name}}  
 	</div>  
 </div>  
-```  
+{% endhighlight %}  
 
-``` javascript  
+{% highlight js %}  
 angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', function ($scope, $timeout) {  
 	$scope.memberList = [{  
 		id: 1,  
@@ -198,10 +198,10 @@ angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', funct
 		$scope.memberList.splice(0, 1, {id: 1, name: '알투'});  
 	}, 3000);  
 }]);  
-```  
+{% endhighlight %}  
   
 이렇게 수정하면 처음에는 아래와 같은 형태로 보이게 되고  
-``` html  
+{% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList track by member.id">  
 		김부승  
@@ -210,10 +210,10 @@ angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', funct
 		박현재  
 	</div>  
 </div>  
-```  
+{% endhighlight %}  
 
 하지만 3초 후에 myName변수가 변한 이후에도 아래처럼 보입니다.  
-``` html  
+{% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList track by member.id">  
 		김부승  
@@ -222,7 +222,7 @@ angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', funct
 		박현재  
 	</div>  
 </div>  
-```  
+{% endhighlight %}  
 
 이렇게 `$digest`되더라도 ngRepeat에서 track by 속성을 통해 DOM 전체를 다시 그릴지 판단하는데 변화를 감지하는데,  
 member.id가 변하지 않아서 해당 돔 전체를 그대로 사용하기 때문에 이전과 똑같이 보이게 됩니다.  
@@ -230,13 +230,13 @@ member.id가 변하지 않아서 해당 돔 전체를 그대로 사용하기 때
 ### track by 사용 시에 주의할 점
 track by를 사용할 때에는 track by속성이 있는 ngRepeat에서 track by의 결과가 중복되서는 안된다는 것입니다.  
 만약 위의 예에서 아래처럼 member.organization을 사용하면 멤버 2명의 값이 같기 때문에 에러가 발생합니다.  
-``` html  
+{% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList track by member.organization">  
 		{{::member.name}}  
 	</div>  
 </div>  
-```  
+{% endhighlight %}  
 
 # one time binding과 ngRepeat track by를 조합하여 성능 개선하기  
 one time binding과 ngRepeat의 track by 속성을 조합하면 서로의 단점을 보완하여 성능을 개선할 수 있습니다.  
@@ -247,15 +247,15 @@ ngRepeat의 track by같은 경우에는 track by 값이 변하면 DOM을 다시 
 예를 들어서 위의 track by 예제에서 track by를 (member.id + member.updatedAt)으로 하면  
 member.updatedAt으로 값이 변경되었는지 확인하고 member.id로 track by의 유일성 조건을 맞족하게 됩니다.
 이를 코드로 표현하면  
-``` html  
+{% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList track by (member.id + member.updatedAt)">  
 		{{::member.name}}  
 	</div>  
 </div>  
-```  
+{% endhighlight %}  
 
-``` javascript  
+{% highlight js %}  
 angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', function ($scope, $timeout) {  
 	$scope.memberList = [{  
 		id: 1,  
@@ -273,10 +273,10 @@ angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', funct
 		$scope.memberList.splice(0, 1, {id: 1, name: '알투'});  
 	}, 3000);  
 }]);  
-```  
+{% endhighlight %}  
 위 코드를 실행한 결과는 아래처럼 보이게 됩니다.  
 
-``` html  
+{% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList track by (member.id + member.updatedAt)">  
 		김부승  
@@ -285,10 +285,10 @@ angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', funct
 		박현재  
 	</div>  
 </div>  
-```  
+{% endhighlight %}  
 
 그리고 3초 후에는 아래처럼 값이 변경되게 됩니다.  
-``` html  
+{% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList track by (member.id + member.updatedAt)">  
 		알투  
@@ -297,7 +297,7 @@ angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', funct
 		박현재  
 	</div>  
 </div>  
-```  
+{% endhighlight %}  
   
 이런 형태로 코드를 작성하게 되면 ngRepeat의 track by 속성의 값을 계산하는데는 약간의 시간이 더 걸리겠지만  
 ngRepeat 안의 `$watch`되는 변수들을 one time binding을 사용하여 `$watch` 수를 줄일 수 있고 이는 1번 `$digest`할 때의 비용을 줄여줍니다.  
