@@ -1,6 +1,6 @@
 ---
 layout: article
-title: "angularjs bootstrap"
+title: "[angularjs] - bootstrap"
 date: 2015-06-28 14:07:13
 image:
   teaser: angularjs.png
