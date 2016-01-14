@@ -42,13 +42,16 @@ Runtime 시에 디버깅 모드를 키고 끌지 정하는 메소드입니다.
 디버깅 모드에서는 dom을 조작하는 경우(class 변수 수정 등)가 많이 발생하기 때문에 성능저하를 일으켜서 이 속성을 꺼서 성능을 개선할 수 있습니다.  
   
 # [one time binding](https://docs.angularjs.org/guide/expression#how-to-benefit-from-one-time-binding)
-AngularJS의 가장 큰 장점 중의 하나인 HTML에서 JS변수를 보여줄 수 있는 `Expression`은 `\{\{변수명\}\}`의 형태로 JS의 변수를 추가할 수 있습니다.
+AngularJS의 가장 큰 장점 중의 하나인 HTML에서 JS변수를 보여줄 수 있는 `Expression`은 `{% raw  %}{{변수명}}{% endraw %}`의 형태로 JS의 변수를 추가할 수 있습니다.
 
 아래와 같이 입력시에  
 
 {% highlight html %}  
 <div ng-controller="MyCtrl">  
+{% raw  %}
 	{{myName}}  
+{% endraw %}
+
 </div>  
 {% endhighlight %}  
 {% highlight js %}  
@@ -79,7 +82,9 @@ AngularJS는 이렇게 DOM에 `$watch` 수를 줄이기 위해 one time binding�
 one time binding을 적용하면 위의 예제는 아래와 같이 변합니다.  
 {% highlight html %}  
 <div ng-controller="MyCtrl">  
+{% raw  %}
 	{{::myName}}  
+{% endraw %}
 </div>  
 {% endhighlight %}  
 {% highlight js %}  
@@ -120,7 +125,9 @@ ngRepeat는 간단하게 표한하자면 HTML 소스에서 for문을 실행시�
 {% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList">  
+{% raw  %}
 		{{::member.name}}  
+{% endraw %}
 	</div>  
 </div>  
 {% endhighlight %}  
@@ -175,7 +182,9 @@ track by 속성을 추가하면 해당 변수(혹은 함수)를 계산하여 값
 {% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList track by member.id">  
+{% raw  %}
 		{{::member.name}}  
+{% endraw %}
 	</div>  
 </div>  
 {% endhighlight %}  
@@ -233,7 +242,9 @@ track by를 사용할 때에는 track by속성이 있는 ngRepeat에서 track by
 {% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList track by member.organization">  
+{% raw  %}
 		{{::member.name}}  
+{% endraw %}
 	</div>  
 </div>  
 {% endhighlight %}  
@@ -250,7 +261,9 @@ member.updatedAt으로 값이 변경되었는지 확인하고 member.id로 track
 {% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList track by (member.id + member.updatedAt)">  
+{% raw  %}
 		{{::member.name}}  
+{% endraw %}
 	</div>  
 </div>  
 {% endhighlight %}  
