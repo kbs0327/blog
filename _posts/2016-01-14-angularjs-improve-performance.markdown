@@ -29,18 +29,20 @@ AngularJS에서 가장 큰 장점은 `양방향 바인딩`이라고 생각합니
 - [one time binding과 ngRepeat track by를 조합하여 성능 개선하기](#one-time-bindinghttpsdocsangularjsorgguideexpressionhow-to-benefit-from-one-time-binding)  
 
 # [$httpProvider.useApplyAsync](https://docs.angularjs.org/api/ng/provider/$httpProvider#useApplyAsync)  
-AngularJS의 홈페이지에서는 이 메소드에 대해 아래처럼 설명하고 있습니다.  
+AngularJS의 홈페이지에서는 이 속성에 대해 아래처럼 설명하고 있습니다.  
   
 > Configure $http service to combine processing of multiple http responses received at around the same time via $rootScope.$applyAsync.  
 > This can result in significant performance improvement for bigger applications that make many HTTP requests concurrently (common during application bootstrap).  
   
-간단히 요약하면 `$http` 서비스에서 HTTP request의 응답이 올 때에 `$digest`를 호출하는데 동시에 많은 HTTP request를 보낼 때에 `$digest`를 1번만 보내게 한다는 것입니다.  
+간단히 요약하면 `$http` 서비스에서는 HTTP request의 응답이 올 때에 `$digest`를 호출합니다.  
+이 속성을 키면 동시에 많은 HTTP request를 보낼 때에 묶어서 `$digest`를 1번만 보내게 한다는 것입니다.  
 즉, 이 속성을 키면 `$digest` 호출 수를 줄여서 성능을 개선할 수 있습니다.   
 
 # [$compileProvider.debugInfoEnabled](https://docs.angularjs.org/api/ng/provider/$compileProvider#debugInfoEnabled)  
-Runtime 시에 디버깅 모드를 키고 끌지 정하는 메소드입니다.  
-이 메소드의 default값은 true이기 때문에 따로 설정하지 않는다면 Real 환경에서도 디버깅 모드로 동작하게 됩니다.  
-디버깅 모드에서는 dom을 조작하는 경우(class 변수 수정 등)가 많이 발생하기 때문에 성능저하를 일으켜서 이 속성을 꺼서 성능을 개선할 수 있습니다.  
+Runtime 시에 디버깅 모드를 키고 끌지 정하는 속성입니다.  
+이 메소드의 default값이 켜져있기 때문에 따로 설정하지 않는다면 Real 환경에서도 디버깅 모드로 동작하게 됩니다.  
+디버깅 모드에서는 dom을 조작하는 경우(class 변수 수정 등)가 많이 발생하기 때문에 성능저하를 일으키게 됩니다.  
+가급적 이 속성을 꺼서 성능을 개선할 수 있습니다.  
   
 # [one time binding](https://docs.angularjs.org/guide/expression#how-to-benefit-from-one-time-binding)
 AngularJS의 가장 큰 장점 중의 하나인 HTML에서 JS변수를 보여줄 수 있는 `Expression`은 `{% raw  %}{{변수명}}{% endraw %}`의 형태로 JS의 변수를 추가할 수 있습니다.
@@ -49,10 +51,7 @@ AngularJS의 가장 큰 장점 중의 하나인 HTML에서 JS변수를 보여줄
 
 {% highlight html %}  
 <div ng-controller="MyCtrl">  
-{% raw  %}
-	{{myName}}  
-{% endraw %}
-
+{% raw  %}	{{myName}}  {% endraw %}
 </div>  
 {% endhighlight %}  
 {% highlight js %}  
@@ -79,7 +78,8 @@ angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', funct
 {% endhighlight %}  
 
 이렇게 변하는 이유는 myName 변수가 변했는지 `$watch`하고 있으며 3초 후에 `$digest`될 때에 myName변수가 변경된 것이 DOM에 반영되기 때문입니다.  
-AngularJS는 이렇게 DOM에 `$watch` 수를 줄이기 위해 one time binding을 제공하는데 이것은 1번만 변수를 DOM에 반영하고 `$watch`를 해제시키는 것입니다.  
+AngularJS는 이렇게 DOM에 `$watch` 수를 줄이기 위해 one time binding을 제공합니다. 
+one time binding은 1번만 변수를 DOM에 반영하고 `$watch`를 해제시켜서 2번째 `$digest` 실행할 때는 `$watch` 수를 줄일 수 있는 방법입니다.  
 one time binding을 적용하면 위의 예제는 아래와 같이 변합니다.  
 {% highlight html %}  
 <div ng-controller="MyCtrl">  
@@ -104,31 +104,29 @@ angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', funct
 </div>  
 {% endhighlight %}  
 
-하지만 3초 후에 myName변수가 변한 이후에도 아래처럼 보입니다.  
+그리고 3초 후에 myName변수가 변한 이후에도 아래처럼 보입니다.  
 {% highlight html %}  
 <div ng-controller="MyCtrl">  
 	김부승  
 </div>  
 {% endhighlight %}  
 
-3초후의 myName 변수는 '알투'라고 저장되어 있지만 DOM에는 반영되지 않습니다. 이것은 `$digest`되도 myName변수를 `$watch`하고 있지 않기 때문에 DOM이 변경되지 않는 것입니다.  
+이 방법은 한가지 단점이 있는데 `$watch`를 완전히 풀어버리기 때문에 해당 `Expression`을 다시 실행시키고 싶어도 실행시킬 방법이 없다는 것입니다.  
 
 # [ngRepeat track by](https://docs.angularjs.org/api/ng/directive/ngRepeat#tracking-and-duplicates)
 
 ## ngRepeat
-ngRepeat는 간단하게 표한하자면 HTML 소스에서 for문을 실행시키는 것과 비슷합니다.  
+ngRepeat는 간단하게 표한하자면 HTML 소스에서 for문을 실행시켜서 template을 반복적으로 복사하는 것과 비슷합니다.  
 
-이 ngRepeat는 html소스를 반복하는 형태이고 반복된 HTML에 `$watch`해야 하는 변수를 늘리면 반복하는 수만큼 `$watch`수가 늘어납니다.  
+ngRepeat안의 HTML에 들어있는 `$watch`하는 변수들은 ngRepeat이 반복되는 수만큼 증가하게 됩니다.  
 즉, ngRepeat이 n번 반복되고 반복하는 곳에 `$watch`해야 하는 변수가 m개 있다면 1번 `$digest`를 할 때에 `n*m`번의 확인을 하게 됩니다.  
-이것은 성능의 저하를 일으키는 주된 원인이 됩니다.  
+그리고 이것은 성능의 저하를 일으키는 주된 원인이 됩니다.  
 
-예를들어 아래와 같이 ngRepeat을 사용하면(변화를 보여주기 위해 one time binding을 사용하겠습니다.)
+예를들어 아래와 같이 ngRepeat을 사용하면(track by의 차이점을 보여주기 위해 one time binding을 사용하겠습니다.)
 {% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList">  
-{% raw  %}
-		{{::member.name}}  
-{% endraw %}
+{% raw  %}		{{::member.name}}{% endraw %}
 	</div>  
 </div>  
 {% endhighlight %}  
@@ -177,15 +175,15 @@ angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', funct
 {% endhighlight %}  
 
 ## track by 속성
-ngRepeat에는 track by 속성을 주어서 성능을 개선할 수 있습니다.  
-track by 속성을 추가하면 해당 변수(혹은 함수)를 계산하여 값이 같으면 DOM을 다시 그리지 않고 기존의 DOM을 가져다가 사용합니다.  
+ngRepeat에서 track by 속성을 주면 성능을 개선할 수 있습니다.  
+track by 속성은 DOM이 변경되었는지 알려주는 힌트와 비슷합니다.  
+이 값이 변하지 않았으면 자식 DOM들은 변화가 없다고 생각하고 DOM을 다시 그리지 않습니다.  
+하지만 이 값이 변하면 자식 DOM들을 다시그리게 됩니다.  
 
 {% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList track by member.id">  
-{% raw  %}
-		{{::member.name}}  
-{% endraw %}
+{% raw  %}		{{::member.name}}  {% endraw %}
 	</div>  
 </div>  
 {% endhighlight %}  
@@ -222,7 +220,7 @@ angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', funct
 </div>  
 {% endhighlight %}  
 
-하지만 3초 후에 myName변수가 변한 이후에도 아래처럼 보입니다.  
+3초 후에 myName변수가 변한 이후에도 아래처럼 보입니다.  
 {% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList track by member.id">  
@@ -255,16 +253,14 @@ one time binding과 ngRepeat의 track by 속성을 조합하면 서로의 단점
 one time binding은 DOM을 그릴 때에 값을 1번만 binding하고 `$watch`하지 않게 해제하는 방법을 사용하고,  
 ngRepeat의 track by같은 경우에는 track by 값이 변하면 DOM을 다시 그린다는 특징이 있습니다.  
 
-이 2개의 특징을 조합하면 ngRepeat의 track by 값을 변하게 하면 one time binding한 변수들의 값을 수정할 수 있게 됩니다.  
+이 2개의 특징을 조합하면 ngRepeat의 track by 값을 변경하게  하면 one time binding한 변수들의 값을 수정할 수 있게 됩니다.  
 예를 들어서 위의 track by 예제에서 track by를 (member.id + member.updatedAt)으로 하면  
 member.updatedAt으로 값이 변경되었는지 확인하고 member.id로 track by의 유일성 조건을 맞족하게 됩니다.
 이를 코드로 표현하면  
 {% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList track by (member.id + member.updatedAt)">  
-{% raw  %}
-		{{::member.name}}  
-{% endraw %}
+{% raw  %}		{{::member.name}}  {% endraw %}
 	</div>  
 </div>  
 {% endhighlight %}  
@@ -313,10 +309,8 @@ angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', funct
 </div>  
 {% endhighlight %}  
   
-이런 형태로 코드를 작성하게 되면 ngRepeat의 track by 속성의 값을 계산하는데는 약간의 시간이 더 걸리겠지만  
+이런 형태로 코드를 작성하게 되면 ngRepeat의 track by 속성의 값을 계산하는데는 기존(1개 속성만 track by할 때)보다 시간이 더 걸리겠지만  
 ngRepeat 안의 `$watch`되는 변수들을 one time binding을 사용하여 `$watch` 수를 줄일 수 있고 이는 1번 `$digest`할 때의 비용을 줄여줍니다.  
-
-Dooray에서는 위의 방법들을 주로 사용하여 속도를 1초정도 개선할 수 있었습니다.  
 
 # 그 외 성능개선 Tip  
   
