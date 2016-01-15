@@ -12,7 +12,7 @@ categories: technology
 - AngularJS v1.4.8 기준으로 작성되었습니다.
 
 AngularJS에서 가장 큰 장점은 `양방향 바인딩`이라고 생각합니다. 하지만 이것은 성능에 큰 문제를 주는 병목으로 작용하기도 합니다.  
-양방향 바인딩을 구현하기 위해서 AngularJS는 binding되는 변수들을 모두 `$watch`하고 있습니다. 그리고 `$digest` 시에 `$watch`한 변수 중 수정된 것은 돔에 반영해주는 형태를 띄고 있습니다.  
+양방향 바인딩을 구현하기 위해서 AngularJS는 binding되는 변수들을 모두 `$watch`하고 있습니다. 그리고 `$digest` 시에 `$watch`한 변수 중 수정된 것을 돔에 반영해주는 형태를 띄고 있습니다.  
 
 이 `$watch`하는 변수가 적을 때에는 개발도 편하고 성능에도 이상없지만 `$watch`개수가 늘어나면서 성능에 문제가 발생하기 시작합니다. 이번 글도 이 `$watch`와 `$digest` 수를 줄이는 게 주요 내용입니다.  
 
@@ -26,7 +26,7 @@ AngularJS에서 가장 큰 장점은 `양방향 바인딩`이라고 생각합니
 - [$compileProvider.debugInfoEnabled](#compileproviderdebuginfoenabledhttpsdocsangularjsorgapingprovidercompileproviderdebuginfoenabled)  
 - [one time binding](#one-time-bindinghttpsdocsangularjsorgguideexpressionhow-to-benefit-from-one-time-binding)  
 - [ngRepeat track by](#ngrepeat-track-byhttpsdocsangularjsorgapingdirectivengrepeattracking-and-duplicates)  
-- [one time binding과 ngRepeat track by를 조합하여 성능 개선하기](#one-time-binding-ngrepeat-track-by---)  
+- [one time binding과 ngRepeat track by를 조합하여 성능 개선하기](#one-time-bindinghttpsdocsangularjsorgguideexpressionhow-to-benefit-from-one-time-binding)  
 
 # [$httpProvider.useApplyAsync](https://docs.angularjs.org/api/ng/provider/$httpProvider#useApplyAsync)  
 AngularJS의 홈페이지에서는 이 메소드에 대해 아래처럼 설명하고 있습니다.  
