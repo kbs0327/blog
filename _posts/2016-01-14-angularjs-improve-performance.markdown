@@ -118,13 +118,9 @@ angular.module('testModule', []).controller('MyCtrl', ['$scope, $timeout', funct
 
 ## ngRepeat
 
-ngRepeat는 간단하게 표한하자면 HTML 소스에서 for문을 실행시켜서 template을 반복적으로 복사하는 것과 비슷합니다.  
+ngRepeat는 간단하게 표한하자면 HTML 소스에서 for문을 실행시켜서 template을 반복적으로 복사하는 것과 비슷합니다. ngRepeat안의 HTML에 들어있는 `$watch`하는 변수들은 ngRepeat이 반복되는 수만큼 증가하게 됩니다.  즉, ngRepeat이 n번 반복되고 반복하는 곳에 `$watch`해야 하는 변수가 m개 있다면 1번 `$digest`를 할 때에 `n*m`번의 확인을 하게 됩니다.  그리고 이것은 성능의 저하를 일으키는 주된 원인이 됩니다.  
+예를들어 아래와 같이 ngRepeat을 사용하면(track by의 차이점을 보여주기 위해 one time binding을 사용하겠습니다.)  
 
-ngRepeat안의 HTML에 들어있는 `$watch`하는 변수들은 ngRepeat이 반복되는 수만큼 증가하게 됩니다.  
-즉, ngRepeat이 n번 반복되고 반복하는 곳에 `$watch`해야 하는 변수가 m개 있다면 1번 `$digest`를 할 때에 `n*m`번의 확인을 하게 됩니다.  
-그리고 이것은 성능의 저하를 일으키는 주된 원인이 됩니다.  
-
-예를들어 아래와 같이 ngRepeat을 사용하면(track by의 차이점을 보여주기 위해 one time binding을 사용하겠습니다.)
 {% highlight html %}  
 <div ng-controller="MyCtrl">  
 	<div ng-repeat="member in memberList">  
