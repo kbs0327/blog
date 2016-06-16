@@ -7,7 +7,7 @@ image:
 categories: technology
 ---
 
-# 개요
+# 개요  
 
 이 글은 AngularJS의 웹 어플리케이션 성능개선을 진행한 방법을 정리한 글입니다. 맥 크롬 기반으로 글을 작성했습니다.  
 - AngularJS v1.5.7 기준으로 작성되었습니다.  
@@ -24,7 +24,7 @@ categories: technology
  timeline 탭은 아래 화면처럼 생겼는데 처음보면 이게 뭔지... 어떻게 사용해야하는지 막연한 생각이 듭니다.  
 
 <figure>
-	<a href="//kbs0327.github.io/blog/images/timeline_empty.jpg"><img src="//kbs0327.github.io/blog/images/timeline_empty.jpg"></a>
+	<a href="//kbs0327.github.io/blog/images/timeline_empty.jpg"><img src="//kbs0327.github.io/blog/images/timeline_empty.png"></a>
 	<figcaption>타임라인</figcaption>
 </figure>
 
@@ -47,7 +47,7 @@ categories: technology
  위의 Timeline을 이용하여 아래와 같은 결과가 나왔습니다.  
 
 <figure>
-	<a href="//kbs0327.github.io/blog/images/timeline_full.jpg"><img src="//kbs0327.github.io/blog/images/timeline_full.jpg"></a>
+	<a href="//kbs0327.github.io/blog/images/timeline_full.jpg"><img src="//kbs0327.github.io/blog/images/timeline_full.png"></a>
 	<figcaption>타임라인 측정 후 화면</figcaption>
 </figure>
 
@@ -55,7 +55,7 @@ categories: technology
  크게 3개의 탑이 눈에 띄는데 이 중 첫번째는 Angular bootstrap 부분이고, 이 부분을 개선하기에는 개선할 시간이 부족했고, 3번째 탑은 화면이 보인 이후에 나오는 부분이어서 개선해도 별로 티가 안나는 부분입니다. 그래서 2번째 탑을 개선하기로 했고 이부분을 확대해서 개선부분을 찾았습니다.  
 
 <figure>
-	<a href="//kbs0327.github.io/blog/images/timeline_expansion.jpg"><img src="//kbs0327.github.io/blog/images/timeline_expansion.jpg"></a>
+	<a href="//kbs0327.github.io/blog/images/timeline_expansion.jpg"><img src="//kbs0327.github.io/blog/images/timeline_expansion.png"></a>
 	<figcaption>타임라인 측정 후 화면</figcaption>
 </figure>
 
