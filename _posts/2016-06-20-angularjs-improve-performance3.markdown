@@ -7,7 +7,7 @@ image:
 categories: technology
 ---
 
-# 개요  
+# 개요   
 
 이 글은 AngularJS의 웹 어플리케이션 성능개선을 진행한 방법을 정리한 글입니다. 맥 크롬 기반으로 글을 작성했습니다.  
 - AngularJS v1.5.7 기준으로 작성되었습니다.  
