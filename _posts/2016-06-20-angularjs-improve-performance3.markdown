@@ -35,7 +35,7 @@ categories: technology
 
  그래서 이번에는 2번인 $rootScope.$digest의 호출 수 를 줄여서 성능을 개선해보겠습니다.  
 
- ### AngularJS에서 제공하는 $rootScope.$digest를 줄이는 방법  
+### AngularJS에서 제공하는 $rootScope.$digest를 줄이는 방법  
  
  AngularJS에서도 이러한 사항을 알기에 이 문제를 해결할 수 있는 방법들이 있습니다.  
 
@@ -43,33 +43,33 @@ categories: technology
 
  이 외에 이 함수와 똑같은 기능을 하는 함수로 $evalAsync함수가 있습니다. 이 함수는 $watch가 내부 scope를 순회할 때에도 대기중인 콜백이 있으면 실행시키는 함수로 $applyAsync함수가 $rootScope.$digest가 호출되는 시점에서만 확인하는 점과 다릅니다. 이 차이는 나중에 다시 글로 써서 올리겠습니다.  
 
- ### $rootScope.$digest가 호출이 안되게 하는 옵션을 사용하자  
+### $rootScope.$digest가 호출이 안되게 하는 옵션을 사용하자  
  
  AngularJS에서는 이벤트가 발생했을 때 $rootScope.$digest를 호출하지 않게 하는 함수가 있습니다. $timeout과 $interval인데요. $timeout은 timeout이 일어난 후에 $rootScope.$digest를 호출하고 $interval은 정해진 시간마다 내부 콜백을 실행하고 $rootScope.$digest를 호출합니다.    
 
  이 2개의 함수 모두 3번째 매개변수에 false를 입력하면 $rootScope.$digest를 막을 수 있습니다. 하지만 실제로 $rootScope.$digest가 필요한 경우가 있기 때문에 사용할 때에 유의하여 사용해야합니다.  
 
- ### local digest  
+### local digest  
 
  AngularJS에서는 거의 모든 $digest가 $rootScope.$digest라고 보시면 됩니다. 하지만 localDigest를 유저가 구현할 수도 있는데요.  
 
- ```js  
+```js  
  if ($rootScope.$$phase) {
  	$scope.$digest();
  }
 
- ```  
+```  
 
  위의 소스를 이용하면 되지만 사용시에 추적이 힘드는 side effect가 있을 수도 있습니다. 실제로 몇개의 블로그에서는 이를 Anti-Pattern으로 기술하기도 했습니다.  
 
- ## AngularJS 소스를 통한 watch수 파악  
+## AngularJS 소스를 통한 watch수 파악  
 
  드디어 본론으로 돌아와서 AngularJS소스를 수정해서 성능을 개선해보겠습니다.  
  이번 성능개선의 목표는 $rootScope.$digest 호출을 줄여서 처음 로딩 속도를 증가시키는게 주요 목적입니다.  
 
  제가 수정하기로 한 소스는 $digest함수 소스이고 이 소스가 모든 $watch의 확인에 사용되기에 이 함수를 target으로 지정했습니다.  
 
- ```js  
+```js  
  $digest: function() {
         beginPhase('$digest');
         $browser.$$checkUrlChange();
@@ -166,7 +166,7 @@ categories: technology
         }
         postDigestQueue.length = postDigestQueuePosition = 0;
       }
- ```  
+```  
 
 코드가 정말 장황하지만 가장 중요한 지점은 watch 확인과 watch 실행하는 부분입니다.  
 이 watch를 확인하는 부분에 아래의 코드를 집어넣습니다.  
