@@ -43,15 +43,15 @@ categories: technology
 
  이 외에 이 함수와 똑같은 기능을 하는 함수로 $evalAsync함수가 있습니다. 이 함수는 $watch가 내부 scope를 순회할 때에도 대기중인 콜백이 있으면 실행시키는 함수로 $applyAsync함수가 $rootScope.$digest가 호출되는 시점에서만 확인하는 점과 다릅니다. 이 차이는 나중에 다시 글로 써서 올리겠습니다.  
 
- ### $rootScope.$digest가 호출이 안되게 하는 옵션을 사용하자
+ ### $rootScope.$digest가 호출이 안되게 하는 옵션을 사용하자  
  
- AngularJS에서는 이벤트가 발생했을 때 $rootScope.$digest를 호출하지 않게 하는 함수가 있습니다. $timeout과 $interval인데요. $timeout은 timeout이 일어난 후에 $rootScope.$digest를 호출하고 $interval은 정해진 시간마다 내부 콜백을 실행하고 $rootScope.$digest를 호출합니다.  
+ AngularJS에서는 이벤트가 발생했을 때 $rootScope.$digest를 호출하지 않게 하는 함수가 있습니다. $timeout과 $interval인데요. $timeout은 timeout이 일어난 후에 $rootScope.$digest를 호출하고 $interval은 정해진 시간마다 내부 콜백을 실행하고 $rootScope.$digest를 호출합니다.    
 
  이 2개의 함수 모두 3번째 매개변수에 false를 입력하면 $rootScope.$digest를 막을 수 있습니다. 하지만 실제로 $rootScope.$digest가 필요한 경우가 있기 때문에 사용할 때에 유의하여 사용해야합니다.  
 
  ### local digest  
 
- AngularJS에서는 거의 모든 $digest가 $rootScope.$digest라고 보시면 됩니다. 하지만 localDigest를 유저가 구현할 수도 있는데요.
+ AngularJS에서는 거의 모든 $digest가 $rootScope.$digest라고 보시면 됩니다. 하지만 localDigest를 유저가 구현할 수도 있는데요.  
 
  ```js  
  if ($rootScope.$$phase) {
@@ -69,7 +69,7 @@ categories: technology
 
  제가 수정하기로 한 소스는 $digest함수 소스이고 이 소스가 모든 $watch의 확인에 사용되기에 이 함수를 target으로 지정했습니다.  
 
- ```js
+ ```js  
  $digest: function() {
         beginPhase('$digest');
         $browser.$$checkUrlChange();
@@ -166,12 +166,12 @@ categories: technology
         }
         postDigestQueue.length = postDigestQueuePosition = 0;
       }
- ```
+ ```  
 
 코드가 정말 장황하지만 가장 중요한 지점은 watch 확인과 watch 실행하는 부분입니다.  
-이 watch를 확인하는 부분에 아래의 코드를 집어넣습니다.
+이 watch를 확인하는 부분에 아래의 코드를 집어넣습니다.  
 
-``` js
+``` js  
  window.watchCount = window.watchCount + 1 || 1;
  var started = window.performance.now();
  (value = get(current)) !== (last = watch.last) &&
@@ -188,17 +188,17 @@ categories: technology
      console.warn(window.watchCount + ': watch', watch.get, ellapsed);
  } else if (ellapsed > 1) {
      console.log(window.watchCount + ': watch', watch.get, ellapsed);
- }
-```
-그러면 실제로 watch를 확인하는 횟수와 시간이 측정됩니다.  
+ } 
+```  
+그러면 실제로 watch를 확인하는 횟수와 시간이 측정됩니다.   
 
-그리고 $digest함수가 시작하는 부분에 아래의 코드를 집어넣습니다.  
-``` js  
+그리고 $digest함수가 시작하는 부분에 아래의 코드를 집어넣습니다.   
+``` js   
  if (this === $rootScope) {
       window.rootScopeDigestCount = window.rootScopeDigestCount + 1 || 1;
       console.trace('rootScope digest: ' + window.rootScopeDigestCount);
   }
-```  
+```    
 그러면 시간동안 $rootScope.$digest가 몇번을 돌았는지 확인할 수 있습니다.  
 정확한 측정을 위해서는 app.run 부분에 일정 시간 이후의 window.watchCount를 console로 비교하기에 좋습니다.  
 
@@ -214,13 +214,13 @@ $rootScope.$digest 수: 23번
 $rootScope.$digest 수: 4번  
 전체 watch 수 : 6246번  
 
-이렇게 $rootScope.$digest 호출 수를 성공적으로 줄였습니다. 하지만 여기서 문제가 생겼는데 이렇게 개선을 했는데 하고 난 후의 첫페이지 로딩 속도는 오히려 느려진 것입니다. 
+이렇게 $rootScope.$digest 호출 수를 성공적으로 줄였습니다. 하지만 여기서 문제가 생겼는데 이렇게 개선을 했는데 하고 난 후의 첫페이지 로딩 속도는 오히려 느려진 것입니다.  
 
 ### 속도가 느려진 원인  
 
 이 원인은 useApplyAsync에 있습니다.  
 $applyAsync는 $rootScope.$digest가 트리거가 되면 기다리는 것을 멈추고 대기중인 콜백들을 실행시킵니다. 하지만 $rootScope.$digest가 실행되지 않으면 $timeout이 끝나는 시점에 콜백들이 실행됩니다.  
-이 차이로 인해 제가 $rootScope.$digest를 제거하여 대기중인 콜백이 실행되는 것을 막았고 그래서 결과적으로 뷰의 로딩이 느렸던 것입니다.  
+이 차이로 인해 제가 $rootScope.$digest를 제거하여 대기중인 콜백이 실행되는 것을 막았고 그래서 결과적으로 뷰의 로딩이 느렸던 것입니다.    
 
 ## 결론    
 
