@@ -41,7 +41,7 @@ categories: technology
 
  먼저 $applyAsync가 있습니다. $applyAsync는 [1차 성능개선](http://kbs0327.github.io/blog/technology/angularjs-improve-performance/)에서 나온 useApplyAsync와 관련이 있는데요. AJAX호출을 하면 $apply함수를 호출합니다.($apply함수는 지금 $rootScope.$digest의 wrapper 메소드라고 보시면 됩니다.) 이 때에 useApplyAsync가 true로 setting하면 $applyAsync를 사용하게 되는데요. 이 함수는 지금 $rootScope.$digest가 실행중인지 확인하고, 실행중이라면 queue에 넣어서 실행중이지 않는 시점에 $rootScope.$digest를 한번만 실행하게 하는 함수입니다. 이 함수를 실행하면 동시에 여러번 AJAX콜을 할 때에 $rootScope.$digest를 줄일 수 있습니다.  
 
- 이 외에 이 함수와 똑같은 기능을 하는 함수로 $evalAsync함수가 있습니다. 이 함수와 $applyAsync함수의 차이점은 내부로직이 약간 다를뿐 같다고 생각해도 됩니다. 이 2가지 함수를 사용하면 $rootScope.$digest의 수를 줄이기 쉽습니다.  
+ 이 외에 이 함수와 똑같은 기능을 하는 함수로 $evalAsync함수가 있습니다. 이 함수는 $watch가 내부 scope를 순회할 때에도 대기중인 콜백이 있으면 실행시키는 함수로 $applyAsync함수가 $rootScope.$digest가 호출되는 시점에서만 확인하는 점과 다릅니다. 이 차이는 나중에 다시 글로 써서 올리겠습니다.  
 
  ### $rootScope.$digest가 호출이 안되게 하는 옵션을 사용하자
  
@@ -173,22 +173,22 @@ categories: technology
 
 ``` js
  window.watchCount = window.watchCount + 1 || 1;
-var started = window.performance.now();
-(value = get(current)) !== (last = watch.last) &&
-    !(watch.eq
-        ? equals(value, last)
-        : (typeof value === 'number' && typeof last === 'number'
-           && isNaN(value) && isNaN(last)))
-var ellapsed = window.performance.now() - started;
-if (ellapsed > 100) {
-  console.trace();
-  console.error(window.watchCount + ': watch', watch.get, ellapsed);
-} else if (ellapsed > 10) {
-  console.trace();
-  console.warn(window.watchCount + ': watch', watch.get, ellapsed);
-}else if (ellapsed > 1) {
-  console.log(window.watchCount + ': watch', watch.get, ellapsed);
-}
+ var started = window.performance.now();
+ (value = get(current)) !== (last = watch.last) &&
+ !(watch.eq ?
+     equals(value, last) :
+     (typeof value === 'number' && typeof last === 'number' &&
+         isNaN(value) && isNaN(last)))
+ var ellapsed = window.performance.now() - started;
+ if (ellapsed > 100) {
+     console.trace();
+     console.error(window.watchCount + ': watch', watch.get, ellapsed);
+ } else if (ellapsed > 10) {
+     console.trace();
+     console.warn(window.watchCount + ': watch', watch.get, ellapsed);
+ } else if (ellapsed > 1) {
+     console.log(window.watchCount + ': watch', watch.get, ellapsed);
+ }
 ```
 그러면 실제로 watch를 확인하는 횟수와 시간이 측정됩니다.  
 
@@ -218,8 +218,10 @@ $rootScope.$digest 수: 4번
 
 ### 속도가 느려진 원인  
 
-이 원인은 대부분의 $rootScope.$digest가 AJAX호출하는 pending 중에 호출된다는 데에 있었습니다. 그리고 이 때에 나중에 처리해야할 로직을 미리처리하는 효과가 나타나서 오히려 속도가 빠른 결과가 나타났습니다. 그래서 이부분을 해결하기 위해 각 뷰가 호출될 때에 $rootScope.$digest를 호출하게 했더니 속도가 약간 상승하는 효과가 있었습니다.    
+이 원인은 useApplyAsync에 있습니다.  
+$applyAsync는 $rootScope.$digest가 트리거가 되면 기다리는 것을 멈추고 대기중인 콜백들을 실행시킵니다. 하지만 $rootScope.$digest가 실행되지 않으면 $timeout이 끝나는 시점에 콜백들이 실행됩니다.  
+이 차이로 인해 제가 $rootScope.$digest를 제거하여 대기중인 콜백이 실행되는 것을 막았고 그래서 결과적으로 뷰의 로딩이 느렸던 것입니다.  
 
 ## 결론    
 
-$rootScope.$digest가 너무 많이 있으면 속도에 병목을 일으키지만 적절한 $rootScope.$digest는 속도를 오히려 높이는 효과가 나타납니다. 이 부분은 어플리케이션 별로 다르겠지만 적절한 $rootScope.$digest를 사용하게 해야할 것입니다.   
+$rootScope.$digest가 너무 많이 있으면 속도에 병목을 일으키지만 뷰로딩을 빨리하기 위해 적절한 $rootScope.$digest는 필요합니다.  
