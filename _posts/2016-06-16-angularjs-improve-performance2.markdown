@@ -24,7 +24,7 @@ categories: technology
  timeline 탭은 아래 화면처럼 생겼는데 처음보면 어떻게 사용해야하는지 막연한 생각이 듭니다.  
 
 <figure>
-	<a href="http://kbs0327.github.io/blog/images/timeline_empty.png"><img src="//kbs0327.github.io/blog/images/timeline_empty.png"></a>
+	<a href="http://kbs0327.github.io/blog/images/timeline_empty.png" target="_blank"><img src="//kbs0327.github.io/blog/images/timeline_empty.png"></a>
 	<figcaption>타임라인</figcaption>
 </figure>
 
@@ -48,7 +48,7 @@ categories: technology
  위의 Timeline을 이용하여 아래와 같은 결과가 나왔습니다.  
 
 <figure>
-	<a href="http://kbs0327.github.io/blog/images/timeline_full.jpg"><img src="//kbs0327.github.io/blog/images/timeline_full.jpg"></a>
+	<a href="http://kbs0327.github.io/blog/images/timeline_full.jpg" target="_blank"><img src="//kbs0327.github.io/blog/images/timeline_full.jpg"></a>
 	<figcaption>타임라인 측정 후 화면</figcaption>
 </figure>
 
@@ -56,7 +56,7 @@ categories: technology
  크게 3개의 콜스택 산이 눈에 띄는데 이 중 첫번째는 Angular bootstrap 부분입니다. 이 부분이 가장 영역을 많이 차지하고 있지만, 이 부분을 개선하기에는 개선할 시간이 많이 필요하기 때문에 일단 무시하기로 했습니다. 3번째 콜스택 산은 화면이 보인 이후에 후처리 과정이어서 화면에 표시되기까지 걸리는 시간에는 영향을 주지 않습니다. 그래서 이 또한 건너뛰기로 했습니다. 남은 2번째 콜스택 산에서 개선할 부분을 찾아보니 몇가지 개선할 수 있는 부분을 찾을 수 있었습니다.  
 
 <figure>
-	<a href="http://kbs0327.github.io/blog/images/timeline_expansion.jpg"><img src="//kbs0327.github.io/blog/images/timeline_expansion.jpg"></a>
+	<a href="http://kbs0327.github.io/blog/images/timeline_expansion.jpg" target="_blank"><img src="//kbs0327.github.io/blog/images/timeline_expansion.jpg"></a>
 	<figcaption>타임라인 측정 후 화면</figcaption>
 </figure>
 
