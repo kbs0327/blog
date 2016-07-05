@@ -30,7 +30,7 @@ categories: technology
  
 <figure>
   <a href="http://kbs0327.github.io/blog/images/scope_hierachy.png" target="_blank"><img src="//kbs0327.github.io/blog/images/scope_hierachy.png"></a>
-  <figcaption>digest cycle 도식화</figcaption>
+  <figcaption>scope hierarchy 도식화</figcaption>
 </figure>
 
  위에서 보는 것과 같이 $rootScope는 최상위 root입니다. $rootScope.$digest를 호출하면 화면의 자식 scope들을 순회하면서 scope에 binding되어 있는 watch들에게 scope의 값이 변경되었는지 확인하게 하고, 이 값들은 ng-bind나 ng-bind-html같은 directive를 통해 화면에 나타나게 됩니다. 즉, scope는 rootScope를 root로 하는 트리구조로 되어 있어 $rootScope.$digest를 호출하면 모든 scope의 digest함수가 실행되게 됩니다. AngularJS 내부에서 대부분 digest를 호출할 때에는 $rootScope.$digest를 호출합니다. 이 이유는 자세히는 모르겠지만 부분적인 digest를 많이 호출하면 이로 인해 문제가 생겼을 때 추적이 어려워서 그런 것이 아닌지 추측하고 있습니다.  
