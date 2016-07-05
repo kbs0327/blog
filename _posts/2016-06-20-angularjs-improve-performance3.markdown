@@ -55,11 +55,11 @@ categories: technology
  
  AngularJS에서도 이러한 사항을 알기에 이 문제를 해결할 수 있는 방법들이 있습니다.  
 
- 먼저 $applyAsync가 있습니다. $applyAsync는 [1차 성능개선](http://kbs0327.github.io/blog/technology/angularjs-improve-performance/)에서 나온 useApplyAsync와 관련이 있는데요. AJAX호출을 하면 $apply함수를 호출합니다.($apply함수는 지금 $rootScope.$digest의 wrapper 메소드라고 보시면 됩니다.) 이 때에 useApplyAsync를 true로 setting하면 $applyAsync를 사용하게 되는데요. 이 함수는 지금 $rootScope.$digest가 실행중인지 확인하고, 실행중이라면 queue에 넣어서 실행중이지 않는 시점에 $rootScope.$digest를 한번만 실행하게 하는 함수입니다. 이 함수를 실행하면 동시에 여러번 AJAX콜을 할 때에 $rootScope.$digest를 줄여서 성능개선을 할 수 있습니다.  
+ 한 예로 $applyAsync가 있습니다. $applyAsync는 [1차 성능개선](http://kbs0327.github.io/blog/technology/angularjs-improve-performance/)에서 나온 useApplyAsync와 관련이 있는데요. AJAX호출을 하면 $apply함수를 호출합니다.($apply함수는 지금 $rootScope.$digest의 wrapper 메소드라고 보시면 됩니다.) 이 때에 useApplyAsync를 true로 setting하면 $applyAsync를 사용하게 되는데요. 이 함수는 지금 $rootScope.$digest가 실행중인지 확인하고, 실행중이라면 queue에 넣어서 실행중이지 않는 시점에 $rootScope.$digest를 한번만 실행하게 하는 함수입니다. 이 함수를 실행하면 동시에 여러번 AJAX콜을 할 때에 $rootScope.$digest를 줄여서 성능개선을 할 수 있습니다.  
 
  이 외에 $applyAsync와 유사한 함수로 $evalAsync함수가 있습니다. 이 함수에 대해서는 나중에 다시 글로 써서 올리겠습니다.  
 
-### 가능하면 $rootScope.$digest가 호출이 안하는 옵션을 사용하자  
+#### 가능하면 $rootScope.$digest를 호출하지 않는 옵션을 사용하자  
  
  AngularJS에서는 이벤트가 발생했을 때 $rootScope.$digest를 호출하지 않게 하는 옵션을 가지고 있는 함수가 있습니다. $timeout과 $interval인데요. 어떤 옵션도 주지 않았을 경우 $timeout은 timeout이 일어난 후에 $rootScope.$digest를 호출하고 $interval은 정해진 시간마다 내부 콜백을 실행하면서, $rootScope.$digest를 호출합니다.  
 
@@ -109,7 +109,7 @@ categories: technology
 ``` js  
  window.watchCount = window.watchCount + 1 || 1;
  var started = window.performance.now();
- // watch하는 변수가 변경되었는지 확인하는 코드
+ // watch하는 변수가 변경되었는지 확인하는 코드 추가
  var ellapsed = window.performance.now() - started;
  if (ellapsed > 100) {
      console.trace();
