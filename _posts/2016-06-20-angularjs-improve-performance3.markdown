@@ -15,10 +15,25 @@ categories: technology
 
 ## AngularJS의 주요기능 watch와 digest  
 
- AngularJS의 가장 장점 중에 하나는 따로 이벤트리스너를 추가하지 않아도 ng-click, ng-keydown 등을 통하여 쉽게 이벤트를 핸들링할 수 있고, ng-bind, ng-bind-html 등을 통하여 데이터 변경을 쉽게 뷰에 반영시킬 수 있는 것입니다. 즉, 양방향바인딩이 된다는 것입니다. 이러한 것들을 구현하려면 어떻게 하면 될까요? 사실 답은 간단합니다. 어딘가에서 변경여부를 확인하고, 해당 변경에 대한 핸들러를 실행시켜주는 것입니다. 답은 간단하지만 구현을 할 때에는 고려할 사항들이 많이 있습니다. 얼마나 자주 변경을 확인할지, 한번 확인할 때 얼마나 많은 변경사항들을 확인할지 등에 대한 것을 결정하는 것입니다. 이러한 고려사항들을 효과적으로 구현한 것이 AngularJS라고 볼 수 있습니다.  
- AngularJs에서는 ng-bind, ng-bind-html 등의 데이터변경을 확인하여 어떤 행위를 하기 위해 [1차 성능개선](http://kbs0327.github.io/blog/technology/angularjs-improve-performance/)에서 간략하게 소개하고 있는 watch를 사용하고 있고, ng-click이나 ng-keydown등의 이벤트가 일어났을 때 digest를 작동시켜서 값을 확인하게 합니다.  
+ AngularJS의 가장 장점 중에 하나는 따로 이벤트리스너를 추가하지 않아도 ng-click, ng-keydown 등을 통하여 쉽게 이벤트를 핸들링할 수 있고, ng-bind, ng-bind-html 등을 통하여 데이터 변경을 쉽게 뷰에 반영시킬 수 있는 것입니다. 즉, 양방향바인딩이 된다는 것입니다. 이러한 것들을 구현하려면 어떻게 하면 될까요? 사실 답은 간단합니다. 어딘가에서 변경여부를 확인하고, 해당 변경에 대한 핸들러를 실행시켜주는 것입니다.  
+ 답은 간단하지만 구현을 할 때에는 고려할 사항들이 많이 있습니다. 얼마나 자주 변경을 확인할지, 한번 확인할 때 얼마나 많은 변경사항들을 확인할지 등에 대한 것을 결정하는 것입니다. 이러한 고려사항들을 효과적으로 구현한 것 중 하나가 AngularJS라고 볼 수 있습니다.  
+ AngularJs에서는 ng-bind, ng-bind-html 등의 directive가 데이터변경을 확인하여 화면에 반영하기 위해 scope의 값을 watch하고 있고, ng-click이나 ng-keydown등의 directvied는 이벤트가 일어났을 때 digest를 작동시켜서 값을 확인하게 합니다. 간단하게 도식화하면 아래그림과 같습니다.  
+
+<figure>
+  <a href="http://kbs0327.github.io/blog/images/scope_digest_cycle.png" target="_blank"><img src="//kbs0327.github.io/blog/images/scope_digest_cycle.png"></a>
+  <figcaption>digest cycle 도식화</figcaption>
+</figure>
+
+ 이 예는 digest와 watch의 설명을 위해 한 예일 뿐입니다. 모든 digest와 watch가 위처럼 작동하지는 않습니다.  
+
  조금 더 자세히 설명하자면 AngularJS에서 화면에 값을 보여주거나 화면의 이벤트를 기다리는 핸들러들은 대부분 scope의 변수나 메소드로 지정하게 됩니다. 화면에 값을 보여주는 ng-bind의 경우 scope의 특정 변수를 관찰하고 있다가 해당 변수가 변경되면 화면에 값을 변경해 주는데요 여기서 `관찰`하는 것이 watch이고 관찰하고 있는 값이 변경되었는지 확인하도록 알려주는 것이 digest입니다.  
- $rootScope.$digest를 호출하면 화면의 자식 scope들을 순회하면서 scope에 binding되어 있는 watch들에게 scope의 값이 변경되었는지 확인하게 하고, 이 값들은 ng-bind나 ng-bind-html같은 directive를 통해 화면에 나타나게 됩니다. 즉, scope는 rootScope를 root로 하는 트리구조로 되어 있어 $rootScope.$digest를 호출하면 모든 scope의 digest함수가 실행되게 됩니다. AngularJS 내부에서 대부분 digest를 호출할 때에는 $rootScope.$digest를 호출합니다. 이 이유는 자세히는 모르겠지만 부분적인 digest를 많이 호출하면 이로 인해 문제가 생겼을 때 추적이 어려워서 그런 것이 아닌지 추측하고 있습니다.  
+ 
+<figure>
+  <a href="http://kbs0327.github.io/blog/images/scope_hierachy.png" target="_blank"><img src="//kbs0327.github.io/blog/images/scope_hierachy.png"></a>
+  <figcaption>digest cycle 도식화</figcaption>
+</figure>
+
+ 위에서 보는 것과 같이 $rootScope는 최상위 root입니다. $rootScope.$digest를 호출하면 화면의 자식 scope들을 순회하면서 scope에 binding되어 있는 watch들에게 scope의 값이 변경되었는지 확인하게 하고, 이 값들은 ng-bind나 ng-bind-html같은 directive를 통해 화면에 나타나게 됩니다. 즉, scope는 rootScope를 root로 하는 트리구조로 되어 있어 $rootScope.$digest를 호출하면 모든 scope의 digest함수가 실행되게 됩니다. AngularJS 내부에서 대부분 digest를 호출할 때에는 $rootScope.$digest를 호출합니다. 이 이유는 자세히는 모르겠지만 부분적인 digest를 많이 호출하면 이로 인해 문제가 생겼을 때 추적이 어려워서 그런 것이 아닌지 추측하고 있습니다.  
 
  $rootScope.$digest를 호출시키는 것들을 알아보면 아래와 같습니다.  
  - ng-click, ng-keydown 디렉티브에서 해당 이벤트가 트리거될 때  
@@ -108,13 +123,15 @@ categories: technology
 ```  
 그러면 실제로 watch를 확인하는 횟수와 1번의 watch가 얼마나 시간이 오래 걸렸는지 측정됩니다. 또한 callstack을 출력하여 시간이 오래걸리는 watch의 경우 추적하여 개선할 수 있습니다.     
 
-그리고 저희가 알고 싶었던 $rootScope.$digest가 얼마나 많이 호출되고, 몇번이나 호출되었는지 알기 위해서 `phase 시작` 부분에 아래와 같은 코드를 추가합니다.   
-``` js   
+그리고 저희가 알고 싶었던 $rootScope.$digest가 얼마나 많이 호출되고, 몇번이나 호출되었는지 알기 위해서 `phase 시작` 부분에 아래와 같은 코드를 추가합니다.  
+
+``` js  
  if (this === $rootScope) {
       window.rootScopeDigestCount = window.rootScopeDigestCount + 1 || 1;
       console.trace('rootScope digest: ' + window.rootScopeDigestCount);
   }
-```    
+```  
+
 그러면 $rootScope.$digest가 몇번을 돌았는지 어디서 rootScope.digest를 호출했는지 확인할 수 있습니다.  
 정확한 측정을 위해서는 app.run 부분에 timeout을 이용하여 일정 시간 이후의 window.watchCount와 window.rootScopeDigestCount를 호출해보면 페이지를 로딩하는데 호출된 수를 객관적인 지표로 확인할 수 있습니다.  
 
@@ -134,7 +151,7 @@ $rootScope.$digest 수: 4번
 
 <figure>
   <a href="http://kbs0327.github.io/blog/images/improve-performance-time.png" target="_blank"><img src="//kbs0327.github.io/blog/images/improve-performance-time.png"></a>
-  <figcaption>타임라인 측정 후 화면</figcaption>
+  <figcaption>속도 측정표</figcaption>
 </figure>
 
 
